@@ -1,3 +1,37 @@
-<h1>
-  {{title}}
-</h1>
+<!--Navbar-->
+<nav class="navbar navbar-fixed-top navbar-inverse">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar" (click)="collapsed = !collapsed">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span> 
+              </button>
+              <a class="navbar-brand" href="#">Pokemon Glazed</a>
+        </div>
+        <div class="collapse navbar-collapse" id="myNavbar" [collapse]="!collapsed">
+            <ul class="nav navbar-nav" routerLinkActive="active">
+                <li class="nav-item"><a class="nav-link" routerLink="home">Home</a></li>
+                <li class="nav-item"><a class="nav-link" routerLink="about">About</a></li>
+            </ul>
+            <div class="navbar-right" *ngIf="!isLoggedIn()">
+                <button type="button" class="btn btn-success navbar-btn" (click)="loginModal.show()">Login</button>
+                <button type="button" class="btn btn-success navbar-btn" (click)="regModal.show()">Register</button>
+            </div>
+            <p class="navbar-text navbar-right hidden-md hidden-sm hidden-xs" *ngIf="isLoggedIn()">Hello, {{ getUserName() }}!</p>
+            <div class="navbar-right" *ngIf="isLoggedIn()">
+                <button type="button" class="btn btn-success navbar-btn" >Logout</button>
+                <button type="button" class="btn btn-success navbar-btn" >Profile</button>
+            </div>
+        </div>
+    </div>
+</nav>
+<!--Login Modal-->
+<div class="modal fade" bsModal #loginModal="bs-modal" [config]="{backdrop: 'static'}">
+  <app-login (close)="loginModal.hide()"></app-login>
+</div>
+<!--Register Modal-->
+<div class="modal fade" bsModal #regModal="bs-modal" [config]="{}">
+  <app-register (close)="regModal.hide()"></app-register>
+</div>
+<!--<router-outlet></router-outlet>-->

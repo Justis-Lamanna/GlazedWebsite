@@ -1,0 +1,28 @@
+<div class="modal-dialog" role="dialog">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title">Login</h5>
+      <button type="button" class="close" aria-label="Close">
+        <span aria-hidden="true" (click)="close.emit()">&times;</span>
+      </button>
+    </div>
+
+    <div class="modal-body">
+      <form class="form-group" [formGroup]="loginForm">
+        <div class="form-group">
+          <label for="user">Username:</label>
+          <input type="text" class="form-control" id="user" name="user" placeholder="Username" [formControl]="loginForm.controls['user']">
+        </div>
+        <div class="form-group">
+          <label for="pass">Password:</label>
+          <input type="password" class="form-control" id="pass" name="pass" [formControl]="loginForm.controls['pass']">
+        </div>
+      </form>
+
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-success" (click)="onLogin(loginForm.value)">Login</button>
+        <button type="button" class="btn btn-outline-success" (click)="close.emit()">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
