@@ -1,51 +1,51 @@
 <div class="modal-dialog" role="dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Register</h5>
-          <button type="button" class="close" aria-label="Close">
-            <span aria-hidden="true" (click)="closeModal()">&times;</span>
-          </button>
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Register</h5>
+        <button type="button" class="close" aria-label="Close">
+          <span aria-hidden="true" (click)="closeModal()">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <div class="alert alert-danger" *ngIf="errors.length > 0">
+          <p *ngFor="let error of errors">{{ error }}</p>
         </div>
-
-        <div class="modal-body">
-          <div class="alert alert-danger" *ngIf="errors.length > 0">
-            <p *ngFor="let error of errors">{{ error }}</p>
+        <form class="form-group" [formGroup]="regForm">
+          <div class="form-group">
+            <label for="email">Email:</label>
+            <div [ngClass]="regForm.controls['email'].valid ? 'input-group' : ''">
+              <input type="email" class="form-control" id="email" name="email" [formControl]="regForm.controls['email']" required pattern="^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9\-.]+$">
+              <div class="input-group-addon btn-success" *ngIf="regForm.controls['email'].valid"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>
+            </div>
           </div>
-          <form class="form-group" [formGroup]="regForm">
-            <div class="form-group">
-              <label for="email">Email:</label>
-              <div [ngClass]="regForm.controls['email'].valid ? 'input-group' : ''">
-                <input type="email" class="form-control" id="email" name="email" placeholder="player@gmail.com" [formControl]="regForm.controls['email']" required pattern="^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9\-.]+$">
-                <div class="input-group-addon btn-success" *ngIf="regForm.controls['email'].valid"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>
-              </div>
+          <div class="form-group">
+            <label for="user">Username:</label>
+            <div [ngClass]="regForm.controls['user'].valid ? 'input-group' : ''">
+              <input type="text" class="form-control" id="user" name="user" [formControl]="regForm.controls['user']" required minlength="6" maxlength="20" pattern="^[A-Za-z0-9\-_]*$">
+              <div class="input-group-addon btn-success" *ngIf="regForm.controls['user'].valid"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>
             </div>
-            <div class="form-group">
-              <label for="user">Username:</label>
-              <div [ngClass]="regForm.controls['user'].valid ? 'input-group' : ''">
-                <input type="text" class="form-control" id="user" name="user" placeholder="Username" [formControl]="regForm.controls['user']" required minlength="6" maxlength="20" pattern="^[A-Za-z0-9\-_]*$">
-                <div class="input-group-addon btn-success" *ngIf="regForm.controls['user'].valid"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>
-              </div>
-            </div>
-            <div class="form-group">
-              <label for="pass">Password:</label>
-              <div [ngClass]="regForm.controls['pass'].valid ? 'input-group' : ''">
-                <input type="password" class="form-control" id="pass" name="pass" [formControl]="regForm.controls['pass']" required minlength="6" maxlength="20">
-                <div class="input-group-addon btn-success" *ngIf="regForm.controls['pass'].valid"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>
-              </div>
-            </div>
-            <div class="form-group">
-              <label for="confpass">Confirm Password:</label>
-              <div [ngClass]="regForm.controls['confpass'].valid ? 'input-group' : ''">
-                <input type="password" class="form-control" id="confpass" name="confpass" [formControl]="regForm.controls['confpass']" required>
-                <div class="input-group-addon btn-success" *ngIf="regForm.controls['confpass'].valid"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>
-              </div>
-            </div>
-          </form>
-
-          <div class="modal-footer">
-            <button type="submit" class="btn btn-success" (click)="onRegister(regForm.value)">Register</button>
-            <button type="button" class="btn btn-outline-success" (click)="closeModal()">Close</button>
           </div>
+          <div class="form-group">
+            <label for="pass">Password:</label>
+            <div [ngClass]="regForm.controls['pass'].valid ? 'input-group' : ''">
+              <input type="password" class="form-control" id="pass" name="pass" [formControl]="regForm.controls['pass']" required minlength="6" maxlength="20">
+              <div class="input-group-addon btn-success" *ngIf="regForm.controls['pass'].valid"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="confpass">Confirm Password:</label>
+            <div [ngClass]="regForm.controls['confpass'].valid ? 'input-group' : ''">
+              <input type="password" class="form-control" id="confpass" name="confpass" [formControl]="regForm.controls['confpass']" required>
+              <div class="input-group-addon btn-success" *ngIf="regForm.controls['confpass'].valid"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>
+            </div>
+          </div>
+        </form>
+
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-success" (click)="onRegister(regForm.value)">Register</button>
+          <button type="button" class="btn btn-outline-success" (click)="closeModal()">Close</button>
         </div>
       </div>
-  </div>
+    </div>
+</div>

@@ -11,6 +11,7 @@ export class LoginComponent implements OnInit {
 
   loginForm: FormGroup;
   close: EventEmitter<string>;
+  errors: string[];
 
   constructor(fb: FormBuilder) {
     this.loginForm = fb.group({
@@ -18,6 +19,7 @@ export class LoginComponent implements OnInit {
       'pass': ['']
     });
     this.close = new EventEmitter();
+    this.errors = new Array();
   }
 
   ngOnInit() {
@@ -28,6 +30,15 @@ export class LoginComponent implements OnInit {
    * @param form The form contents.
    */
   onLogin(form: any){
+    this.errors.splice(0, this.errors.length); //Clear the error log.
+    let user = this.loginForm.controls['user'];
+    let pass = this.loginForm.controls['pass'];
+    if(user.hasError('required')){
+      this.errors.push('Please enter a Username or Email Address.');
+    }
+    if(pass.hasError('required')){
+      this.errors.push('Please enter a password.');
+    }
     console.log(form);
   }
 

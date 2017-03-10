@@ -9,13 +9,16 @@
 
     <div class="modal-body">
       <form class="form-group" [formGroup]="loginForm">
+        <div class="alert alert-danger" *ngIf="errors.length > 0">
+          <p *ngFor="let error of errors">{{ error }}</p>
+        </div>
         <div class="form-group">
-          <label for="user">Username:</label>
-          <input type="text" class="form-control" id="user" name="user" placeholder="Username" [formControl]="loginForm.controls['user']">
+          <label for="user">Email or Username:</label>
+          <input type="text" class="form-control" id="user" name="user" [formControl]="loginForm.controls['user']" required>
         </div>
         <div class="form-group">
           <label for="pass">Password:</label>
-          <input type="password" class="form-control" id="pass" name="pass" [formControl]="loginForm.controls['pass']">
+          <input type="password" class="form-control" id="pass" name="pass" [formControl]="loginForm.controls['pass']" required>
         </div>
       </form>
 
