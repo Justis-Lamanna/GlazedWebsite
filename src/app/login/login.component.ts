@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter } from '@angular/core';
+import { Component, OnInit, EventEmitter, ChangeDetectorRef } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
@@ -13,7 +13,7 @@ export class LoginComponent implements OnInit {
   close: EventEmitter<string>;
   errors: string[];
 
-  constructor(fb: FormBuilder) {
+  constructor(fb: FormBuilder, private cd: ChangeDetectorRef) {
     this.loginForm = fb.group({
       'user': [''],
       'pass': ['']
@@ -23,6 +23,7 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.cd.detectChanges();
   }
 
   /**

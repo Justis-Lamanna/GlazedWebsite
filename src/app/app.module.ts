@@ -12,11 +12,13 @@ import { RegisterComponent } from './register/register.component';
 import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
 import { AboutComponent } from './about/about.component';
+import { ErrorComponent } from './error/error.component';
 
 const appRoutes: Routes = [
-  {path: '**', redirectTo: 'home', pathMatch: 'full'},
+  {path: '', redirectTo: 'home', pathMatch: 'full'},
   {path: 'home', component: HomeComponent},
-  {path: 'about', component: AboutComponent}
+  {path: 'about', component: AboutComponent},
+  {path: '**', component: ErrorComponent}
 ];
 
 @NgModule({
@@ -27,6 +29,7 @@ const appRoutes: Routes = [
     LoginComponent,
     HomeComponent,
     AboutComponent,
+    ErrorComponent,
   ],
   imports: [
     BrowserModule,

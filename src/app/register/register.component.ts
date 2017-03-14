@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter } from '@angular/core';
+import { Component, OnInit, EventEmitter, ChangeDetectorRef } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, ValidatorFn, AbstractControl } from '@angular/forms';
 
 @Component({
@@ -13,19 +13,20 @@ export class RegisterComponent implements OnInit {
   close: EventEmitter<string>;
   errors: string[];
 
-  constructor(fb: FormBuilder) {
+  constructor(fb: FormBuilder, private cd:ChangeDetectorRef) {
     this.regForm = fb.group({
       'email': [''],
       'user': [''],
       'pass': [''],
       'confpass': ['']
-    })
+    });
     this.regForm.controls['confpass'].setValidators(RegisterComponent.checkEquals(this.regForm.controls['pass']));
     this.close = new EventEmitter();
     this.errors = new Array();
   }
 
   ngOnInit() {
+    this.cd.detectChanges();
   }
 
   /**
