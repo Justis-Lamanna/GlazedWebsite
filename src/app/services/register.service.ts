@@ -1,5 +1,5 @@
 import { Injectable, EventEmitter } from '@angular/core';
-import { Credentials } from './register/register.component';
+import { Credentials } from '../register/register.component';
 import { Http, Response, RequestOptions, Headers } from '@angular/http';
 
 @Injectable()
@@ -22,4 +22,13 @@ export class RegisterService {
     return obs;
   }
 
+  register(frm: Credentials): EventEmitter<Number>{
+    let obs = new EventEmitter<Number>();
+    this.http.put('/api/v1/users/register', frm.json).subscribe(
+      (res: Response) => {
+        obs.emit(Number(res.text()));
+      }
+    );
+    return obs;
+  }
 }

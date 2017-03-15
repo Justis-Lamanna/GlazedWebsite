@@ -1,6 +1,6 @@
 import { Component, OnInit, EventEmitter, ChangeDetectorRef } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, ValidatorFn, AbstractControl, AsyncValidatorFn } from '@angular/forms';
-import { RegisterService } from '../register.service';
+import { RegisterService } from '../services/register.service';
 
 @Component({
   selector: 'app-register',
@@ -72,12 +72,16 @@ export class RegisterComponent implements OnInit {
       //Do the thing.
       let creds = new Credentials(email.value, user.value, pass.value);
       this.reg.usernameExists(creds).subscribe((exists: boolean) => {
-        if(exists){
-          this.errors.push('This username is already in use.');
-          console.log('Registration failed.');
-        }
-        else{
-          console.log('Registered successfully! (Not Really)');
+        if(!exists){
+          this.reg.register(creds).subscribe((code: Number) => {
+            if(code == 0){
+              //Succeeded!
+              console.log("Success!!");
+            }
+            else{
+              this.errors.push('Sorry, there was an error during registration. Please try again.');
+            }
+          })
         }
       });
     }
@@ -127,4 +131,12 @@ export class Credentials{
     public email?: string,
     public password?: string
   ){}
+
+  json(){
+    return{
+      username: this.username,
+      email: this.email,
+      password: this.password
+    };
+  }
 }
