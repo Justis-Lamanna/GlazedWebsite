@@ -15,7 +15,7 @@
           <div class="form-group">
             <label for="email">Email:</label>
             <div [ngClass]="regForm.controls['email'].valid ? 'input-group' : ''">
-              <input type="email" class="form-control" id="email" name="email" [formControl]="regForm.controls['email']" required pattern="^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9\-.]+$">
+              <input type="email" class="form-control" id="email" name="email" [formControl]="regForm.controls['email']" required pattern="^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9\-.]+$" maxlength="50">
               <div class="input-group-addon btn-success" *ngIf="regForm.controls['email'].valid"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>
             </div>
           </div>
