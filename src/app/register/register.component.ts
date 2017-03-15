@@ -1,5 +1,5 @@
 import { Component, OnInit, EventEmitter, ChangeDetectorRef } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, ValidatorFn, AbstractControl } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, ValidatorFn, AbstractControl, AsyncValidatorFn } from '@angular/forms';
 import { RegisterService } from '../register.service';
 
 @Component({
@@ -22,6 +22,7 @@ export class RegisterComponent implements OnInit {
       'confpass': ['']
     });
     this.regForm.controls['confpass'].setValidators(RegisterComponent.checkEquals(this.regForm.controls['pass']));
+    this.regForm.controls['user'].setAsyncValidators(this.userNameIsTaken.bind(this));
     this.close = new EventEmitter();
     this.errors = new Array();
   }
@@ -55,6 +56,9 @@ export class RegisterComponent implements OnInit {
     else if(user.hasError('pattern')){
       this.errors.push('Username can only contain letters, numbers, underscores, or dashes.');
     }
+    else if(user.hasError('taken')){
+      this.errors.push('Username has been taken.');
+    }
     if(pass.hasError('required')){
       this.errors.push('A password must be specified.');
     }
@@ -65,7 +69,6 @@ export class RegisterComponent implements OnInit {
      this.errors.push('Passwords do not match.');
     }
     if(this.errors.length == 0){
-      console.log("Form was valid!");
       //Do the thing.
       let creds = new Credentials(email.value, user.value, pass.value);
       this.reg.usernameExists(creds).subscribe((exists: boolean) => {
@@ -97,11 +100,31 @@ export class RegisterComponent implements OnInit {
       return group.value == c.value ? null : {notequal: true};
     };
   }
+  
+  /**
+   * Checks if a username is taken.
+   * @param control The control containing what to check.
+   */
+  userNameIsTaken(control: AbstractControl): {[key: string]: any}{
+    return new Promise(resolve => {
+      if(control.dirty && control.value.length > 0){
+        let creds = new Credentials(control.value);
+        this.reg.usernameExists(creds).subscribe((b: boolean) => {
+          if(b){
+            resolve({taken: true});
+          }
+          else{
+            resolve(null);
+          }
+        });
+      }
+    });
+  }
 }
 export class Credentials{
   constructor(
-    public email: string,
     public username: string,
-    public password: string
+    public email?: string,
+    public password?: string
   ){}
 }

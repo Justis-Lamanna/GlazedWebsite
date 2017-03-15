@@ -9,9 +9,9 @@ export class RegisterService {
 
   usernameExists(frm: Credentials): EventEmitter<boolean>{
     let obs = new EventEmitter<boolean>();
-    this.http.get('/api/v1/users/username' + frm.username.toLowerCase()).subscribe(
+    this.http.get('/api/v1/users/username/' + frm.username.toLowerCase()).subscribe(
       (res: Response) => {
-        if(res == null){
+        if(res.text() == "null"){
           obs.emit(false);
         }
         else{
