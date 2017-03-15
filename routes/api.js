@@ -40,17 +40,16 @@ router.get('/users/username/:id', function(req, res, next){
     });
 });
 
-router.get('/users/email/:id', function(req, res, next){
-    db.users.findOne({
-        email: req.params.id
-    }, function(err, users){
-        if(err){
-            res.send(err);
-        }
-        else{
-            res.json(users);
-        }
-    });
-});
+router.post('/users/register', function(req, res, next){
+    let username = req.body.username;
+    let email = req.body.email;
+    let pass = req.body.password;
+    if(username == null || email == null || pass == null){
+        res.json({error: true, reason: "Missing Credentials"});
+    }
+    else{
+        res.json({error: false, reason: null});
+    }
+})
 
 module.exports = router;

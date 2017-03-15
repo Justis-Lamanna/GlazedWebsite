@@ -9,7 +9,8 @@ export class RegisterService {
 
   usernameExists(frm: Credentials): EventEmitter<boolean>{
     let obs = new EventEmitter<boolean>();
-    this.http.get('/api/v1/users/username/' + frm.username.toLowerCase()).subscribe(
+    this.http.get('/api/v1/users/username/' + frm.username.toLowerCase())
+    .subscribe(
       (res: Response) => {
         if(res.text() == "null"){
           obs.emit(false);
@@ -24,7 +25,7 @@ export class RegisterService {
 
   register(frm: Credentials): EventEmitter<Number>{
     let obs = new EventEmitter<Number>();
-    this.http.put('/api/v1/users/register', frm.json).subscribe(
+    this.http.post('/api/v1/users/register', JSON.stringify(frm)).subscribe(
       (res: Response) => {
         obs.emit(Number(res.text()));
       }

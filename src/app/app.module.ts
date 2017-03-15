@@ -6,7 +6,7 @@ import { CollapseDirective } from 'ng2-bootstrap';
 import { ModalModule } from 'ng2-bootstrap';
 import { RouterModule, Routes } from '@angular/router';
 import { LocationStrategy, HashLocationStrategy } from '@angular/common';
-import { RegisterService } from './register.service';
+import { RegisterService } from './services/register.service';
 
 import { AppComponent } from './app.component';
 import { RegisterComponent } from './register/register.component';
