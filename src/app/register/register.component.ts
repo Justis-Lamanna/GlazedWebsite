@@ -1,5 +1,6 @@
 import { Component, OnInit, EventEmitter, ChangeDetectorRef } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, ValidatorFn, AbstractControl } from '@angular/forms';
+import { RegisterService } from '../register.service';
 
 @Component({
   selector: 'app-register',
@@ -13,7 +14,7 @@ export class RegisterComponent implements OnInit {
   close: EventEmitter<string>;
   errors: string[];
 
-  constructor(fb: FormBuilder, private cd:ChangeDetectorRef) {
+  constructor(fb: FormBuilder, private cd:ChangeDetectorRef, private reg: RegisterService) {
     this.regForm = fb.group({
       'email': [''],
       'user': [''],
@@ -43,7 +44,7 @@ export class RegisterComponent implements OnInit {
       this.errors.push('An email must be specified.');
     }
     else if(email.hasError('pattern')){
-      this.errors.push('Email must be in the form of [name]@[domain].[suffix].')
+      this.errors.push('Email must be in the form of [name]@[website].')
     }
     if(user.hasError('required')){
       this.errors.push('A username must be specified.');
@@ -61,13 +62,22 @@ export class RegisterComponent implements OnInit {
       this.errors.push('Password must be between 6 and 20 characters.');
     }
     if(pass2.hasError('notequal')){
-      this.errors.push('Passwords do not match.');
+     this.errors.push('Passwords do not match.');
     }
-    //If we missed an error somehow.
-    if(this.errors.length == 0 && !form.valid){
-      this.errors.push('An error occured processing your registration.');
+    if(this.errors.length == 0){
+      console.log("Form was valid!");
+      //Do the thing.
+      let creds = new Credentials(email.value, user.value, pass.value);
+      this.reg.usernameExists(creds).subscribe((exists: boolean) => {
+        if(exists){
+          this.errors.push('This username is already in use.');
+          console.log('Registration failed.');
+        }
+        else{
+          console.log('Registered successfully! (Not Really)');
+        }
+      });
     }
-    console.log(form);
   }
 
   /**
@@ -87,4 +97,11 @@ export class RegisterComponent implements OnInit {
       return group.value == c.value ? null : {notequal: true};
     };
   }
+}
+export class Credentials{
+  constructor(
+    public email: string,
+    public username: string,
+    public password: string
+  ){}
 }
