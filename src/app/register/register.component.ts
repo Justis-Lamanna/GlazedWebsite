@@ -70,16 +70,15 @@ export class RegisterComponent implements OnInit {
     }
     if(this.errors.length == 0){
       //Do the thing.
-      let creds = new Credentials(email.value, user.value, pass.value);
+      let creds = new Credentials(user.value, email.value, pass.value);
       this.reg.usernameExists(creds).subscribe((exists: boolean) => {
         if(!exists){
-          this.reg.register(creds).subscribe((code: Number) => {
-            if(code == 0){
-              //Succeeded!
-              console.log("Success!!");
+          this.reg.register(creds).subscribe((ret: any) => {
+            if(ret.error){
+              this.errors.push('Sorry, there was an error during registration: ' + ret.reason);
             }
             else{
-              this.errors.push('Sorry, there was an error during registration. Please try again.');
+              console.log("Success!!");
             }
           })
         }

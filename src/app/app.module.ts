@@ -14,6 +14,7 @@ import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
 import { AboutComponent } from './about/about.component';
 import { ErrorComponent } from './error/error.component';
+import { WelcomeComponent } from './welcome/welcome.component';
 
 const appRoutes: Routes = [
   {path: '', redirectTo: 'home', pathMatch: 'full'},
@@ -31,6 +32,7 @@ const appRoutes: Routes = [
     HomeComponent,
     AboutComponent,
     ErrorComponent,
+    WelcomeComponent,
   ],
   imports: [
     BrowserModule,
