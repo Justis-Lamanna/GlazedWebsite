@@ -8,6 +8,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 import { RegisterService } from './services/register.service';
 import { LoginService } from './services/login.service';
+import { LoginGuard } from './guards/login.guard';
 
 import { AppComponent } from './app.component';
 import { RegisterComponent } from './register/register.component';
@@ -16,12 +17,14 @@ import { HomeComponent } from './home/home.component';
 import { AboutComponent } from './about/about.component';
 import { ErrorComponent } from './error/error.component';
 import { WelcomeComponent } from './welcome/welcome.component';
+import { ProfileComponent } from './profile/profile.component';
 
 const appRoutes: Routes = [
   {path: '', redirectTo: 'home', pathMatch: 'full'},
   {path: 'home', component: HomeComponent},
   {path: 'about', component: AboutComponent},
   {path: 'welcome', component: WelcomeComponent},
+  {path: 'profile', component: ProfileComponent, canActivate: [LoginGuard]},
   {path: '**', component: ErrorComponent}
 ];
 
@@ -35,6 +38,7 @@ const appRoutes: Routes = [
     AboutComponent,
     ErrorComponent,
     WelcomeComponent,
+    ProfileComponent,
   ],
   imports: [
     BrowserModule,
@@ -47,7 +51,8 @@ const appRoutes: Routes = [
   providers: [
     { provide: LocationStrategy, useClass: HashLocationStrategy },
     { provide: RegisterService, useClass: RegisterService},
-    { provide: LoginService, useClass: LoginService}
+    { provide: LoginService, useClass: LoginService},
+    { provide: LoginGuard, useClass: LoginGuard }
   ],
   bootstrap: [AppComponent]
 })
