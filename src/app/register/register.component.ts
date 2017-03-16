@@ -73,9 +73,9 @@ export class RegisterComponent implements OnInit {
     if(this.errors.length == 0){
       //Do the thing.
       let creds = new Credentials(user.value, email.value, pass.value);
-      this.reg.usernameExists(creds).subscribe((exists: boolean) => {
+      this.reg.usernameExists(creds).then((exists: boolean) => {
         if(!exists){
-          this.reg.register(creds).subscribe((ret: any) => {
+          this.reg.register(creds).then((ret) => {
             if(ret.error){
               this.errors.push('Sorry, there was an error during registration: ' + ret.reason);
             }
@@ -115,7 +115,7 @@ export class RegisterComponent implements OnInit {
     return new Promise(resolve => {
       if(control.dirty && control.value.length > 0){
         let creds = new Credentials(control.value);
-        this.reg.usernameExists(creds).subscribe((b: boolean) => {
+        this.reg.usernameExists(creds).then((b: boolean) => {
           if(b){
             resolve({taken: true});
           }
