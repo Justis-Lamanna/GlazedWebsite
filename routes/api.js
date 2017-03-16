@@ -41,6 +41,30 @@ router.get('/users/username/:id', function(req, res, next){
     });
 });
 
+router.post('/users/verify', function(req, res, next){
+    db.users.findOne({username: req.body.username}, function(err, user){
+        if(err){
+            res.send(err);
+        }
+        else if(user == null){
+            res.json({error: true, reason: 'Invalid username.'});
+        }
+        else{
+            crypto(req.body.pass).verifyAgainst(user.pass, function(error, verify){
+                if(err){
+                    res.json({error: true, reason: 'Hash failed.'});
+                }
+                else if(!verify){
+                    res.json({error: true, reason: 'Invalid password.'});
+                }
+                else{
+                    res.json({error: false});
+                }
+            });
+        }
+    });
+})
+
 router.post('/users', function(req, res, next){
     let username = String(req.body.username);
     let email = String(req.body.email);

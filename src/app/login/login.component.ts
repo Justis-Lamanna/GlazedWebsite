@@ -1,5 +1,6 @@
 import { Component, OnInit, EventEmitter, ChangeDetectorRef } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { LoginService } from '../services/login.service';
 
 @Component({
   selector: 'app-login',
@@ -13,7 +14,7 @@ export class LoginComponent implements OnInit {
   close: EventEmitter<string>;
   errors: string[];
 
-  constructor(fb: FormBuilder, private cd: ChangeDetectorRef) {
+  constructor(fb: FormBuilder, private cd: ChangeDetectorRef, private login: LoginService) {
     this.loginForm = fb.group({
       'user': [''],
       'pass': ['']
@@ -40,7 +41,18 @@ export class LoginComponent implements OnInit {
     if(pass.hasError('required')){
       this.errors.push('Please enter a password.');
     }
-    console.log(form);
+    this.login.login(user.value, pass.value).then((res) => {
+      if(!res.error){
+        console.log("Login successful!");
+      }
+      else{
+        this.errors.push("Error: " + res.reason);
+        pass.reset();
+      }
+    });
   }
 
+  closeModal(){
+    this.close.emit('');
+  }
 }

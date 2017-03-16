@@ -7,6 +7,7 @@ import { ModalModule } from 'ng2-bootstrap';
 import { RouterModule, Routes } from '@angular/router';
 import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 import { RegisterService } from './services/register.service';
+import { LoginService } from './services/login.service';
 
 import { AppComponent } from './app.component';
 import { RegisterComponent } from './register/register.component';
@@ -20,6 +21,7 @@ const appRoutes: Routes = [
   {path: '', redirectTo: 'home', pathMatch: 'full'},
   {path: 'home', component: HomeComponent},
   {path: 'about', component: AboutComponent},
+  {path: 'welcome', component: WelcomeComponent},
   {path: '**', component: ErrorComponent}
 ];
 
@@ -44,7 +46,8 @@ const appRoutes: Routes = [
   ],
   providers: [
     { provide: LocationStrategy, useClass: HashLocationStrategy },
-    { provide: RegisterService, useClass: RegisterService}
+    { provide: RegisterService, useClass: RegisterService},
+    { provide: LoginService, useClass: LoginService}
   ],
   bootstrap: [AppComponent]
 })

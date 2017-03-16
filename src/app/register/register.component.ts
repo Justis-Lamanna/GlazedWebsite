@@ -1,6 +1,7 @@
 import { Component, OnInit, EventEmitter, ChangeDetectorRef } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, ValidatorFn, AbstractControl, AsyncValidatorFn } from '@angular/forms';
 import { RegisterService } from '../services/register.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -13,6 +14,7 @@ export class RegisterComponent implements OnInit {
   regForm: FormGroup;
   close: EventEmitter<string>;
   errors: string[];
+  success: boolean;
 
   constructor(fb: FormBuilder, private cd:ChangeDetectorRef, private reg: RegisterService) {
     this.regForm = fb.group({
@@ -78,9 +80,9 @@ export class RegisterComponent implements OnInit {
               this.errors.push('Sorry, there was an error during registration: ' + ret.reason);
             }
             else{
-              console.log("Success!!");
+              let info = ret.return;
             }
-          })
+          });
         }
       });
     }
@@ -91,6 +93,7 @@ export class RegisterComponent implements OnInit {
    */
   closeModal(){
     this.errors.splice(0, this.errors.length);
+    this.regForm.reset();
     this.close.emit('');
   }
 
