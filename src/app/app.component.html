@@ -14,13 +14,13 @@
                 <li class="nav-item"><a class="nav-link" routerLink="home">Home</a></li>
                 <li class="nav-item"><a class="nav-link" routerLink="about">About</a></li>
             </ul>
-            <div class="navbar-right" *ngIf="!isLoggedIn()">
+            <div class="navbar-right" *ngIf="!login.isLoggedIn()">
                 <button type="button" class="btn btn-success navbar-btn" (click)="loginModal.show()">Login</button>
                 <button type="button" class="btn btn-success navbar-btn" (click)="regModal.show()">Register</button>
             </div>
-            <p class="navbar-text navbar-right hidden-md hidden-sm hidden-xs" *ngIf="isLoggedIn()">Hello, {{ getUserName() }}!</p>
-            <div class="navbar-right" *ngIf="isLoggedIn()">
-                <button type="button" class="btn btn-success navbar-btn" >Logout</button>
+            <p class="navbar-text navbar-right hidden-md hidden-sm hidden-xs" *ngIf="login.isLoggedIn()">Hello, {{ login.getUsername().slice(0, 1).toUpperCase() + login.getUsername().slice(1) }}!</p>
+            <div class="navbar-right" *ngIf="login.isLoggedIn()">
+                <button type="button" class="btn btn-success navbar-btn" (click)="logout()">Logout</button>
                 <button type="button" class="btn btn-success navbar-btn" >Profile</button>
             </div>
         </div>

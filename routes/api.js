@@ -58,7 +58,7 @@ router.post('/users/verify', function(req, res, next){
                     res.json({error: true, reason: 'Invalid password.'});
                 }
                 else{
-                    res.json({error: false});
+                    res.json({error: false, uid: user._id, username: user.username});
                 }
             });
         }

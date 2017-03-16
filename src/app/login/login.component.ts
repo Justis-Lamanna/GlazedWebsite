@@ -36,14 +36,15 @@ export class LoginComponent implements OnInit {
     let user = this.loginForm.controls['user'];
     let pass = this.loginForm.controls['pass'];
     if(user.hasError('required')){
-      this.errors.push('Please enter a Username or Email Address.');
+      this.errors.push('Please enter your username.');
     }
     if(pass.hasError('required')){
       this.errors.push('Please enter a password.');
     }
     this.login.login(user.value, pass.value).then((res) => {
       if(!res.error){
-        console.log("Login successful!");
+        this.login.setCredentials(res.uid, res.username);
+        this.closeModal();
       }
       else{
         this.errors.push("Error: " + res.reason);
@@ -53,6 +54,7 @@ export class LoginComponent implements OnInit {
   }
 
   closeModal(){
+    this.loginForm.reset();
     this.close.emit('');
   }
 }

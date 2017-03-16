@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { LoginService } from './services/login.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -8,39 +10,10 @@ import { Component } from '@angular/core';
 export class AppComponent {
   collapsed = false;
 
-  constructor(){}
+  constructor(private login: LoginService, private router: Router){}
 
-  /**
-   * Check if a user is logged in.
-   * @returns True if logged in, false if not.
-   */
-  isLoggedIn(): boolean{
-    return this.getUser() != null;
-  }
-
-  /**
-   * Get the current user.
-   * @returns The username, if it exists.
-   */
-  getUser(): any{
-    return localStorage.getItem('username');
-  }
-
-  /**
-   * Get the current user's name.
-   * This is similar to getUser(), but if local storage does
-   * not contain a user, "Player" is returned, rather than null.
-   * @returns The user's name, or a default if there is none.
-   */
-  getUserName(): string{
-    let v = this.getUser();
-    return v == null ? "Player" : v;
-  }
-
-  /**
-   * Logs the current user out.
-   */
   logout(){
-    localStorage.removeItem('username');
+    this.login.logout();
+    this.router.navigateByUrl('home');
   }
 }
