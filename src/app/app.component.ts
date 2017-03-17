@@ -13,4 +13,9 @@ export class AppComponent{
 
   constructor(private login: LoginService, private router: Router){
   }
+
+  logout(){
+    this.login.logout();
+    this.router.navigateByUrl('home');
+  }
 }

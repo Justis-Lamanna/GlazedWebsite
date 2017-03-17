@@ -1,6 +1,7 @@
 import { Component, OnInit, EventEmitter, ChangeDetectorRef } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { LoginService } from '../services/login.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -15,7 +16,7 @@ export class LoginComponent implements OnInit {
   submit: EventEmitter<string>;
   errors: string[];
 
-  constructor(fb: FormBuilder, private cd: ChangeDetectorRef, private login: LoginService) {
+  constructor(fb: FormBuilder, private cd: ChangeDetectorRef, private login: LoginService, private router: Router) {
     this.loginForm = fb.group({
       'user': [''],
       'pass': [''],
@@ -48,6 +49,7 @@ export class LoginComponent implements OnInit {
     this.login.login(user.value, pass.value, rem.value).then((res) => {
       if(!res.error){
         this.login.setCredentials(res.token, res.username);
+        this.router.navigateByUrl('profile');
         this.submitModal();
       }
       else{

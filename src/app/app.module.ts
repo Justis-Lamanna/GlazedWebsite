@@ -18,6 +18,7 @@ import { AboutComponent } from './about/about.component';
 import { ErrorComponent } from './error/error.component';
 import { WelcomeComponent } from './welcome/welcome.component';
 import { ProfileComponent } from './profile/profile.component';
+import { LoginpageComponent } from './loginpage/loginpage.component';
 
 const appRoutes: Routes = [
   {path: '', redirectTo: 'home', pathMatch: 'full'},
@@ -25,6 +26,7 @@ const appRoutes: Routes = [
   {path: 'about', component: AboutComponent},
   {path: 'welcome', component: WelcomeComponent},
   {path: 'profile', component: ProfileComponent, canActivate: [LoginGuard]},
+  {path: 'login', component: LoginpageComponent},
   {path: '**', component: ErrorComponent}
 ];
 
@@ -39,6 +41,7 @@ const appRoutes: Routes = [
     ErrorComponent,
     WelcomeComponent,
     ProfileComponent,
+    LoginpageComponent,
   ],
   imports: [
     BrowserModule,
