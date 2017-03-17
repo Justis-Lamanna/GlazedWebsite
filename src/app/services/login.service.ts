@@ -38,7 +38,6 @@ export class LoginService {
    * @returns A promise containing the result of login.
    */
   login(user: string, pass: string, remember: boolean): Promise<any>{
-    console.log(remember);
     return new Promise((resolve, reject) => {
       let headers = new Headers();
       headers.append('Content-Type', 'application/json');
