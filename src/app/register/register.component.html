@@ -11,7 +11,7 @@
         <div class="alert alert-danger" *ngIf="errors.length > 0">
           <p *ngFor="let error of errors">{{ error }}</p>
         </div>
-        <form class="form-group" [formGroup]="regForm">
+        <form class="form-group" [formGroup]="regForm" (submit)="onRegister(regForm.value)">
           <div class="form-group">
             <label for="email">Email:</label>
             <div [ngClass]="regForm.controls['email'].valid ? 'input-group' : ''">
@@ -40,10 +40,11 @@
               <div class="input-group-addon btn-success" *ngIf="regForm.controls['confpass'].valid"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>
             </div>
           </div>
+          <button type="submit" style="display:none">Hide</button>
         </form>
 
         <div class="modal-footer">
-          <button type="submit" class="btn btn-success" (click)="onRegister(regForm.value)">Register</button>
+          <button type="button" class="btn btn-success" (click)="onRegister(regForm.value)">Register</button>
           <button type="button" class="btn btn-outline-success" (click)="closeModal()">Close</button>
         </div>
       </div>

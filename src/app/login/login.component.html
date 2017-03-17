@@ -8,7 +8,7 @@
     </div>
 
     <div class="modal-body">
-      <form class="form-group" [formGroup]="loginForm">
+      <form class="form-group" [formGroup]="loginForm" (submit)="onLogin(loginForm.value)">
         <div class="alert alert-danger" *ngIf="errors.length > 0">
           <p *ngFor="let error of errors">{{ error }}</p>
         </div>
@@ -20,6 +20,7 @@
           <label for="pass">Password:</label>
           <input type="password" class="form-control" id="pass" name="pass" [formControl]="loginForm.controls['pass']" required>
         </div>
+        <button type="submit" style="display:none">Hide</button>
       </form>
 
       <div class="modal-footer">
