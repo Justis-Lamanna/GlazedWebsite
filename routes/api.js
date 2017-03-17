@@ -3,11 +3,14 @@ var router = express.Router();
 var mongojs = require('mongojs');
 var db = mongojs('mongodb://GlazedSite:gpword0714@localhost:27017/glazed');
 var crypto = require('password-hash-and-salt');
+var jwt = require('jsonwebtoken');
+
+var secret = 'quilavasilvallymew';
 
 router.get('/users', function(req, res, next){
     db.users.find(function(err, users){
         if(err){
-            res.send(err);
+            res.send({success: false, message: 'Error reading database'});
         }
         else{
             res.json(users);
@@ -58,7 +61,9 @@ router.post('/users/verify', function(req, res, next){
                     res.json({error: true, reason: 'Invalid password.'});
                 }
                 else{
-                    res.json({error: false, uid: user._id, username: user.username});
+                    //We need a token!
+                    let token = jwt.sign({uid: user._id, admin: user.admin === true}, secret, {expiresIn: 60*60*24});
+                    res.json({error: false, username: user.username, token: token});
                 }
             });
         }

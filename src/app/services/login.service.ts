@@ -11,14 +11,14 @@ export class LoginService {
    * @returns True if logged in, false if not.
    */
   isLoggedIn(): boolean{
-    return localStorage.getItem("uid") != null;
+    return localStorage.getItem("token") != null;
   }
 
   /**
    * Logs a user out.
    */
   logout(){
-    localStorage.removeItem("uid");
+    localStorage.removeItem("token");
     localStorage.removeItem("username");
   }
 
@@ -53,8 +53,8 @@ export class LoginService {
    * @param uid The id of the user.
    * @param username The username of the user.
    */
-  setCredentials(uid: string, username: string){
-    localStorage.setItem("uid", uid);
+  setCredentials(token: string, username: string){
+    localStorage.setItem("token", token);
     localStorage.setItem("username", username);
   }
 }

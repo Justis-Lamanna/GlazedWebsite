@@ -43,7 +43,7 @@ export class LoginComponent implements OnInit {
     }
     this.login.login(user.value, pass.value).then((res) => {
       if(!res.error){
-        this.login.setCredentials(res.uid, res.username);
+        this.login.setCredentials(res.token, res.username);
         this.closeModal();
       }
       else{

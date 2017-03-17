@@ -5,7 +5,7 @@ import { HttpModule } from '@angular/http';
 import { CollapseDirective } from 'ng2-bootstrap';
 import { ModalModule } from 'ng2-bootstrap';
 import { RouterModule, Routes } from '@angular/router';
-import { LocationStrategy, HashLocationStrategy } from '@angular/common';
+import { LocationStrategy, PathLocationStrategy } from '@angular/common';
 import { RegisterService } from './services/register.service';
 import { LoginService } from './services/login.service';
 import { LoginGuard } from './guards/login.guard';
@@ -49,7 +49,7 @@ const appRoutes: Routes = [
     RouterModule.forRoot(appRoutes)
   ],
   providers: [
-    { provide: LocationStrategy, useClass: HashLocationStrategy },
+    { provide: LocationStrategy, useClass: PathLocationStrategy },
     { provide: RegisterService, useClass: RegisterService},
     { provide: LoginService, useClass: LoginService},
     { provide: LoginGuard, useClass: LoginGuard }
