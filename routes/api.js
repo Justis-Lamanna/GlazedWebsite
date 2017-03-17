@@ -7,10 +7,50 @@ var jwt = require('jsonwebtoken');
 
 var secret = 'quilavasilvallymew';
 
-router.get('/users', function(req, res, next){
+//Verify the token.
+function verify(req, res, next){
+    var token = req.body.token || req.query.token || req.headers['x-access-token'];
+    if(token){
+        jwt.verify(token, secret, function(err, decoded){
+            if(err){
+                return res.json({success: false, message: 'Failed to authenticate token'});
+            }
+            else{
+                req.decoded = decoded;
+                next();
+            }
+        });
+    }
+    else{
+        return res.status(403).send({
+            success: false,
+            message: 'No token provided.'
+        });
+    }
+}
+
+//Verify the token is of an admin.
+function verifyAdmin(req, res, next){
+    db.users.findOne({
+        _id: mongojs.ObjectId(req.decoded.uid)
+    }, function(err, user){
+        if(err){
+            return res.json({success: false, message: 'Error reading database.'});
+        }
+        else if(user.admin != true){
+            return res.json({success: false, message: 'Insufficient permissions.'});
+        }
+        else{
+            next();
+        }
+    })
+}
+
+//Get a list of all users. Must have a valid token and be an admin to view.
+router.get('/users', verify, verifyAdmin, function(req, res, next){
     db.users.find(function(err, users){
         if(err){
-            res.send({success: false, message: 'Error reading database'});
+            res.json({success: false, message: 'Error reading database.'});
         }
         else{
             res.json(users);
@@ -18,12 +58,13 @@ router.get('/users', function(req, res, next){
     });
 });
 
+//Get a user by their id. Password hash, admin status, and email are suppressed.
 router.get('/users/id/:id', function(req, res, next){
     db.users.findOne({
         _id: mongojs.ObjectId(req.params.id)
-    }, function(err, users){
+    }, {pass: 0, admin: 0, email:0}, function(err, users){
         if(err){
-            res.send(err);
+            res.json({success: false, message: 'Error reading database.'});
         }
         else{
             res.json(users);
@@ -31,12 +72,13 @@ router.get('/users/id/:id', function(req, res, next){
     });
 });
 
+//Get a user by their name. Password hash, admin status, and email are suppressed.
 router.get('/users/username/:id', function(req, res, next){
     db.users.findOne({
         username: req.params.id
-    }, function(err, users){
+    }, {pass: 0, admin: 0, email:0}, function(err, users){
         if(err){
-            res.send(err);
+            res.json({success: false, message: 'Error reading database.'});
         }
         else{
             res.json(users);
@@ -44,10 +86,11 @@ router.get('/users/username/:id', function(req, res, next){
     });
 });
 
+//Authenticates a user. If successful, a token and username is sent back.
 router.post('/users/verify', function(req, res, next){
     db.users.findOne({username: req.body.username}, function(err, user){
         if(err){
-            res.send(err);
+            res.json({success: false, message: 'Error reading database.'});
         }
         else if(user == null){
             res.json({error: true, reason: 'Invalid username.'});
@@ -62,14 +105,34 @@ router.post('/users/verify', function(req, res, next){
                 }
                 else{
                     //We need a token!
-                    let token = jwt.sign({uid: user._id, admin: user.admin === true}, secret, {expiresIn: 60*60*24});
-                    res.json({error: false, username: user.username, token: token});
+                    jwt.sign({uid: user._id}, secret, {expiresIn: 60*60*24}, function(err, token){
+                        if(err){
+                            res.json({success: false, message: 'Error signing.'});
+                        }
+                        else{
+                            res.json({success: false, username: user.username, token: token});
+                        }
+                    });
                 }
             });
         }
     });
-})
+});
 
+//Refeshes a token.
+router.post('/users/refresh', verify, function(req, res, next){
+    console.log(req.decoded);
+    jwt.sign({uid: req.decoded.uid}, secret, {expiresIn: 60*60*24}, function(err, token){
+        if(err){
+            res.json({success: false, message: 'Error signing: ' + err});
+        }
+        else{
+            res.json({success: true, token: token});
+        }
+    });
+});
+
+//Adds a user.
 router.post('/users', function(req, res, next){
     let username = String(req.body.username);
     let email = String(req.body.email);
@@ -125,6 +188,11 @@ router.post('/users', function(req, res, next){
             }
         });
     }
+});
+
+//Anything that does not match gets a 403 Forbidden page.
+router.get('*', function(req, res, next){
+    res.status(403).send('Forbidden');
 });
 
 module.exports = router;
