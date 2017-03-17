@@ -20,6 +20,12 @@
           <label for="pass">Password:</label>
           <input type="password" class="form-control" id="pass" name="pass" [formControl]="loginForm.controls['pass']" required>
         </div>
+        <div class="form-check">
+          <label class="form-check-label">
+            <input type="checkbox" class="form-check-input" id="rem" name="rem" [formControl]="loginForm.controls['rem']">
+            Remember Me
+          </label>
+        </div>
         <button type="submit" style="display:none">Hide</button>
       </form>
 

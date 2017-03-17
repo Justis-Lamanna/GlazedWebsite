@@ -37,11 +37,12 @@ export class LoginService {
    * @param pass The password.
    * @returns A promise containing the result of login.
    */
-  login(user: string, pass: string): Promise<any>{
+  login(user: string, pass: string, remember: boolean): Promise<any>{
+    console.log(remember);
     return new Promise((resolve, reject) => {
       let headers = new Headers();
       headers.append('Content-Type', 'application/json');
-      this.http.post('/api/v1/users/verify', {username: user, pass: pass}, {headers: headers}).subscribe((res: Response) => {
+      this.http.post('/api/v1/users/verify', {username: user.toLowerCase(), pass: pass, remember: remember}, {headers: headers}).subscribe((res: Response) => {
         let obj = JSON.parse(res.text());
         resolve(obj);
       });

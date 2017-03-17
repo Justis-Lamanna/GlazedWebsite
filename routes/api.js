@@ -105,7 +105,7 @@ router.post('/users/verify', function(req, res, next){
                 }
                 else{
                     //We need a token!
-                    jwt.sign({uid: user._id}, secret, {expiresIn: 60*60*24}, function(err, token){
+                    jwt.sign({uid: user._id}, secret, {expiresIn: req.body.remember ? 60*60*24*365 : 60*60*24}, function(err, token){
                         if(err){
                             res.json({success: false, message: 'Error signing.'});
                         }

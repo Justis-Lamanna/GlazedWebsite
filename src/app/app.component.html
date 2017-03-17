@@ -27,7 +27,7 @@
 </nav>
 <!--Login Modal-->
 <div class="modal fade" bsModal #loginModal="bs-modal" [config]="{backdrop: 'static'}">
-  <app-login (close)="loginModal.hide()"></app-login>
+  <app-login (close)="loginModal.hide()" (submit)="loginModal.hide()"></app-login>
 </div>
 <!--Register Modal-->
 <div class="modal fade" bsModal #regModal="bs-modal" [config]="{backdrop: 'static'}">
