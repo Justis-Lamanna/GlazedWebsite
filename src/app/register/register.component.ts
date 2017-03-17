@@ -16,7 +16,7 @@ export class RegisterComponent implements OnInit {
   errors: string[];
   success: boolean;
 
-  constructor(fb: FormBuilder, private cd:ChangeDetectorRef, private reg: RegisterService) {
+  constructor(fb: FormBuilder, private cd:ChangeDetectorRef, private reg: RegisterService, private route: Router) {
     this.regForm = fb.group({
       'email': [''],
       'user': [''],
@@ -81,6 +81,8 @@ export class RegisterComponent implements OnInit {
             }
             else{
               let info = ret.return;
+              this.route.navigateByUrl('welcome');
+              this.closeModal();
             }
           });
         }
