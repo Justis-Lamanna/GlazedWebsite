@@ -121,7 +121,6 @@ router.post('/users/verify', function(req, res, next){
 
 //Refeshes a token.
 router.post('/users/refresh', verify, function(req, res, next){
-    console.log(req.decoded);
     jwt.sign({uid: req.decoded.uid}, secret, {expiresIn: 60*60*24}, function(err, token){
         if(err){
             res.json({success: false, message: 'Error signing: ' + err});
