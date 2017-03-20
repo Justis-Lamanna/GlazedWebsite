@@ -1,8 +1,32 @@
 <div class="col-md-4">
   <div class="panel panel-default">
-    <div class="panel-heading"><h3>Lucbui</h3></div>
-    <div class="panel-body">
-      Stuff
+    <div class="panel-heading">
+      <h3 class="text-capitalize">
+        {{ user?.username }}
+      </h3>
+    </div>
+      <div class="list-group-item">
+        <h4 class="list-group-item-heading">Joined</h4>
+        <p class="list-group-item-text" [ngClass]="user?.regdate ? '' : 'text-muted'">{{ (user?.regdate | date) || 'Unknown' }}</p>
+      </div>
+    <div class="list-group-item">
+      <h4 class="list-group-item-heading">About Me</h4>
+      <p class="list-group-item-text" [ngClass]="user?.bio ? '' : 'text-muted'">{{ user?.bio || 'No Bio Yet' }}</p>
+    </div>
+    <div class="list-group-item">
+      <h4 class="list-group-item-heading">Location</h4>
+      <p class="list-group-item-text" [ngClass]="user?.location ? '' : 'text-muted'">{{ user?.location || 'Unknown' }}</p>
+    </div>
+    <div class="list-group-item">
+      <h4 class="list-group-item-heading">Favorites</h4>
+      <p class="list-group-item-text">Pokémon<p><p [ngClass]="user?.fav?.pkmn ? '' : 'text-muted'">{{ user?.fav?.pkmn || 'Unknown' }}</p>
+      <p class="list-group-item-text">Move<p><p [ngClass]="user?.fav?.move ? '' : 'text-muted'">{{ user?.fav?.move || 'Unknown' }}</p>
+      <p class="list-group-item-text">Ability<p><p [ngClass]="user?.fav?.ability ? '' : 'text-muted'">{{ user?.fav?.ability || 'Unknown' }}</p>
+      <p class="list-group-item-text">Nature<p><p [ngClass]="user?.fav?.nature ? '' : 'text-muted'">{{ user?.fav?.nature || 'Unknown' }}</p>
+      <p class="list-group-item-text">Game<p><p [ngClass]="user?.fav?.game ? '' : 'text-muted'">{{ user?.fav?.game || 'Unknown' }}</p>
+    </div>
+    <div class="list-group-item">
+      <button type="button" class="btn btn-success">Edit <span class="glyphicon glyphicon-pencil"></span></button>
     </div>
   </div>
 </div>

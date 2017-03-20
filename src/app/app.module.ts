@@ -8,6 +8,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { LocationStrategy, PathLocationStrategy } from '@angular/common';
 import { RegisterService } from './services/register.service';
 import { LoginService } from './services/login.service';
+import { InfoService } from './services/info.service';
 import { LoginGuard } from './guards/login.guard';
 
 import { AppComponent } from './app.component';
@@ -55,7 +56,8 @@ const appRoutes: Routes = [
     { provide: LocationStrategy, useClass: PathLocationStrategy },
     { provide: RegisterService, useClass: RegisterService},
     { provide: LoginService, useClass: LoginService},
-    { provide: LoginGuard, useClass: LoginGuard }
+    { provide: LoginGuard, useClass: LoginGuard },
+    { provide: InfoService, useClass: InfoService}
   ],
   bootstrap: [AppComponent]
 })
