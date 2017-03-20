@@ -110,7 +110,7 @@ router.post('/users/verify', function(req, res, next){
                             res.json({success: false, message: 'Error signing.'});
                         }
                         else{
-                            res.json({success: false, username: user.username, token: token});
+                            res.json({success: false, username: user.username, token: token, uid: user._id});
                         }
                     });
                 }

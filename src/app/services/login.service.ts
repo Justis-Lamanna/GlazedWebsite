@@ -31,6 +31,14 @@ export class LoginService {
   }
 
   /**
+   * Get the user's ID.
+   * @returns The user's ID.
+   */
+  getUserID(): string{
+    return localStorage.getItem("uid");
+  }
+
+  /**
    * Logs the user in.
    * The promise returned will either return {error: true, reason: [reason]}, or {error: false}.
    * @param user The username.
@@ -53,8 +61,17 @@ export class LoginService {
    * @param uid The id of the user.
    * @param username The username of the user.
    */
-  setCredentials(token: string, username: string){
+  setCredentials(token: string, username: string, uid: string){
     localStorage.setItem("token", token);
     localStorage.setItem("username", username);
+    localStorage.setItem("uid", uid);
+  }
+
+  /**
+   * Get the token.
+   * @returns The token in storage.
+   */
+  getToken(): string{
+    return localStorage.getItem("token");
   }
 }

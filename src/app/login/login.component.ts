@@ -48,7 +48,7 @@ export class LoginComponent implements OnInit {
     }
     this.login.login(user.value, pass.value, rem.value).then((res) => {
       if(!res.error){
-        this.login.setCredentials(res.token, res.username);
+        this.login.setCredentials(res.token, res.username, res.uid);
         this.router.navigateByUrl('profile');
         this.submitModal();
       }
