@@ -11,22 +11,37 @@
       </div>
     <div class="list-group-item">
       <h4 class="list-group-item-heading">About Me</h4>
-      <p class="list-group-item-text" [ngClass]="user?.bio ? '' : 'text-muted'">{{ user?.bio || 'No Bio Yet' }}</p>
+      <p *ngIf="!edit" class="list-group-item-text" [ngClass]="user?.bio ? '' : 'text-muted'">{{ user?.bio || 'No Bio Yet' }}</p>
+      <textarea *ngIf="edit" rows="4" maxlength="150" [(ngModel)]="aboutme" class="form-control" tabindex="1">{{ user?.bio || '' }}</textarea>
+      <p *ngIf="edit" [ngClass]="aboutme.length < 100 ? 'text-muted' : aboutme.length < 150 ? 'text-warning' : 'text-danger'">{{ aboutme.length }}/150</p>
     </div>
     <div class="list-group-item">
       <h4 class="list-group-item-heading">Location</h4>
-      <p class="list-group-item-text" [ngClass]="user?.location ? '' : 'text-muted'">{{ user?.location || 'Unknown' }}</p>
+      <p *ngIf="!edit" class="list-group-item-text" [ngClass]="user?.location ? '' : 'text-muted'">{{ user?.location || 'Unknown' }}</p>
+      <input *ngIf="edit" type="text" class="form-control" tabindex="2">
     </div>
     <div class="list-group-item">
       <h4 class="list-group-item-heading">Favorites</h4>
-      <p class="list-group-item-text">Pokémon<p><p [ngClass]="user?.fav?.pkmn ? '' : 'text-muted'">{{ user?.fav?.pkmn || 'Unknown' }}</p>
-      <p class="list-group-item-text">Move<p><p [ngClass]="user?.fav?.move ? '' : 'text-muted'">{{ user?.fav?.move || 'Unknown' }}</p>
-      <p class="list-group-item-text">Ability<p><p [ngClass]="user?.fav?.ability ? '' : 'text-muted'">{{ user?.fav?.ability || 'Unknown' }}</p>
-      <p class="list-group-item-text">Nature<p><p [ngClass]="user?.fav?.nature ? '' : 'text-muted'">{{ user?.fav?.nature || 'Unknown' }}</p>
-      <p class="list-group-item-text">Game<p><p [ngClass]="user?.fav?.game ? '' : 'text-muted'">{{ user?.fav?.game || 'Unknown' }}</p>
+      <label class="list-group-item-text">Pokémon</label>
+        <p *ngIf="!edit" [ngClass]="user?.fav?.pkmn ? '' : 'text-muted'">{{ user?.fav?.pkmn || 'Unknown' }}</p>
+        <input *ngIf="edit" type="text" class="form-control" tabindex="3">
+      <label class="list-group-item-text">Move</label>
+        <p *ngIf="!edit" [ngClass]="user?.fav?.move ? '' : 'text-muted'">{{ user?.fav?.move || 'Unknown' }}</p>
+        <input *ngIf="edit" type="text" class="form-control" tabindex="4">
+      <label class="list-group-item-text">Ability</label>
+        <p *ngIf="!edit" [ngClass]="user?.fav?.ability ? '' : 'text-muted'">{{ user?.fav?.ability || 'Unknown' }}</p>
+        <input *ngIf="edit" type="text" class="form-control" tabindex="5">
+      <label class="list-group-item-text">Nature</label>
+        <p *ngIf="!edit" [ngClass]="user?.fav?.nature ? '' : 'text-muted'">{{ user?.fav?.nature || 'Unknown' }}</p>
+        <input *ngIf="edit" type="text" class="form-control" tabindex="6">
+      <label class="list-group-item-text">Game</label>
+        <p *ngIf="!edit" [ngClass]="user?.fav?.game ? '' : 'text-muted'">{{ user?.fav?.game || 'Unknown' }}</p>
+        <input *ngIf="edit" type="text" class="form-control" tabindex="7">
     </div>
     <div class="list-group-item">
-      <button type="button" class="btn btn-success">Edit <span class="glyphicon glyphicon-pencil"></span></button>
+      <button *ngIf="!edit" type="button" class="btn btn-success" (click)="edit = true">Edit <span class="glyphicon glyphicon-pencil"></span></button>
+      <button *ngIf="edit" type="button" class="btn btn-success" (click)="edit = false">Save</button>
+      <button *ngIf="edit" type="button" class="btn btn-outline-success" (click)="edit = false">Cancel</button>
     </div>
   </div>
 </div>

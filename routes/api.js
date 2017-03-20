@@ -86,6 +86,26 @@ router.get('/users/username/:id', function(req, res, next){
     });
 });
 
+router.post('/users/id/:id', verify, function(req, res, next){
+    let uid = req.params.id;
+    if(req.decoded != uid){
+        db.users.findOne({_id: mongojs.ObjectId(uid)}, function(err, user){
+            if(err){
+                res.json({success: false, message: 'Error reading database.'});
+            }
+            else if(user == null){
+                res.json({success: false, message: 'User ID does not exist'});
+            }
+            else{
+                console.log(req.body);
+            }
+        });
+    }
+    else{
+        console.log(req.body);
+    }
+});
+
 //Authenticates a user. If successful, a token and username is sent back.
 router.post('/users/verify', function(req, res, next){
     db.users.findOne({username: req.body.username}, function(err, user){

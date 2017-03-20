@@ -9,12 +9,17 @@ import { LoginService } from '../services/login.service';
 })
 export class ProfileComponent implements OnInit {
   user: any;
+  edit: boolean;
+  aboutme = "";
 
   constructor(private info: InfoService, private login: LoginService) { }
 
   ngOnInit() {
     this.info.getInfoOn(this.login.getUserID()).then((user) => {
       this.user = user;
+      if(user.bio){
+        this.aboutme = user.bio;
+      }
     });
   }
 }
