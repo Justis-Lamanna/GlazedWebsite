@@ -88,7 +88,7 @@ router.get('/users/username/:id', function(req, res, next){
 
 router.post('/users/id/:id', verify, function(req, res, next){
     let uid = req.params.id;
-    if(req.decoded != uid){
+    if(req.decoded.uid != uid){
         db.users.findOne({_id: mongojs.ObjectId(uid)}, function(err, user){
             if(err){
                 res.json({success: false, message: 'Error reading database.'});
@@ -97,12 +97,26 @@ router.post('/users/id/:id', verify, function(req, res, next){
                 res.json({success: false, message: 'User ID does not exist'});
             }
             else{
-                console.log(req.body);
+                db.users.update({_id: mongojs.ObjectId(uid)}, {$set: req.body}, function(err, count, status){
+                    if(err){
+                        res.json({success: false, message: 'Error reading database.'});
+                    }
+                    else{
+                        res.json({success: true, message: status});
+                    }
+                });
             }
         });
     }
     else{
-        console.log(req.body);
+        db.users.update({_id: mongojs.ObjectId(uid)}, {$set: req.body}, function(err, count, status){
+            if(err){
+                res.json({success: false, message: 'Error reading database.'});
+            }
+            else{
+                res.json({success: true, message: status});
+            }
+        });
     }
 });
 
