@@ -21,14 +21,21 @@ import { WelcomeComponent } from './welcome/welcome.component';
 import { ProfileComponent } from './profile/profile.component';
 import { LoginpageComponent } from './loginpage/loginpage.component';
 import { GamesComponent } from './games/games.component';
+import { PokemonComponent } from './pokemon/pokemon.component';
+
+const profRoutes: Routes = [
+  {path: '', redirectTo: 'games', pathMatch: 'full'},
+  {path: 'games', component: GamesComponent},
+  {path: 'pkmn', component: PokemonComponent}
+];
 
 const appRoutes: Routes = [
   {path: '', redirectTo: 'home', pathMatch: 'full'},
   {path: 'home', component: HomeComponent},
   {path: 'about', component: AboutComponent},
   {path: 'welcome', component: WelcomeComponent},
-  {path: 'profile', component: ProfileComponent},
-  {path: 'user/:id', component: ProfileComponent},
+  {path: 'profile', component: ProfileComponent, children: profRoutes},
+  {path: 'user/:id', component: ProfileComponent, children: profRoutes},
   {path: 'login', component: LoginpageComponent},
   {path: '**', component: ErrorComponent}
 ];
@@ -46,6 +53,7 @@ const appRoutes: Routes = [
     ProfileComponent,
     LoginpageComponent,
     GamesComponent,
+    PokemonComponent,
   ],
   imports: [
     BrowserModule,

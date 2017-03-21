@@ -50,9 +50,10 @@
 </div>
 <div class="col-md-8" role="navigation">
   <ul class="nav nav-tabs">
-    <li role="presentation"><a href="#">Games</a></li>
-    <li role="presentation"><a href="#">Pokémon</a></li>
+    <li role="presentation"><a routerLink="games">Games</a></li>
+    <li role="presentation"><a routerLink="pkmn">Pokémon</a></li>
   </ul>
+  <router-outlet></router-outlet>
 </div>
 <div class="modal fade" bsModal #loginModal="bs-modal" [config]="{backdrop: 'static', show: true}">
   <app-login (close)="onModalCancel(form)" (submit)="onModalSubmit(form.value)"></app-login>
