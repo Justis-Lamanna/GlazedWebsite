@@ -39,8 +39,9 @@
           <p *ngIf="!edit" [ngClass]="user?.fav?.game ? '' : 'text-muted'">{{ user?.fav?.game || 'Unknown' }}</p>
           <input *ngIf="edit" type="text" class="form-control" tabindex="7" maxlength = "50" formControlName="game">
       </div>
-      <div class="list-group-item">
+      <div *ngIf="canedit" class="list-group-item">
         <button *ngIf="!edit" type="button" class="btn btn-success" (click)="setEdit()">Edit <span class="glyphicon glyphicon-pencil"></span></button>
+        <a *ngIf="!edit" class="btn btn-success navbar-btn" routerLink="../user/{{ user?._id }}">View Profile</a>
         <button *ngIf="edit" type="submit" class="btn btn-success">Save</button>
         <button *ngIf="edit" type="button" class="btn btn-outline-success" (click)="onCancel(form)">Cancel</button>
       </div>

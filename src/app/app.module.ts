@@ -20,13 +20,15 @@ import { ErrorComponent } from './error/error.component';
 import { WelcomeComponent } from './welcome/welcome.component';
 import { ProfileComponent } from './profile/profile.component';
 import { LoginpageComponent } from './loginpage/loginpage.component';
+import { GamesComponent } from './games/games.component';
 
 const appRoutes: Routes = [
   {path: '', redirectTo: 'home', pathMatch: 'full'},
   {path: 'home', component: HomeComponent},
   {path: 'about', component: AboutComponent},
   {path: 'welcome', component: WelcomeComponent},
-  {path: 'profile', component: ProfileComponent, canActivate: [LoginGuard]},
+  {path: 'profile', component: ProfileComponent},
+  {path: 'user/:id', component: ProfileComponent},
   {path: 'login', component: LoginpageComponent},
   {path: '**', component: ErrorComponent}
 ];
@@ -43,6 +45,7 @@ const appRoutes: Routes = [
     WelcomeComponent,
     ProfileComponent,
     LoginpageComponent,
+    GamesComponent,
   ],
   imports: [
     BrowserModule,

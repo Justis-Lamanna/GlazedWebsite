@@ -28,14 +28,22 @@ export class InfoService {
    * @param uid The user's ID.
    * @param update The update string.
    */
-  setInfoOn(uid: String, update: any): Promise<boolean>{
+  setInfoOn(uid: String, update: any): Promise<number>{
     return new Promise((resolve, reject) => {
       let headers = new Headers();
       headers.append('Content-Type', 'application/json');
       headers.append('x-access-token', this.login.getToken());
       this.http.post('/api/v1/users/id/' + uid, update, {headers: headers}).subscribe((res: Response) => {
         let obj = res.json();
-        resolve(obj.success);
+        if(obj.success){
+          resolve(1);
+        }
+        else if(obj.nonequal){
+          resolve(-1);
+        }
+        else{
+          resolve(0);
+        }
       });
     });
   }
@@ -62,6 +70,8 @@ export class InfoService {
         else{
           resolve(-1);
         }
+      }, (err: Response) => {
+        resolve(0);
       });
     });
   }

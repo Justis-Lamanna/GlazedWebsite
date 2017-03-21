@@ -96,6 +96,9 @@ router.post('/users/id/:id', verify, function(req, res, next){
             else if(user == null){
                 res.json({success: false, message: 'User ID does not exist'});
             }
+            else if(!user.admin){
+                res.json({success: false, nonequal: true, message: 'Cannot update someone elses profile.'})
+            }
             else{
                 db.users.update({_id: mongojs.ObjectId(uid)}, {$set: req.body}, function(err, count, status){
                     if(err){

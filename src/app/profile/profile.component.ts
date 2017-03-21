@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { InfoService } from '../services/info.service';
 import { LoginService } from '../services/login.service';
 import { ModalDirective } from 'ng2-bootstrap';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 
 @Component({
@@ -12,12 +12,14 @@ import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms'
 })
 export class ProfileComponent implements OnInit {
   @ViewChild('loginModal') loginModal: ModalDirective;
+  id: string;
   user: any;
+  canedit: boolean;
   edit: boolean;
   form: FormGroup;
   aboutme = "";
 
-  constructor(private info: InfoService, private login: LoginService, private router: Router, private fb: FormBuilder) {
+  constructor(private info: InfoService, private login: LoginService, private router: Router, private fb: FormBuilder, private route: ActivatedRoute) {
     this.form = this.fb.group({
       bio: [''],
       location: [''],
@@ -27,13 +29,25 @@ export class ProfileComponent implements OnInit {
       nature: [''],
       game: ['']
     });
+    route.params.subscribe(params => {
+      this.canedit = params['id'] == null;
+      if(this.canedit && !login.getUserID()){
+        router.navigateByUrl('login');
+      }
+      this.info.getInfoOn(params['id'] || login.getUserID()).then((user) => {
+        if(user){
+          this.user = user;
+          this.aboutme = user.bio || '';
+        }
+        else{
+          router.navigateByUrl('error');
+        }
+      });
+    });
   }
 
   ngOnInit() {
-    this.info.getInfoOn(this.login.getUserID()).then((user) => {
-      this.user = user;
-      this.aboutme = user.bio || '';
-    });
+    
   }
 
   setEdit(form: FormGroup){
@@ -66,20 +80,24 @@ export class ProfileComponent implements OnInit {
 
   onModalSubmit(form: FormGroup){
     this.onSubmit(form);
+    this.loginModal.hide();
   }
 
   submitValues(newbio: any){
     this.info.needLogin().then((res: number) => {
       if(res == 1){
-        this.info.setInfoOn(this.login.getUserID(), newbio).then((res: boolean) => {
-          if(res){
+        this.info.setInfoOn(this.login.getUserID(), newbio).then((res: number) => {
+          if(res == 1){
             this.edit = false;
             this.user.bio = newbio.bio;
             this.user.location = newbio.location;
             this.user.fav = newbio.fav;
           }
-          else{
+          else if(res == 0){
             this.loginModal.show();
+          }
+          else{
+            alert("Cannot update an account that is not your own!");
           }
         });
       }
@@ -96,8 +114,10 @@ export class ProfileComponent implements OnInit {
     this.edit = false;
   }
 
-  onModalClose(form: any){
+  onModalCancel(form: any){
     this.onCancel(form);
+    this.loginModal.hide();
+    this.login.logout();
     this.router.navigateByUrl('home');
   }
 }
