@@ -9,40 +9,40 @@
         <h4 class="list-group-item-heading">Joined</h4>
         <p class="list-group-item-text" [ngClass]="user?.regdate ? '' : 'text-muted'">{{ (user?.regdate | date) || 'Unknown' }}</p>
       </div>
-    <form #f="ngForm" (ngSubmit)="onSubmit(f.value)">
+    <form [formGroup]="form" (ngSubmit)="onSubmit(form.value)">
       <div class="list-group-item">
         <h4 class="list-group-item-heading">About Me</h4>
         <p *ngIf="!edit" class="list-group-item-text" [ngClass]="user?.bio ? '' : 'text-muted'">{{ user?.bio || 'No Bio Yet' }}</p>
-        <textarea *ngIf="edit" rows="4" maxlength="150" [(ngModel)]="aboutme" class="form-control" tabindex="1" name="bio" ngModel>{{ user?.bio || '' }}</textarea>
-        <p *ngIf="edit" [ngClass]="aboutme.length < 100 ? 'text-muted' : aboutme.length < 150 ? 'text-warning' : 'text-danger'">{{ aboutme.length }}/150</p>
+        <textarea *ngIf="edit" rows="4" maxlength="150" [(ngModel)]="aboutme" class="form-control" tabindex="1" formControlName="bio">{{ user?.bio || '' }}</textarea>
+        <p *ngIf="edit" [ngClass]="aboutme.length < 100 ? 'text-muted' : aboutme.length < 150 ? 'text-warning' : 'text-danger'">{{ aboutme?.length || '0' }}/150</p>
       </div>
       <div class="list-group-item">
         <h4 class="list-group-item-heading">Location</h4>
         <p *ngIf="!edit" class="list-group-item-text" [ngClass]="user?.location ? '' : 'text-muted'">{{ user?.location || 'Unknown' }}</p>
-        <input *ngIf="edit" type="text" class="form-control" tabindex="2" maxlength="25" name="location" ngModel>
+        <input *ngIf="edit" type="text" class="form-control" tabindex="2" maxlength="25" formControlName="location">
       </div>
       <div class="list-group-item">
         <h4 class="list-group-item-heading">Favorites</h4>
         <label class="list-group-item-text">Pokémon</label>
           <p *ngIf="!edit" [ngClass]="user?.fav?.pkmn ? '' : 'text-muted'">{{ user?.fav?.pkmn || 'Unknown' }}</p>
-          <input *ngIf="edit" type="text" class="form-control" tabindex="3" maxlength = "11" name="pkmn" ngModel>
+          <input *ngIf="edit" type="text" class="form-control" tabindex="3" maxlength = "11" formControlName="pkmn">
         <label class="list-group-item-text">Move</label>
           <p *ngIf="!edit" [ngClass]="user?.fav?.move ? '' : 'text-muted'">{{ user?.fav?.move || 'Unknown' }}</p>
-          <input *ngIf="edit" type="text" class="form-control" tabindex="4" maxlength = "25" name="move" ngModel>
+          <input *ngIf="edit" type="text" class="form-control" tabindex="4" maxlength = "25" formControlName="move">
         <label class="list-group-item-text">Ability</label>
           <p *ngIf="!edit" [ngClass]="user?.fav?.ability ? '' : 'text-muted'">{{ user?.fav?.ability || 'Unknown' }}</p>
-          <input *ngIf="edit" type="text" class="form-control" tabindex="5" maxlength = "15" name="ability" ngModel>
+          <input *ngIf="edit" type="text" class="form-control" tabindex="5" maxlength = "15" formControlName="ability">
         <label class="list-group-item-text">Nature</label>
           <p *ngIf="!edit" [ngClass]="user?.fav?.nature ? '' : 'text-muted'">{{ user?.fav?.nature || 'Unknown' }}</p>
-          <input *ngIf="edit" type="text" class="form-control" tabindex="6" maxlength = "10" name="nature" ngModel>
+          <input *ngIf="edit" type="text" class="form-control" tabindex="6" maxlength = "10" formControlName="nature">
         <label class="list-group-item-text">Game</label>
           <p *ngIf="!edit" [ngClass]="user?.fav?.game ? '' : 'text-muted'">{{ user?.fav?.game || 'Unknown' }}</p>
-          <input *ngIf="edit" type="text" class="form-control" tabindex="7" maxlength = "50" name="game" ngModel>
+          <input *ngIf="edit" type="text" class="form-control" tabindex="7" maxlength = "50" formControlName="game">
       </div>
       <div class="list-group-item">
-        <button *ngIf="!edit" type="button" class="btn btn-success" (click)="edit = true">Edit <span class="glyphicon glyphicon-pencil"></span></button>
+        <button *ngIf="!edit" type="button" class="btn btn-success" (click)="setEdit()">Edit <span class="glyphicon glyphicon-pencil"></span></button>
         <button *ngIf="edit" type="submit" class="btn btn-success">Save</button>
-        <button *ngIf="edit" type="button" class="btn btn-outline-success" (click)="onCancel(f.value)">Cancel</button>
+        <button *ngIf="edit" type="button" class="btn btn-outline-success" (click)="onCancel(form)">Cancel</button>
       </div>
     </form>
   </div>
@@ -54,5 +54,5 @@
   </ul>
 </div>
 <div class="modal fade" bsModal #loginModal="bs-modal" [config]="{backdrop: 'static', show: true}">
-  <app-login (close)="onModalCancel(f.value)" (submit)="onModalSubmit(f.value)"></app-login>
+  <app-login (close)="onModalCancel(form)" (submit)="onModalSubmit(form.value)"></app-login>
 </div>

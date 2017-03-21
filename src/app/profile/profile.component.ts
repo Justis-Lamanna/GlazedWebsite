@@ -1,8 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { InfoService } from '../services/info.service';
 import { LoginService } from '../services/login.service';
-import { FormGroup } from '@angular/forms';
 import { ModalDirective } from 'ng2-bootstrap';
+import { Router } from '@angular/router';
+import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-profile',
@@ -13,10 +14,20 @@ export class ProfileComponent implements OnInit {
   @ViewChild('loginModal') loginModal: ModalDirective;
   user: any;
   edit: boolean;
-
+  form: FormGroup;
   aboutme = "";
 
-  constructor(private info: InfoService, private login: LoginService) { }
+  constructor(private info: InfoService, private login: LoginService, private router: Router, private fb: FormBuilder) {
+    this.form = this.fb.group({
+      bio: [''],
+      location: [''],
+      pkmn: [''],
+      move: [''],
+      ability: [''],
+      nature: [''],
+      game: ['']
+    });
+  }
 
   ngOnInit() {
     this.info.getInfoOn(this.login.getUserID()).then((user) => {
@@ -25,16 +36,29 @@ export class ProfileComponent implements OnInit {
     });
   }
 
+  setEdit(form: FormGroup){
+    this.edit = true;
+    this.form = this.fb.group({
+      bio: [this.user.bio],
+      location: [this.user.location],
+      pkmn: [this.user.fav.pkmn],
+      move: [this.user.fav.move],
+      ability: [this.user.fav.ability],
+      nature: [this.user.fav.nature],
+      game: [this.user.fav.game]
+    });
+  }
+
   onSubmit(form: FormGroup){
     let newbio = {
-      bio: form['bio'],
-      location: form['location'],
+      bio: form['bio'] || this.user.bio || '',
+      location: form['location'] || this.user.location || '',
       fav: {
-        pkmn: form['pkmn'],
-        move: form['move'],
-        ability: form['ability'],
-        nature: form['nature'],
-        game: form['game']
+        pkmn: form['pkmn'] || this.user.fav.pkmn || '',
+        move: form['move'] || this.user.fav.move || '',
+        ability: form['ability'] || this.user.fav.ability || '',
+        nature: form['nature'] || this.user.fav.nature || '',
+        game: form['game'] || this.user.fav.game || ''
       }
     };
     this.submitValues(newbio);
@@ -45,8 +69,8 @@ export class ProfileComponent implements OnInit {
   }
 
   submitValues(newbio: any){
-    this.info.needLogin().then((res: boolean) => {
-      if(res){
+    this.info.needLogin().then((res: number) => {
+      if(res == 1){
         this.info.setInfoOn(this.login.getUserID(), newbio).then((res: boolean) => {
           if(res){
             this.edit = false;
@@ -59,18 +83,21 @@ export class ProfileComponent implements OnInit {
           }
         });
       }
-      else{
+      else if(res == 0){
         this.loginModal.show();
+      }
+      else{
+        alert("Error interacting with the database. Please try again later.");
       }
     });
   }
 
-  onCancel(form: FormGroup){
-    form.reset();
+  onCancel(form: any){
     this.edit = false;
   }
 
-  onModalClose(form: FormGroup){
+  onModalClose(form: any){
     this.onCancel(form);
+    this.router.navigateByUrl('home');
   }
 }
