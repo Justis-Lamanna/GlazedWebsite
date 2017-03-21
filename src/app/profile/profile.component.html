@@ -50,10 +50,11 @@
 </div>
 <div class="col-md-8" role="navigation">
   <ul class="nav nav-tabs">
-    <li role="presentation"><a routerLink="games">Games</a></li>
-    <li role="presentation"><a routerLink="pkmn">Pokémon</a></li>
+    <li role="presentation" class="nav-link" [ngClass]="tab == 0 ? 'active' : ''"><a (click)="tab = 0">Games</a></li>
+    <li role="presentation" class="nav-link" [ngClass]="tab == 1 ? 'active' : ''"><a (click)="tab = 1">Pokémon</a></li>
   </ul>
-  <router-outlet></router-outlet>
+  <app-games *ngIf="tab == 0"></app-games>
+  <app-pokemon *ngIf="tab == 1"></app-pokemon>
 </div>
 <div class="modal fade" bsModal #loginModal="bs-modal" [config]="{backdrop: 'static', show: true}">
   <app-login (close)="onModalCancel(form)" (submit)="onModalSubmit(form.value)"></app-login>

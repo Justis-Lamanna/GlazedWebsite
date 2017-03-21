@@ -9,6 +9,7 @@ import { LocationStrategy, PathLocationStrategy } from '@angular/common';
 import { RegisterService } from './services/register.service';
 import { LoginService } from './services/login.service';
 import { InfoService } from './services/info.service';
+import { ProfileService } from './services/profile.service';
 import { LoginGuard } from './guards/login.guard';
 
 import { AppComponent } from './app.component';
@@ -23,19 +24,13 @@ import { LoginpageComponent } from './loginpage/loginpage.component';
 import { GamesComponent } from './games/games.component';
 import { PokemonComponent } from './pokemon/pokemon.component';
 
-const profRoutes: Routes = [
-  {path: '', component: GamesComponent},
-  {path: 'games', component: GamesComponent},
-  {path: 'pkmn', component: PokemonComponent}
-];
-
 const appRoutes: Routes = [
   {path: '', redirectTo: 'home', pathMatch: 'full'},
   {path: 'home', component: HomeComponent},
   {path: 'about', component: AboutComponent},
   {path: 'welcome', component: WelcomeComponent},
-  {path: 'profile', component: ProfileComponent, children: profRoutes},
-  {path: 'user/:id', component: ProfileComponent, children: profRoutes},
+  {path: 'profile', component: ProfileComponent},
+  {path: 'user/:id', component: ProfileComponent},
   {path: 'login', component: LoginpageComponent},
   {path: '**', component: ErrorComponent}
 ];
@@ -68,7 +63,8 @@ const appRoutes: Routes = [
     { provide: RegisterService, useClass: RegisterService},
     { provide: LoginService, useClass: LoginService},
     { provide: LoginGuard, useClass: LoginGuard },
-    { provide: InfoService, useClass: InfoService}
+    { provide: InfoService, useClass: InfoService},
+    { provide: ProfileService, useClass: ProfileService}
   ],
   bootstrap: [AppComponent]
 })
