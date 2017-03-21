@@ -24,7 +24,7 @@ import { GamesComponent } from './games/games.component';
 import { PokemonComponent } from './pokemon/pokemon.component';
 
 const profRoutes: Routes = [
-  {path: '', redirectTo: 'games', pathMatch: 'full'},
+  {path: '', component: GamesComponent},
   {path: 'games', component: GamesComponent},
   {path: 'pkmn', component: PokemonComponent}
 ];
