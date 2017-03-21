@@ -17,11 +17,47 @@ export class InfoService {
       headers.append('Content-Type', 'application/json');
       headers.append('x-access-token', this.login.getToken());
       this.http.get('/api/v1/users/id/' + uid, {headers: headers}).subscribe((res: Response) => {
-        let obj = res.json();
-        resolve(obj);
+        if(res.json()){
+          let obj = res.json();
+          if(obj._id){
+            resolve(obj);
+          }
+          else{
+            reject({reason: 'No such user.'});
+          }
+        }
+        else{
+          reject({reason: 'No such user.'});
+        }
       });
     });
   }
+
+    /**
+   * Get information on some user.
+   * @param uid The user's ID.
+   */
+    getInfoOnUsername(user: String): Promise<any>{
+      return new Promise((resolve, reject) => {
+        let headers = new Headers();
+        headers.append('Content-Type', 'application/json');
+        headers.append('x-access-token', this.login.getToken());
+        this.http.get('/api/v1/users/username/' + user, {headers: headers}).subscribe((res: Response) => {
+          if(res.json()){
+            let obj = res.json();
+            if(obj._id){
+              resolve(obj);
+            }
+            else{
+              reject({reason: 'No such user.'});
+            }
+          }
+          else{
+            reject({reason: 'No such user.'});
+          }
+        });
+      });
+    }
 
   /**
    * Update a user's info.

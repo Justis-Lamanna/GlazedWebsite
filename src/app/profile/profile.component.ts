@@ -34,7 +34,7 @@ export class ProfileComponent implements OnInit {
       if(this.canedit && !login.getUserID()){
         router.navigateByUrl('login');
       }
-      this.info.getInfoOn(params['id'] || login.getUserID()).then((user) => {
+      this.info.getInfoOnUsername(params['id'] || login.getUsername()).then((user) => {
         if(user){
           this.user = user;
           this.aboutme = user.bio || '';
@@ -42,6 +42,8 @@ export class ProfileComponent implements OnInit {
         else{
           router.navigateByUrl('error');
         }
+      }).catch((reason) => {
+        router.navigateByUrl('error');
       });
     });
   }

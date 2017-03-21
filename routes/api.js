@@ -60,16 +60,21 @@ router.get('/users', verify, verifyAdmin, function(req, res, next){
 
 //Get a user by their id. Password hash, admin status, and email are suppressed.
 router.get('/users/id/:id', function(req, res, next){
-    db.users.findOne({
-        _id: mongojs.ObjectId(req.params.id)
-    }, {pass: 0, admin: 0, email:0}, function(err, users){
-        if(err){
-            res.json({success: false, message: 'Error reading database.'});
-        }
-        else{
-            res.json(users);
-        }
-    });
+    try{
+        db.users.findOne({
+            _id: mongojs.ObjectId(req.params.id)
+        }, {pass: 0, admin: 0, email:0}, function(err, users){
+            if(err){
+                res.json({success: false, message: 'Error reading database.'});
+            }
+            else{
+                res.json(users);
+            }
+        });
+    }
+    catch(err){
+        res.json({success: false, message: 'Invalid ID.'});
+    }
 });
 
 //Get a user by their name. Password hash, admin status, and email are suppressed.

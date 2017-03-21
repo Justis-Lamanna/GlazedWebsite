@@ -41,7 +41,7 @@
       </div>
       <div *ngIf="canedit" class="list-group-item">
         <button *ngIf="!edit" type="button" class="btn btn-success" (click)="setEdit()">Edit <span class="glyphicon glyphicon-pencil"></span></button>
-        <a *ngIf="!edit" class="btn btn-success navbar-btn" routerLink="../user/{{ user?._id }}">View Profile</a>
+        <a *ngIf="!edit" class="btn btn-success navbar-btn" routerLink="../user/{{ user?.username }}">View Profile</a>
         <button *ngIf="edit" type="submit" class="btn btn-success">Save</button>
         <button *ngIf="edit" type="button" class="btn btn-outline-success" (click)="onCancel(form)">Cancel</button>
       </div>
