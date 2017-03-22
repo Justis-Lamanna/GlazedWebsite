@@ -101,9 +101,10 @@ export class ProfileComponent implements OnInit {
         this.info.setInfoOn(this.login.getUserID(), newbio).then((res: number) => {
           if(res == 1){
             this.edit = false;
-            this.user.bio = newbio.bio;
-            this.user.location = newbio.location;
-            this.user.fav = newbio.fav;
+            this.user.bio = newbio.bio || this.user.bio;
+            this.user.location = newbio.location || this.user.location;
+            this.user.fav = newbio.fav || this.user.fav;
+            this.user.games = newbio.games || this.user.games;
           }
           else if(res == 0){
             this.loginModal.show();

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-game',
@@ -7,6 +7,8 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class GameComponent implements OnInit {
   @Input() game: any;
+  @Output() onDelete: EventEmitter<any> = new EventEmitter();
+
   mouse: boolean;
   constructor() { }
 
@@ -14,7 +16,10 @@ export class GameComponent implements OnInit {
   }
 
   delete(){
-    
+    let v = confirm("Are you sure you want to delete this game from your profile?");
+    if(v){
+      this.onDelete.emit();
+    }
   }
 
 }
