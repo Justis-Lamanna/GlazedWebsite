@@ -1,9 +1,15 @@
-<div class="media" style="padding:5px" (mouseenter)="mouse = true" (mouseleave)="mouse = false" [ngClass]="mouse ? 'bg-success' : ''">
+<div class="media" style="padding:10px" (mouseenter)="mouse = true" (mouseleave)="mouse = false" [ngClass]="mouse ? 'bg-success' : ''">
   <div class="media-left">
     <img class="media-object" src="{{ game.gender ? '/assets/boy.png' : '/assets/girl.png' }}" alt="{{ game.gender ? 'boy' : 'girl' }}" width="64" height="64"/>
   </div>
   <div class="media-body">
-    <h4 class="media-heading">{{ game.name || "Player" }}</h4>
+    <h4 class="media-heading">
+      {{ game.name || "Player" }} 
+      <small>
+        {{ game.location || "Unknown" }}
+      </small>
+      <button type="button" class="close" (click)="delete()"><span class="glyphicon glyphicon-trash"></span></button>
+    </h4>
     <div class="container-fluid">
       <div class="row">
         <div class="col-md-12">
