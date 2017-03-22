@@ -70,11 +70,21 @@ export class ProfileComponent implements OnInit {
     });
   }
 
+  /**
+   * Called when the user saves an edit.
+   * @param form The forms with the new info.
+   */
   onSubmit(form: FormGroup){
     this.userchange = this.formToBio(form);
     this.submitValues(this.userchange);
   }
 
+  /**
+   * Converts the form to a user object.
+   * The values will be the values of the form, or if they're empty,
+   * the original values, or if THEYRE empty, an empty string.
+   * @param form The form to convert.
+   */
   formToBio(form: FormGroup): any{
     let newbio = {
       bio: form['bio'] || this.user.bio || '',
@@ -90,11 +100,22 @@ export class ProfileComponent implements OnInit {
     return newbio;
   }
 
+  /**
+   * Called upon successful login.
+   * @param bio The bio to set the values to.
+   */
   onModalSubmit(bio: any){
     this.loginModal.hide();
     this.submitValues(bio);
   }
 
+  /**
+   * Handles the actual submission process.
+   * Make sure to set "userchange" to the user to change. If the token has expired,
+   * a login prompt is provided, which will then retry automatically after a successful
+   * login (via onModalSubmit, which calls this after hiding the modal.)
+   * @param newbio The bio to set to.
+   */
   submitValues(newbio: any){
     this.info.needLogin().then((res: number) => {
       if(res == 1){
@@ -123,10 +144,18 @@ export class ProfileComponent implements OnInit {
     });
   }
 
+  /**
+   * Called then edits are cancelled.
+   */
   onCancel(){
     this.edit = false;
   }
 
+  /**
+   * Called when the login modal is cancelled or X'd out.
+   * The program takes this as a sign of defeat, so fully
+   * logs the user out and returns to the homepage.
+   */
   onModalCancel(){
     this.onCancel();
     this.loginModal.hide();
