@@ -1,10 +1,8 @@
-<div class="container">
-  <p *ngIf="prof.getParent().user?.pokemon && prof.getParent().user.pokemon.length > 0">
-    Sum Pokémon!
-  </p>
-  <div *ngIf="!prof.getParent().user?.pokemon || prof.getParent().user.pokemon.length == 0">
-    <div class="alert alert-info">
-      <p class="text-center">No Pokémon here!</p>
-    </div>
+<p *ngIf="prof.getParent().user?.pokemon && prof.getParent().user.pokemon.length > 0">
+  Sum Pokémon!
+</p>
+<div *ngIf="!prof.getParent().user?.pokemon || prof.getParent().user.pokemon.length == 0">
+  <div class="alert alert-info">
+    <p class="text-center">No Pokémon here!</p>
   </div>
 </div>
