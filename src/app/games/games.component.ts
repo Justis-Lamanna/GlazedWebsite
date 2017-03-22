@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { ProfileService } from '../services/profile.service';
 
 @Component({
   selector: 'app-games',
@@ -8,9 +9,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 })
 export class GamesComponent implements OnInit {
 
-  @Input() user: any;
-  
-  constructor() { }
+  constructor(private prof: ProfileService) { }
 
   ngOnInit() {
   }

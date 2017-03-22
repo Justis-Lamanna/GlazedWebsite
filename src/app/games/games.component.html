@@ -1,3 +1,10 @@
-<p>
-  {{ user?._id }}
-</p>
+<div *ngIf="prof.getParent()?.user?.games && prof.getParent().user.games.length > 0">
+  <div *ngFor="let game of prof.getParent().user.games">
+    <app-game [game]="game"></app-game>
+  </div>
+</div>
+<div *ngIf="!prof.getParent().user?.games || prof.getParent().user.games.length == 0">
+  <div class="alert alert-info">
+    <p class="text-center">No Games here! To add a game, connect online with your PokéGear+.</p>
+  </div>
+</div>

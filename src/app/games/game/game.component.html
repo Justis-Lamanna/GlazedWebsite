@@ -1,3 +1,31 @@
-<p>
-  game works!
-</p>
+<div class="media" style="padding:5px" (mouseenter)="mouse = true" (mouseleave)="mouse = false" [ngClass]="mouse ? 'bg-success' : ''">
+  <div class="media-left">
+    <img class="media-object" src="{{ game.gender ? '/assets/boy.png' : '/assets/girl.png' }}" alt="{{ game.gender ? 'boy' : 'girl' }}" width="64" height="64"/>
+  </div>
+  <div class="media-body">
+    <h4 class="media-heading">{{ game.name || "Player" }}</h4>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-12">
+          <label>Badges:</label>
+          <span *ngIf="game.badges && game.badges.length > 0">
+            <span *ngFor="let badge of game.badges">
+              <img src="/assets/{{ badge }}.png" alt="{{ badge }}" width="24" height="24"/>
+            </span>
+          </span>
+          <span *ngIf="!game.badges || game.badges.length == 0">
+            None
+          </span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-3">
+          Seen: {{ game.seen || 0 }}
+        </div>
+        <div class="col-sm-3">
+          Caught: {{ game.caught || 0 }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
