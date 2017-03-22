@@ -114,6 +114,10 @@ export class ProfileComponent implements OnInit {
    * Make sure to set "userchange" to the user to change. If the token has expired,
    * a login prompt is provided, which will then retry automatically after a successful
    * login (via onModalSubmit, which calls this after hiding the modal.)
+   * 
+   * This updates the user in the database, rather than setting. You only need to provide
+   * the new fields, rather than all fields. The only requirement is an ID field is provided,
+   * called uid. 
    * @param newbio The bio to set to.
    */
   submitValues(newbio: any){

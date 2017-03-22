@@ -17,7 +17,7 @@ export class GamesComponent implements OnInit {
   delete(index: number){
     let user = this.prof.getParent().user;
     var games: Array<any> = user.games;
-    games.splice(index, 1);
+    games.splice(index, 1); //Remove.
     let newuser = {
       uid: user.uid,
       games: games
