@@ -43,7 +43,7 @@
         <button *ngIf="!edit" type="button" class="btn btn-success" (click)="setEdit()">Edit <span class="glyphicon glyphicon-pencil"></span></button>
         <a *ngIf="!edit" class="btn btn-success navbar-btn" routerLink="../user/{{ user?.username }}">View Profile</a>
         <button *ngIf="edit" type="submit" class="btn btn-success">Save</button>
-        <button *ngIf="edit" type="button" class="btn btn-outline-success" (click)="onCancel(form)">Cancel</button>
+        <button *ngIf="edit" type="button" class="btn btn-outline-success" (click)="onCancel()">Cancel</button>
       </div>
     </form>
   </div>
@@ -57,5 +57,5 @@
   <app-pokemon *ngIf="tab == 1"></app-pokemon>
 </div>
 <div class="modal fade" bsModal #loginModal="bs-modal" [config]="{backdrop: 'static', show: true}">
-  <app-login (close)="onModalCancel(form)" (submit)="onModalSubmit(form.value)"></app-login>
+  <app-login (close)="onModalCancel()" (submit)="onModalSubmit(userchange)"></app-login>
 </div>

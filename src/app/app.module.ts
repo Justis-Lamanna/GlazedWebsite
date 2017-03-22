@@ -23,6 +23,7 @@ import { ProfileComponent } from './profile/profile.component';
 import { LoginpageComponent } from './loginpage/loginpage.component';
 import { GamesComponent } from './games/games.component';
 import { PokemonComponent } from './pokemon/pokemon.component';
+import { GameComponent } from './games/game/game.component';
 
 const appRoutes: Routes = [
   {path: '', redirectTo: 'home', pathMatch: 'full'},
@@ -49,6 +50,7 @@ const appRoutes: Routes = [
     LoginpageComponent,
     GamesComponent,
     PokemonComponent,
+    GameComponent,
   ],
   imports: [
     BrowserModule,

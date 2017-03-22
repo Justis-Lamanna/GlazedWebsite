@@ -15,6 +15,8 @@ export class ProfileComponent implements OnInit {
   @ViewChild('loginModal') loginModal: ModalDirective;
   id: string;
   user: any;
+  userchange: any;
+
   canedit: boolean;
   edit: boolean;
   form: FormGroup;
@@ -69,6 +71,11 @@ export class ProfileComponent implements OnInit {
   }
 
   onSubmit(form: FormGroup){
+    this.userchange = this.formToBio(form);
+    this.submitValues(this.userchange);
+  }
+
+  formToBio(form: FormGroup): any{
     let newbio = {
       bio: form['bio'] || this.user.bio || '',
       location: form['location'] || this.user.location || '',
@@ -80,12 +87,12 @@ export class ProfileComponent implements OnInit {
         game: form['game'] || this.user.fav.game || ''
       }
     };
-    this.submitValues(newbio);
+    return newbio;
   }
 
-  onModalSubmit(form: FormGroup){
-    this.onSubmit(form);
+  onModalSubmit(bio: any){
     this.loginModal.hide();
+    this.submitValues(bio);
   }
 
   submitValues(newbio: any){
@@ -115,12 +122,12 @@ export class ProfileComponent implements OnInit {
     });
   }
 
-  onCancel(form: any){
+  onCancel(){
     this.edit = false;
   }
 
-  onModalCancel(form: any){
-    this.onCancel(form);
+  onModalCancel(){
+    this.onCancel();
     this.loginModal.hide();
     this.login.logout();
     this.router.navigateByUrl('home');
