@@ -10,10 +10,10 @@ export class GameComponent implements OnInit {
   @Output() onDelete: EventEmitter<any> = new EventEmitter();
 
   mouse: boolean;
-  constructor() { }
-
-  ngOnInit() {
+  constructor() {
   }
+
+  ngOnInit() {}
 
   delete(){
     let v = confirm("Are you sure you want to delete this game from your profile?");

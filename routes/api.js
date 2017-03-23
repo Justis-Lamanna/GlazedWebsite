@@ -231,68 +231,6 @@ router.post('/users', function(req, res, next){
     }
 });
 
-//Add a game.
-router.post('/games', function(req, res, next){
-    let g = req.body;
-    let game = {
-        gamename: g.gamename,
-        name: g.name,
-        gender: g.gender,
-        seen: g.seen,
-        caught: g.caught,
-        location: g.location,
-        badges: g.badges
-    };
-    db.games.insert(game, function(err, result){
-        if(err){
-            console.log("Error in database: " + err);
-            res.json({success: false, reason: "Error storing in database."});
-        }
-        else{
-            console.log("Game registration successful.");
-            res.json({success: true, gameid: result._id});
-        }
-    });
-});
-
-//Get all games.
-router.get('/games', verify, verifyAdmin, function(req, res, next){
-    db.games.find(function(err, games){
-        if(err){
-            res.json({success: false, reason: "Error reading database."});
-        }
-        else{
-            res.json({success: true, data: games});
-        }
-    });
-});
-
-//Get a game by its ID.
-router.get('/games/:id', verify, function(req, res, next){
-    db.games.findOne({
-        _id: mongjs.ObjectId(req.params.id)
-    }, function(err, game){
-        if(err){
-            res.json({success: false, reason: "Error reading database."});
-        }
-        else{
-            res.json({success: true, data: games});
-        }
-    })
-});
-
-//Modify a game.
-router.post('/games/:id', verify, function(req, res, next){
-    db.games.update({_id: mongojs.ObjectId(uid)}, {$set: req.body}, function(err, count, status){
-        if(err){
-            res.json({success: false, message: 'Error reading database.'});
-        }
-        else{
-            res.json({success: true, message: status});
-        }
-    });
-})
-
 //Anything that does not match gets a 403 Forbidden page.
 router.get('*', function(req, res, next){
     res.status(403).send('Forbidden');
