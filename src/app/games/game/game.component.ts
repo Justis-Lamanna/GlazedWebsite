@@ -1,5 +1,4 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { ProfileService } from '../../services/profile.service';
 
 @Component({
   selector: 'app-game',
@@ -11,7 +10,7 @@ export class GameComponent implements OnInit {
   @Output() onDelete: EventEmitter<any> = new EventEmitter();
 
   mouse: boolean;
-  constructor(private prof: ProfileService) {
+  constructor() {
   }
 
   ngOnInit() {}
