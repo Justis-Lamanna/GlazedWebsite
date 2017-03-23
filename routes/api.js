@@ -264,7 +264,33 @@ router.get('/games', verify, verifyAdmin, function(req, res, next){
         else{
             res.json({success: true, data: games});
         }
+    });
+});
+
+//Get a game by its ID.
+router.get('/games/:id', verify, function(req, res, next){
+    db.games.findOne({
+        _id: mongjs.ObjectId(req.params.id)
+    }, function(err, game){
+        if(err){
+            res.json({success: false, reason: "Error reading database."});
+        }
+        else{
+            res.json({success: true, data: games});
+        }
     })
+});
+
+//Modify a game.
+router.post('/games/:id', verify, function(req, res, next){
+    db.games.update({_id: mongojs.ObjectId(uid)}, {$set: req.body}, function(err, count, status){
+        if(err){
+            res.json({success: false, message: 'Error reading database.'});
+        }
+        else{
+            res.json({success: true, message: status});
+        }
+    });
 })
 
 //Anything that does not match gets a 403 Forbidden page.
