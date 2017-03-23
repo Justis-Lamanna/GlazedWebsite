@@ -25,13 +25,19 @@ import { GamesComponent } from './games/games.component';
 import { PokemonComponent } from './pokemon/pokemon.component';
 import { GameComponent } from './games/game/game.component';
 
+const profRoutes: Routes = [
+  {path: '', component: GamesComponent},
+  {path: 'games', component: GamesComponent},
+  {path: 'pkmn', component: PokemonComponent}
+]
+
 const appRoutes: Routes = [
   {path: '', redirectTo: 'home', pathMatch: 'full'},
   {path: 'home', component: HomeComponent},
   {path: 'about', component: AboutComponent},
   {path: 'welcome', component: WelcomeComponent},
-  {path: 'profile', component: ProfileComponent},
-  {path: 'user/:id', component: ProfileComponent},
+  {path: 'profile', component: ProfileComponent, children: profRoutes},
+  {path: 'user/:id', component: ProfileComponent, children: profRoutes},
   {path: 'login', component: LoginpageComponent},
   {path: '**', component: ErrorComponent}
 ];

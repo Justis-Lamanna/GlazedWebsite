@@ -46,6 +46,30 @@ function verifyAdmin(req, res, next){
     })
 }
 
+//Verify the user in the token equals the user in the passed in parameter.
+//An user with admin priviledges also suffices.
+function verifyUser(req, res, next){
+    if(req.decoded.uid != req.params.id){
+        db.users.findOne({_id: mongojs.ObjectId(req.params.id)}, function(err, users){
+            if(err){
+                return res.json({success: false, message: 'Error reading database.'});
+            }
+            else if(!users){
+                return res.json({success: false, message: 'Invalid user.'});
+            }
+            else if(users.admin){
+                next();
+            }
+            else{
+                return res.json({success: false, message: 'Cannot modify anothers profile.'});
+            }
+        });
+    }
+    else{
+        next();
+    }
+}
+
 //Get a list of all users. Must have a valid token and be an admin to view.
 router.get('/users', verify, verifyAdmin, function(req, res, next){
     db.users.find(function(err, users){
@@ -91,48 +115,23 @@ router.get('/users/username/:id', function(req, res, next){
     });
 });
 
-router.post('/users/id/:id', verify, function(req, res, next){
+router.post('/users/id/:id', verify, verifyUser, function(req, res, next){
     let uid = req.params.id;
-    if(req.decoded.uid != uid){
-        db.users.findOne({_id: mongojs.ObjectId(uid)}, function(err, user){
-            if(err){
-                res.json({success: false, message: 'Error reading database.'});
-            }
-            else if(user == null){
-                res.json({success: false, message: 'User ID does not exist'});
-            }
-            else if(!user.admin){
-                res.json({success: false, nonequal: true, message: 'Cannot update someone elses profile.'})
-            }
-            else{
-                db.users.update({_id: mongojs.ObjectId(uid)}, {$set: req.body}, function(err, count, status){
-                    if(err){
-                        res.json({success: false, message: 'Error reading database.'});
-                    }
-                    else{
-                        res.json({success: true, message: status});
-                    }
-                });
-            }
-        });
-    }
-    else{
-        db.users.update({_id: mongojs.ObjectId(uid)}, {$set: req.body}, function(err, count, status){
-            if(err){
-                res.json({success: false, message: 'Error reading database.'});
-            }
-            else{
-                res.json({success: true, message: status});
-            }
-        });
-    }
+    db.users.update({_id: mongojs.ObjectId(uid)}, {$set: req.body}, function(err, count, status){
+        if(err){
+            res.json({success: false, message: 'Error reading database.'});
+        }
+        else{
+            res.json({success: true, message: status});
+        }
+    });
 });
 
 
 /**
  * Add a game to the list.
  */
-router.post('/users/id/:id/game', function(req, res, next){
+router.post('/users/id/:id/game', verify, function(req, res, next){
     let uid = req.params.id;
     let game = req.body;
     db.users.findOne({_id: mongojs.ObjectId(uid)}, function(err, user){
@@ -158,7 +157,7 @@ router.post('/users/id/:id/game', function(req, res, next){
  * Get a user's game.
  * Return: The game object specified by the game id provided.
  */
-router.get('/users/id/:id/game/:gid', function(req, res, next){
+router.get('/users/id/:id/game/:gid', verify, function(req, res, next){
     let uid = req.params.id;
     let gid = req.params.gid;
     db.users.findOne({_id: mongojs.ObjectId(uid)}, function(err, user){
@@ -180,7 +179,7 @@ router.get('/users/id/:id/game/:gid', function(req, res, next){
 /**
  * Update an existing game.
  */
-router.post('/users/id/:id/game/:gid', function(req, res, next){
+router.post('/users/id/:id/game/:gid', verify, function(req, res, next){
     let uid = req.params.id;
     let gid = req.params.gid;
     let game = req.body;

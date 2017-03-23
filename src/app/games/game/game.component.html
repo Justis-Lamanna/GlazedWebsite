@@ -8,7 +8,7 @@
       <small>
         {{ game.location || "Unknown" }}
       </small>
-      <button type="button" class="close" (click)="delete()"><span class="glyphicon glyphicon-trash"></span></button>
+      <button *ngIf="prof.getParent().canedit" type="button" class="close" (click)="delete()"><span class="glyphicon glyphicon-trash"></span></button>
     </h4>
     <div class="container-fluid">
       <div class="row">

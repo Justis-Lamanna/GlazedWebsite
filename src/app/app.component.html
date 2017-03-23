@@ -20,7 +20,7 @@
             <p class="navbar-text navbar-right hidden-md hidden-sm hidden-xs" *ngIf="login.isLoggedIn()">Hello, {{ login.getUsername().slice(0, 1).toUpperCase() + login.getUsername().slice(1) }}!</p>
             <div class="navbar-right" *ngIf="login.isLoggedIn()">
                 <button type="button" class="btn btn-success navbar-btn" (click)="logout()">Logout</button>
-                <a class="btn btn-success navbar-btn" routerLink="profile">Profile</a>
+                <a class="btn btn-success navbar-btn" routerLink="profile">Dashboard</a>
             </div>
         </div>
     </div>

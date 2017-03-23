@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { InfoService } from '../services/info.service';
 import { LoginService } from '../services/login.service';
-import { ModalDirective } from 'ng2-bootstrap';
+import { ModalDirective, TabsetComponent, TabDirective, TabsModule } from 'ng2-bootstrap';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { ProfileService } from '../services/profile.service';
@@ -13,6 +13,7 @@ import { ProfileService } from '../services/profile.service';
 })
 export class ProfileComponent implements OnInit {
   @ViewChild('loginModal') loginModal: ModalDirective;
+  @ViewChild('tabs') tabs: TabsetComponent;
   id: string;
   user: any;
   userchange: any;
