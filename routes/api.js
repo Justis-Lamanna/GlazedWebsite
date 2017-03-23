@@ -128,6 +128,86 @@ router.post('/users/id/:id', verify, function(req, res, next){
     }
 });
 
+
+/**
+ * Add a game to the list.
+ */
+router.post('/users/id/:id/game', function(req, res, next){
+    let uid = req.params.id;
+    let game = req.body;
+    db.users.findOne({_id: mongojs.ObjectId(uid)}, function(err, user){
+        if(err){
+            res.json({success: false, message: err});
+        }
+        else{
+            game._id = mongojs.ObjectId();
+            user.games.push(game);
+            db.users.update({_id: mongojs.ObjectId(uid)}, user, function(err, count, result){
+                if(err){
+                    return res.json({success: false, message: err});
+                }
+                else{
+                    return res.json({success: true, message: game});
+                }
+            });
+        }
+    });
+});
+
+/**
+ * Get a user's game.
+ * Return: The game object specified by the game id provided.
+ */
+router.get('/users/id/:id/game/:gid', function(req, res, next){
+    let uid = req.params.id;
+    let gid = req.params.gid;
+    db.users.findOne({_id: mongojs.ObjectId(uid)}, function(err, user){
+        if(err){
+            res.json({success: false, message: err});
+        }
+        else{
+            for(var index = 0; index < user.games.length; index++){
+                if(user.games[index]._id == gid){
+                    res.json({success: true, message: user.games[index]});
+                    return;
+                }
+            }
+            res.json({success: false, message: "Invalid GID"});
+        }
+    });
+});
+
+/**
+ * Update an existing game.
+ */
+router.post('/users/id/:id/game/:gid', function(req, res, next){
+    let uid = req.params.id;
+    let gid = req.params.gid;
+    let game = req.body;
+    db.users.findOne({_id: mongojs.ObjectId(uid)}, function(err, user){
+        if(err){
+            res.json({success: false, message: err});
+        }
+        else{
+            for(var index = 0; index < user.games.length; index++){
+                if(user.games[index]._id == gid){
+                    user.games[index] = game;
+                    db.users.update({_id: mongojs.ObjectId(uid)}, {$set: {games: user.games}}, function(err, count, result){
+                        if(err){
+                            return res.json({success: false, message: err});
+                        }
+                        else{
+                            return res.json({success: true, message: result});
+                        }
+                    });
+                }
+            }
+            return res.json({success: false, message: "No match found"});
+        }
+    });
+});
+
+
 //Authenticates a user. If successful, a token and username is sent back.
 router.post('/users/verify', function(req, res, next){
     db.users.findOne({username: req.body.username}, function(err, user){
@@ -233,6 +313,11 @@ router.post('/users', function(req, res, next){
 
 //Anything that does not match gets a 403 Forbidden page.
 router.get('*', function(req, res, next){
+    res.status(403).send('Forbidden');
+});
+
+//Anything that does not match gets a 403 Forbidden page.
+router.post('*', function(req, res, next){
     res.status(403).send('Forbidden');
 });
 
