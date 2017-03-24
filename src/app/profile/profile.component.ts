@@ -187,13 +187,13 @@ export class ProfileComponent implements OnInit {
   }
 
   getStatusClass(){
-    if(!this.status || this.status == 0){
+    if(!this.user || !this.user.status || this.user.status == 0){
       return 'text-muted';
     }
-    else if(this.status == 1){
+    else if(this.user.status == 1){
       return 'text-success';
     }
-    else if(this.status == 2){
+    else if(this.user.status == 2){
       return 'text-warning';
     }
     else{
@@ -202,13 +202,13 @@ export class ProfileComponent implements OnInit {
   }
 
   getStatus(): string{
-    if(!this.status || this.status == 0){
+    if(!this.user || !this.user.status || this.user.status == 0){
       return 'Offline';
     }
-    else if(this.status == 1){
+    else if(this.user.status == 1){
       return 'Online';
     }
-    else if(this.status == 2){
+    else if(this.user.status == 2){
       return 'Idle';
     }
     else{

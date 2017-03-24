@@ -232,7 +232,7 @@ router.post('/users/verify', function(req, res, next){
                             res.json({success: false, message: 'Error signing.'});
                         }
                         else{
-                            db.logins.update({uid: mongojs.ObjectId(user._id)}, {uid: user._id, token: token, date: (new Date()).toJSON()}, {upsert: true});
+                            db.users.update({_id: user._id}, {$set: {status: 1}});
                             res.json({success: false, username: user.username, token: token, uid: user._id});
                         }
                     });
@@ -249,7 +249,7 @@ router.post('/users/refresh', verify, function(req, res, next){
             res.json({success: false, message: 'Error signing: ' + err});
         }
         else{
-            db.logins.update({uid: mongojs.ObjectId(req.decoded.uid)}, {uid: req.decoded.uid, token: token, date: (new Date()).toJSON()}, {upsert: true});
+            db.users.update({_id: user._id}, {$set: {status: 1}});
             res.json({success: true, token: token});
         }
     });
@@ -257,43 +257,24 @@ router.post('/users/refresh', verify, function(req, res, next){
 
 //Get the status of all users.
 router.get('/users/status', verify, verifyAdmin, function(req, res, next){
-    db.logins.find(function(err, users){
+    db.users.find({status: {$gt: 0}}, function(err, found){
         if(err){
-            return res.json({success: false, reason: err});
+            res.json({success: false, message: err});
         }
         else{
-            return res.json({success: true, users: users});
+            res.json({success: true, users: found});
         }
-    });
+    })
 });
 
-//Get the status of a user. 0=logged off, 1=online, 2=idle
 router.get('/users/:id/status', function(req, res, next){
     let uid = req.params.id;
-    db.logins.findOne({uid: mongojs.ObjectId(uid)}, function(err, user){
+    db.users.findOne({_id: mongojs.ObjectId(uid)}, function(err, user){
         if(err){
-            return res.json({success: false, reason: err});
-        }
-        else if(!user){
-            return res.json({success: true, status: 0});
+            res.json({success: false, message: err});
         }
         else{
-            jwt.verify(user.token, secret, function(err, decoded){
-                if(err){
-                    return res.json({success: true, status: 0});
-                }
-                else{
-                    let loginTime = new Date(user.date).getTime();
-                    let now = new Date().getTime();
-                    let hours = (now - loginTime) / (1000 * 60 * 60);
-                    if(hours > 1){
-                        return res.json({success: true, status: 2});
-                    }
-                    else{
-                        return res.json({success: true, status: 1});
-                    }
-                }
-            });
+            res.json({success: true, status: user.status});
         }
     });
 });
@@ -301,14 +282,7 @@ router.get('/users/:id/status', function(req, res, next){
 //Log a user off.
 router.post('/users/:id/logoff', verify, function(req, res, next){
     let uid = req.params.id;
-    db.logins.remove({uid: mongojs.ObjectId(uid)}, function(err, value, err){
-        if(err){
-            return res.json({success: false, message: err});
-        }
-        else{
-            return res.json({success: true, message: value});
-        }
-    });
+    db.users.update({_id: mongojs.ObjectId(uid)}, {$set: {status: 0}});
 })
 
 //Adds a user.
