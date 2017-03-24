@@ -157,7 +157,7 @@ router.post('/users/id/:id/game', verify, function(req, res, next){
  * Get a user's game.
  * Return: The game object specified by the game id provided.
  */
-router.get('/users/id/:id/game/:gid', verify, function(req, res, next){
+router.get('/users/id/:id/game/:gid', function(req, res, next){
     let uid = req.params.id;
     let gid = req.params.gid;
     db.users.findOne({_id: mongojs.ObjectId(uid)}, function(err, user){
@@ -232,6 +232,7 @@ router.post('/users/verify', function(req, res, next){
                             res.json({success: false, message: 'Error signing.'});
                         }
                         else{
+                            db.logins.update({uid: user._id}, {uid: user._id, token: token, date: (new Date()).toJSON()}, {upsert: true});
                             res.json({success: false, username: user.username, token: token, uid: user._id});
                         }
                     });
@@ -248,10 +249,55 @@ router.post('/users/refresh', verify, function(req, res, next){
             res.json({success: false, message: 'Error signing: ' + err});
         }
         else{
+            db.logins.update({uid: req.decoded.uid}, {uid: req.decoded.uid, token: token, date: (new Date()).toJSON()}, {upsert: true});
             res.json({success: true, token: token});
         }
     });
 });
+
+//Get the status of a user. 0=logged off, 1=online, 2=idle
+router.get('/users/:id/status', function(req, res, next){
+    let uid = req.params.id;
+    db.logins.findOne({uid: mongojs.ObjectId(uid)}, function(err, user){
+        if(err){
+            return res.json({success: false, reason: err});
+        }
+        else if(!user){
+            return res.json({success: true, status: 0});
+        }
+        else{
+            jwt.verify(user.token, secret, function(err, decoded){
+                if(err){
+                    return res.json({success: true, status: 0});
+                }
+                else{
+                    let loginTime = new Date(user.date).getTime();
+                    let now = new Date().getTime();
+                    let hours = (now - loginTime) / (1000 * 60 * 60);
+                    if(hours > 1){
+                        return res.json({success: true, status: 2});
+                    }
+                    else{
+                        return res.json({success: true, status: 1});
+                    }
+                }
+            });
+        }
+    });
+});
+
+//Log a user off.
+router.post('/users/:id/logoff', verify, function(req, res, next){
+    let uid = req.params.id;
+    db.logins.remove({uid: mongojs.ObjectId(uid)}, function(err, value, err){
+        if(err){
+            return res.json({success: false, message: err});
+        }
+        else{
+            return res.json({success: true, message: value});
+        }
+    });
+})
 
 //Adds a user.
 router.post('/users', function(req, res, next){
