@@ -232,7 +232,7 @@ router.post('/users/verify', function(req, res, next){
                             res.json({success: false, message: 'Error signing.'});
                         }
                         else{
-                            db.logins.update({uid: user._id}, {uid: user._id, token: token, date: (new Date()).toJSON()}, {upsert: true});
+                            db.logins.update({uid: mongojs.ObjectId(user._id)}, {uid: user._id, token: token, date: (new Date()).toJSON()}, {upsert: true});
                             res.json({success: false, username: user.username, token: token, uid: user._id});
                         }
                     });
@@ -249,8 +249,20 @@ router.post('/users/refresh', verify, function(req, res, next){
             res.json({success: false, message: 'Error signing: ' + err});
         }
         else{
-            db.logins.update({uid: req.decoded.uid}, {uid: req.decoded.uid, token: token, date: (new Date()).toJSON()}, {upsert: true});
+            db.logins.update({uid: mongojs.ObjectId(req.decoded.uid)}, {uid: req.decoded.uid, token: token, date: (new Date()).toJSON()}, {upsert: true});
             res.json({success: true, token: token});
+        }
+    });
+});
+
+//Get the status of all users.
+router.get('/users/status', verify, verifyAdmin, function(req, res, next){
+    db.logins.find(function(err, users){
+        if(err){
+            return res.json({success: false, reason: err});
+        }
+        else{
+            return res.json({success: true, users: users});
         }
     });
 });
