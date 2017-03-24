@@ -18,6 +18,15 @@ export class LoginService {
    * Logs a user out.
    */
   logout(){
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    headers.append('x-access-token', this.getToken());
+    this.http.post('/api/v1/users/' + this.getUserID() + '/logoff', {}, {headers: headers}).subscribe((res: Response) => {
+      let obj = res.json();
+      if(!obj.success){
+        console.log("Failure logging off on server.");
+      }
+    });
     localStorage.removeItem("token");
     localStorage.removeItem("username");
     localStorage.removeItem("uid");
@@ -74,5 +83,23 @@ export class LoginService {
    */
   getToken(): string{
     return localStorage.getItem("token");
+  }
+
+  /**
+   * Get a user's status.
+   * @param uid The user ID.
+   */
+  getStatus(uid: string): Promise<number>{
+    return new Promise((resolve, reject) => {
+      this.http.get('/api/v1/users/' + uid + '/status').subscribe((res: Response) => {
+        let response = res.json();
+        if(response.success){
+          resolve(response.status);
+        }
+        else{
+          resolve(0);
+        }
+      });
+    });
   }
 }

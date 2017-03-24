@@ -21,7 +21,7 @@ export class ProfileComponent implements OnInit {
   edit: boolean;
   form: FormGroup;
   aboutme = "";
-  tab = 0;
+  status: number;
 
   constructor(private info: InfoService, private login: LoginService, private router: Router, private fb: FormBuilder, private route: ActivatedRoute, private prof: ProfileService) {
     this.form = this.fb.group({
@@ -42,6 +42,9 @@ export class ProfileComponent implements OnInit {
         if(user){
           this.user = user;
           this.aboutme = user.bio || '';
+          login.getStatus(user._id).then((val: number) => {
+            this.status = val;
+          });
         }
         else{
           router.navigateByUrl('error');
@@ -55,6 +58,22 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit() {
     
+  }
+
+  //Used for the future, if we want to refresh the user's info every so often.
+  //If there's an error, nothing happens.
+  refreshUser(){
+    this.info.getInfoOnUsername(this.user.username).then((user: any) => {
+      if(user){
+        this.user = user;
+        this.aboutme = user.bio || '';
+        this.login.getStatus(user._id).then((val: number) => {
+          this.status = val;
+        });
+      }
+    }).catch((reason: any) => {
+      console.log(reason);
+    });
   }
 
   setEdit(form: FormGroup){
@@ -165,5 +184,35 @@ export class ProfileComponent implements OnInit {
     this.loginModal.hide();
     this.login.logout();
     this.router.navigateByUrl('home');
+  }
+
+  getStatusClass(){
+    if(!this.status || this.status == 0){
+      return 'text-muted';
+    }
+    else if(this.status == 1){
+      return 'text-success';
+    }
+    else if(this.status == 2){
+      return 'text-warning';
+    }
+    else{
+      return 'text-danger';
+    }
+  }
+
+  getStatus(): string{
+    if(!this.status || this.status == 0){
+      return 'Offline';
+    }
+    else if(this.status == 1){
+      return 'Online';
+    }
+    else if(this.status == 2){
+      return 'Idle';
+    }
+    else{
+      return 'Unknown';
+    }
   }
 }
