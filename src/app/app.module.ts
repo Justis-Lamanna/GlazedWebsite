@@ -6,6 +6,8 @@ import { CollapseDirective } from 'ng2-bootstrap';
 import { ModalModule } from 'ng2-bootstrap';
 import { RouterModule, Routes } from '@angular/router';
 import { LocationStrategy, PathLocationStrategy } from '@angular/common';
+import { MomentModule } from 'angular2-moment';
+
 import { RegisterService } from './services/register.service';
 import { LoginService } from './services/login.service';
 import { InfoService } from './services/info.service';
@@ -64,7 +66,8 @@ const appRoutes: Routes = [
     ReactiveFormsModule,
     HttpModule,
     ModalModule.forRoot(),
-    RouterModule.forRoot(appRoutes)
+    RouterModule.forRoot(appRoutes),
+    MomentModule
   ],
   providers: [
     { provide: LocationStrategy, useClass: PathLocationStrategy },

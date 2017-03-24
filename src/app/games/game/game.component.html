@@ -6,10 +6,11 @@
     <h4 class="media-heading">
       {{ game.name || "Player" }} 
       <small>
-        {{ game.location || "Unknown" }}
+        {{ game.location || "Unknown" }} ({{ (game.date | amTimeAgo) || "Some time ago"}})
       </small>
       <button *ngIf="prof.getParent().canedit" type="button" class="close" (click)="delete()"><span class="glyphicon glyphicon-trash"></span></button>
     </h4>
+    <small *ngIf="game.date">game.date | date</small>
     <div class="container-fluid">
       <div class="row">
         <div class="col-md-12">
