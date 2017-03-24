@@ -199,6 +199,7 @@ router.post('/users/id/:id/game/:gid', verify, function(req, res, next){
                             return res.json({success: true, message: result});
                         }
                     });
+                    return;
                 }
             }
             return res.json({success: false, message: "No match found"});
