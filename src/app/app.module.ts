@@ -7,6 +7,7 @@ import { ModalModule } from 'ng2-bootstrap';
 import { RouterModule, Routes } from '@angular/router';
 import { LocationStrategy, PathLocationStrategy } from '@angular/common';
 import { MomentModule } from 'angular2-moment';
+import { TooltipModule } from 'ng2-bootstrap';
 
 import { RegisterService } from './services/register.service';
 import { LoginService } from './services/login.service';
@@ -67,7 +68,8 @@ const appRoutes: Routes = [
     HttpModule,
     ModalModule.forRoot(),
     RouterModule.forRoot(appRoutes),
-    MomentModule
+    MomentModule,
+    TooltipModule.forRoot()
   ],
   providers: [
     { provide: LocationStrategy, useClass: PathLocationStrategy },
