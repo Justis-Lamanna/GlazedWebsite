@@ -232,7 +232,7 @@ router.post('/users/verify', function(req, res, next){
                             res.json({success: false, message: 'Error signing.'});
                         }
                         else{
-                            db.users.update({_id: user._id}, {$set: {status: 1}});
+                            db.users.update({_id: user._id}, {$set: {status: 1, logindate: (new Date()).toJSON()}});
                             res.json({success: false, username: user.username, token: token, uid: user._id});
                         }
                     });

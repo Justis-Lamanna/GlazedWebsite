@@ -7,8 +7,10 @@
       </h3>
     </div>
       <div class="list-group-item">
-        <h4 class="list-group-item-heading">Joined</h4>
-        <p class="list-group-item-text" [ngClass]="user?.regdate ? '' : 'text-muted'">{{ (user?.regdate | date) || 'Unknown' }}</p>
+        <label class="list-group-item-text">Joined</label>
+        <p [ngClass]="user?.regdate ? '' : 'text-muted'">{{ (user?.regdate | date) || 'Unknown' }}</p>
+        <label class="list-group-item-text">Last Login</label>
+        <p [ngClass]="user?.logindate ? '' : 'text-muted'">{{ (user?.logindate | date) || 'Unknown' }}</p>
       </div>
     <form [formGroup]="form" (ngSubmit)="onSubmit(form.value)">
       <div class="list-group-item">
