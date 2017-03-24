@@ -1,13 +1,13 @@
-<div *ngIf="!prof.getParent()?.user">
+<div *ngIf="!prof.getParent().user">
   <img src="assets/loading.gif" alt="loading" class="img-responsive center-block" width="50" height="50">
 </div>
-<div *ngIf="prof.getParent()?.user?.games && prof.getParent().user.games.length > 0">
+<div *ngIf="prof.getParent().user && prof.getParent().user.games && prof.getParent().user.games.length > 0">
   <div *ngFor="let game of prof.getParent().user.games; let i = index">
     <app-game [game]="game" (onDelete)="delete(i)"></app-game>
   </div>
 </div>
-<div *ngIf="prof.getParent()?.user?.games && prof.getParent().user.games.length == 0">
+<div *ngIf="prof.getParent().user && (!prof.getParent().user.games || prof.getParent().user.games.length == 0)">
   <div class="alert alert-info">
-    <p class="text-center">No Games here! To add a game, connect online with your PokéGear+.</p>
+    <p class="text-center">No Games here!{{ prof.getParent().canedit ? ' To add a game, connect online with your PokéGear+.' : '' }}</p>
   </div>
 </div>
