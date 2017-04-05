@@ -70,6 +70,22 @@ function verifyUser(req, res, next){
     }
 }
 
+//Get a user by their user id. Stored in req.user.
+function getUser(req, res, next){
+    db.users.findOne({_id: mongojs.ObjectId(req.params.id)}, function(err, user){
+        if(err){
+            return res.json({success: false, message: err});
+        }
+        else if(!user){
+            return res.json({success: false, message: 'Invalid User'});
+        }
+        else{
+            req.user = user;
+            next();
+        }
+    })
+}
+
 //Get a list of all users. Must have a valid token and be an admin to view.
 router.get('/users', verify, verifyAdmin, function(req, res, next){
     db.users.find(function(err, users){
@@ -157,23 +173,53 @@ router.post('/users/id/:id/game', verify, function(req, res, next){
  * Get a user's game.
  * Return: The game object specified by the game id provided.
  */
-router.get('/users/id/:id/game/:gid', function(req, res, next){
-    let uid = req.params.id;
+router.get('/users/id/:id/game/:gid', getUser, function(req, res, next){
     let gid = req.params.gid;
-    db.users.findOne({_id: mongojs.ObjectId(uid)}, function(err, user){
+    for(var index = 0; index < req.user.games.length; index++){
+        if(req.user.games[index]._id = gid){
+            return res.json({success: true, message: req.user.games[index]});
+        }
+    }
+    res.json({success: false, message: "Invalid Game ID"});
+});
+
+/**
+ * Get all Pokemon a user has.
+ */
+router.get('/users/id/:id/pkmn', getUser, function(req, res, next){
+    res.json({success: false, message: req.user.pokemon});
+});
+
+/**
+ * Get a Pokemon by ID.
+ */
+router.get('/users/id/:id/pkmn/:pid', getUser, function(req, res, next){
+    let pid = req.params.pid;
+    for(var index = 0; index < req.user.pokemon.length; index++){
+        if(req.user.pokemon[index]._id == pid){
+            return res.json({success: true, message: req.user.pokemon[index]});
+        }
+    }
+    res.json({success: false, message: 'Invalid Pokemon'});
+});
+
+/**
+ * Add a Pokemon.
+ */
+router.post('/users/id/:id/pkmn', getUser, function(req, res, next){
+    let pkmn = req.body;
+    let uid = req.params.id;
+    let user = req.user;
+    pkmn._id = mongojs.ObjectId();
+    user.pokemon.push(pkmn);
+    db.users.update({_id: mongojs.ObjectId(uid)}, {$set: {pokemon: user.pokemon}}, function(err, count, result){
         if(err){
-            res.json({success: false, message: err});
+            return res.json({success: false, message: err});
         }
         else{
-            for(var index = 0; index < user.games.length; index++){
-                if(user.games[index]._id == gid){
-                    res.json({success: true, message: user.games[index]});
-                    return;
-                }
-            }
-            res.json({success: false, message: "Invalid GID"});
+            return res.json({success: true, message: result});
         }
-    });
+    })
 });
 
 /**
@@ -265,18 +311,6 @@ router.get('/users/status', verify, verifyAdmin, function(req, res, next){
             res.json({success: true, users: found});
         }
     })
-});
-
-router.get('/users/:id/status', function(req, res, next){
-    let uid = req.params.id;
-    db.users.findOne({_id: mongojs.ObjectId(uid)}, function(err, user){
-        if(err){
-            res.json({success: false, message: err});
-        }
-        else{
-            res.json({success: true, status: user.status});
-        }
-    });
 });
 
 //Log a user off.

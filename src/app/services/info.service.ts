@@ -111,30 +111,4 @@ export class InfoService {
       });
     });
   }
-
-  /**
-   * Get info on a game by it's ID.
-   * @param gid The game ID.
-   */
-  getGame(gid: String): Promise<any>{
-    return new Promise((resolve, reject) => {
-      let headers = new Headers();
-      headers.append('Content-Type', 'application/json');
-      headers.append('x-access-token', this.login.getToken());
-      this.http.get('/api/v1/games/' + gid, {headers: headers}).subscribe((res: Response) => {
-        if(res.json()){
-          let obj = res.json();
-          if(obj._id){
-            resolve(obj);
-          }
-          else{
-            reject({reason: 'No such user.'});
-          }
-        }
-        else{
-          reject({reason: 'No such user.'});
-        }
-      });
-    })
-  }
 }

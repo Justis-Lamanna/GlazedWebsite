@@ -42,9 +42,6 @@ export class ProfileComponent implements OnInit {
         if(user){
           this.user = user;
           this.aboutme = user.bio || '';
-          login.getStatus(user._id).then((val: number) => {
-            this.status = val;
-          });
         }
         else{
           router.navigateByUrl('error');
@@ -67,9 +64,6 @@ export class ProfileComponent implements OnInit {
       if(user){
         this.user = user;
         this.aboutme = user.bio || '';
-        this.login.getStatus(user._id).then((val: number) => {
-          this.status = val;
-        });
       }
     }).catch((reason: any) => {
       console.log(reason);

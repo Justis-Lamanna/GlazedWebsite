@@ -84,22 +84,4 @@ export class LoginService {
   getToken(): string{
     return localStorage.getItem("token");
   }
-
-  /**
-   * Get a user's status.
-   * @param uid The user ID.
-   */
-  getStatus(uid: string): Promise<number>{
-    return new Promise((resolve, reject) => {
-      this.http.get('/api/v1/users/' + uid + '/status').subscribe((res: Response) => {
-        let response = res.json();
-        if(response.success){
-          resolve(response.status);
-        }
-        else{
-          resolve(0);
-        }
-      });
-    });
-  }
 }

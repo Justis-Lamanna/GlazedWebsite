@@ -27,6 +27,7 @@ import { LoginpageComponent } from './loginpage/loginpage.component';
 import { GamesComponent } from './games/games.component';
 import { PokemonComponent } from './pokemon/pokemon.component';
 import { GameComponent } from './games/game/game.component';
+import { PkmnComponent } from './pokemon/pkmn/pkmn.component';
 
 const profRoutes: Routes = [
   {path: '', component: GamesComponent},
@@ -60,6 +61,7 @@ const appRoutes: Routes = [
     GamesComponent,
     PokemonComponent,
     GameComponent,
+    PkmnComponent,
   ],
   imports: [
     BrowserModule,
