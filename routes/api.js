@@ -222,6 +222,28 @@ router.post('/users/id/:id/pkmn', getUser, function(req, res, next){
     })
 });
 
+router.post('/users/id/:id/pkmn/:pid', getUser, function(req, res, next){
+    let pkmn = req.body;
+    let uid = req.params.id;
+    let pid = req.params.pid;
+    let user = req.user;
+    for(var index = 0; index < user.pokemon.length; index++){
+        if(user.pokemon[index]._id == pid){
+            user.pokemon[index] = pkmn;
+            db.users.update({_id: mongojs.ObjectId(uid)}, {$set: {pokemon: user.pokemon}}, function(err, count, result){
+                if(err){
+                    return res.json({success: false, message: err});
+                }
+                else{
+                    return res.json({success: true, message: result});
+                }
+            });
+            return;
+        }
+    }
+    return res.json({success: false, message: 'No Pokemon found.'});
+});
+
 /**
  * Update an existing game.
  */
