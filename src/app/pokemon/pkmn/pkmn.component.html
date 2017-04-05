@@ -1,3 +1,33 @@
-<p>
-  pkmn works!
-</p>
+<a routerLink="{{ '/user/' + prof.getParent().user.username + '/pokemon/' + pkmn._id }}">
+  <div class="media" style="padding: 10px" (mouseenter)="mouse = true" (mouseleave)="mouse = false" [ngClass]="mouse ? 'bg-success' : ''">
+    <div class="media-left">
+      <img class="media-object" src="{{ pkmn.species.toLowerCase() + (pkmn.shiny ? '-shiny' : '') + (pkmn.form ? ('-' + pkmn.form) : '') + '.png'}}" alt="{{ pkmn.species }}" width="64" height="64">
+    </div>
+    <div class="media-body">
+      <h4 class="media-heading">
+        {{ titlecase(pkmn.nickname || pkmn.species || '???')}}
+        <small *ngIf="pkmn.species && pkmn.species != pkmn.nickname"> ({{ pkmn.species }})</small>
+      </h4>
+      <div class="container-fluid">
+        <div class="row">
+          Level {{ pkmn.level || 'Unknown' }}
+        </div>
+        <div class="row">
+          <label>Captured:</label><span [tooltip]="pkmn.caught | date"> {{ pkmn.caught ? (pkmn.caught | amTimeAgo) : 'Some time ago'}}</span>
+        </div>
+        <div class="row">
+          <label>Moves:</label>
+        </div>
+        <div class="row">
+          <div class="col-md-3 col-sm-6" *ngFor="let move of pkmn.moves">
+            <img src="{{ move.type.toLowerCase() + '.png'" alt="{{ move.type }}" width="24" height="24" [tooltip]="titlecase(move.type) + ' type'">
+            {{ titlecase(move.name) }}
+          </div>
+          <div *ngIf="!pkmn.moves || pkmn.moves.length == 0">
+            This Pokémon has no moves.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</a>
