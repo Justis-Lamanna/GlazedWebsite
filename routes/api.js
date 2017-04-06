@@ -206,7 +206,7 @@ router.get('/users/id/:id/pkmn/:pid', getUser, function(req, res, next){
 /**
  * Add a Pokemon.
  */
-router.post('/users/id/:id/pkmn', getUser, function(req, res, next){
+router.post('/users/id/:id/pkmn', verify, verifyUser, getUser, function(req, res, next){
     let pkmn = req.body;
     let uid = req.params.id;
     let user = req.user;
@@ -222,7 +222,7 @@ router.post('/users/id/:id/pkmn', getUser, function(req, res, next){
     })
 });
 
-router.post('/users/id/:id/pkmn/:pid', getUser, function(req, res, next){
+router.post('/users/id/:id/pkmn/:pid', verify, verifyUser, getUser, function(req, res, next){
     let pkmn = req.body;
     let uid = req.params.id;
     let pid = req.params.pid;
