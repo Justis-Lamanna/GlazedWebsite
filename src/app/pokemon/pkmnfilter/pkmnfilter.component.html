@@ -7,42 +7,43 @@
     <div class="container-fluid panel-body">
       <div class="col-md-4 col-sm-6">
         <label>Species:</label>
-        <select multiple class="form-control">
+        <select multiple class="form-control" [(ngModel)]="species">
           <option *ngFor="let pkmn of unique(list, 'species')">{{ pkmn }}</option>
         </select>
       </div>
       <div class="col-md-4 col-sm-6">
         <label>Type:</label>
-        <select multiple class="form-control">
+        <select multiple class="form-control" [(ngModel)]="type">
           <option *ngFor="let type of unique(list, 'type')">{{ type }}</option>
         </select>
       </div>
       <div class="col-md-4 col-sm-6">
         <label>Ability:</label>
-        <select multiple class="form-control">
+        <select multiple class="form-control" [(ngModel)]="ability">
           <option *ngFor="let abil of unique(list, 'ability')">{{ abil }}</option>
         </select>
       </div>
       <div class="col-md-4 col-sm-6">
         <label>Starts with:</label>
-        <select multiple class="form-control">
+        <select multiple class="form-control" [(ngModel)]="letter">
           <option *ngFor="let letter of initials(list)">{{ letter }}</option>
         </select>
       </div>
       <div class="col-md-4 col-sm-6">
         <label>Move:</label>
-        <select multiple class="form-control">
+        <select multiple class="form-control" [(ngModel)]="move">
           <option *ngFor="let move of moves(list)">{{ move }}</option>
         </select>
       </div>
       <div class="col-md-4 col-sm-6">
         <label>Nature:</label>
-        <select multiple class="form-control">
+        <select multiple class="form-control" [(ngModel)]="nature">
           <option *ngFor="let nature of unique(list, 'nature')">{{ nature }}</option>
         </select>
       </div>
     </div>
     <div>
+      <button type="button" class="btn btn-outline-success btn-block" (click)="onReset()">Reset</button>
       <button type="button" class="btn btn-success btn-block" (click)="onFilter()">Filter</button>
     </div>
   </div>

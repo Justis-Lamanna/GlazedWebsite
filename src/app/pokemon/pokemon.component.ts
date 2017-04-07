@@ -8,10 +8,16 @@ import { ProfileService } from '../services/profile.service';
 })
 export class PokemonComponent implements OnInit {
 
-  constructor(private prof: ProfileService) { }
+  pkmnList: Array<any>;
+  constructor(private prof: ProfileService) {
+    //this.pkmnList = prof.getParent().user.pokemon;
+  }
 
   ngOnInit() {
     
   }
 
+  print(list: Array<any>){
+    this.pkmnList = list;
+  }
 }

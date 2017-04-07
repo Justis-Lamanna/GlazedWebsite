@@ -2,8 +2,8 @@
   <img src="assets/loading.gif" alt="loading" class="img-responsive center-block" width="50" height="50">
 </div>
 <div *ngIf="prof.getParent().user && prof.getParent().user.pokemon && prof.getParent().user.pokemon.length > 0">
-  <app-pkmnfilter [list]="prof.getParent().user.pokemon"></app-pkmnfilter>
-  <div *ngFor="let pkmn of prof.getParent().user.pokemon">
+  <app-pkmnfilter [list]="prof.getParent().user.pokemon" (filter)="print($event)"></app-pkmnfilter>
+  <div *ngFor="let pkmn of (pkmnList || prof.getParent().user.pokemon)">
     <app-pkmn [pkmn]="pkmn"></app-pkmn>
   </div>
 </div>
