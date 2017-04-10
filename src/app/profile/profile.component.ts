@@ -4,7 +4,6 @@ import { LoginService } from '../services/login.service';
 import { ModalDirective } from 'ng2-bootstrap';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
-import { ProfileService } from '../services/profile.service';
 
 @Component({
   selector: 'app-profile',
@@ -16,7 +15,7 @@ export class ProfileComponent implements OnInit {
   user: any;
   status: number;
 
-  constructor(private info: InfoService, private login: LoginService, private router: Router, private fb: FormBuilder, private route: ActivatedRoute, private prof: ProfileService) {
+  constructor(private info: InfoService, private login: LoginService, private router: Router, private fb: FormBuilder, private route: ActivatedRoute) {
     route.params.subscribe(params => {
       if(!login.getUserID()){
         router.navigateByUrl('login');
@@ -32,7 +31,6 @@ export class ProfileComponent implements OnInit {
         router.navigateByUrl('error');
       });
     });
-    prof.setParent(this);
   }
 
   ngOnInit() {

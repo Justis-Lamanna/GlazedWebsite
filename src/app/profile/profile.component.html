@@ -35,10 +35,9 @@
     </div>
   </div>
 </div>
-<div class="col-md-8" role="navigation">
-  <ul class="nav nav-tabs">
-    <li ><a [routerLink]="['games']">Games</a></li>
-    <li ><a [routerLink]="['pkmn']">Pokémon</a></li>
-  </ul>
-  <router-outlet></router-outlet>
+<div class="col-md-8">
+  <tabset>
+    <tab heading="Games"><app-games [user]="user"></app-games></tab>
+    <tab heading="Pokémon"><app-pokemon [user]="user"></app-pokemon></tab>
+  </tabset>
 </div>

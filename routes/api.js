@@ -131,7 +131,7 @@ router.get('/users/username/:id', function(req, res, next){
     });
 });
 
-router.post('/users/id/:id', verify, verifyUser, function(req, res, next){
+router.post('/users/id/:id', verify, function(req, res, next){
     let uid = req.params.id;
     db.users.update({_id: mongojs.ObjectId(uid)}, {$set: req.body}, function(err, count, status){
         if(err){

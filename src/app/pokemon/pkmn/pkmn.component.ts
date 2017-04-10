@@ -1,6 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Router } from '@angular/router';
-import { ProfileService } from '../../services/profile.service';
 
 @Component({
   selector: 'app-pkmn',
@@ -10,7 +9,7 @@ import { ProfileService } from '../../services/profile.service';
 export class PkmnComponent implements OnInit {
   @Input() pkmn: any;
   mouse: boolean;
-  constructor(private route : Router, private prof: ProfileService) { }
+  constructor(private route : Router) { }
 
   ngOnInit() {
   }

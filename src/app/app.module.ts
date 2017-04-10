@@ -8,11 +8,11 @@ import { RouterModule, Routes } from '@angular/router';
 import { LocationStrategy, PathLocationStrategy } from '@angular/common';
 import { MomentModule } from 'angular2-moment';
 import { TooltipModule } from 'ng2-bootstrap';
+import { TabsModule } from 'ng2-bootstrap';
 
 import { RegisterService } from './services/register.service';
 import { LoginService } from './services/login.service';
 import { InfoService } from './services/info.service';
-import { ProfileService } from './services/profile.service';
 import { LoginGuard } from './guards/login.guard';
 
 import { AppComponent } from './app.component';
@@ -31,20 +31,20 @@ import { PkmnComponent } from './pokemon/pkmn/pkmn.component';
 import { PkmnfilterComponent } from './pokemon/pkmnfilter/pkmnfilter.component';
 import { PkmnprofileComponent } from './pkmnprofile/pkmnprofile.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
-
+/*
 const profRoutes: Routes = [
   {path: '', component: GamesComponent},
   {path: 'games', component: GamesComponent},
   {path: 'pkmn', component: PokemonComponent}
 ]
-
+*/
 const appRoutes: Routes = [
   {path: '', redirectTo: 'home', pathMatch: 'full'},
   {path: 'home', component: HomeComponent},
   {path: 'about', component: AboutComponent},
   {path: 'welcome', component: WelcomeComponent},
   {path: 'profile', component: DashboardComponent},
-  {path: 'user/:id', component: ProfileComponent, children: profRoutes},
+  {path: 'user/:id', component: ProfileComponent},
   {path: 'user/:uid/pkmn/:pid', component: PkmnprofileComponent},
   {path: 'login', component: LoginpageComponent},
   {path: '**', component: ErrorComponent}
@@ -78,7 +78,8 @@ const appRoutes: Routes = [
     ModalModule.forRoot(),
     RouterModule.forRoot(appRoutes),
     MomentModule,
-    TooltipModule.forRoot()
+    TooltipModule.forRoot(),
+    TabsModule.forRoot()
   ],
   providers: [
     { provide: LocationStrategy, useClass: PathLocationStrategy },
@@ -86,7 +87,6 @@ const appRoutes: Routes = [
     { provide: LoginService, useClass: LoginService},
     { provide: LoginGuard, useClass: LoginGuard },
     { provide: InfoService, useClass: InfoService},
-    { provide: ProfileService, useClass: ProfileService}
   ],
   bootstrap: [AppComponent]
 })

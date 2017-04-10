@@ -1,14 +1,14 @@
-<div *ngIf="!prof.getParent().user">
+<div *ngIf="!user">
   <img src="assets/loading.gif" alt="loading" class="img-responsive center-block" width="50" height="50">
 </div>
-<div *ngIf="prof.getParent().user && prof.getParent().user.pokemon && prof.getParent().user.pokemon.length > 0">
-  <app-pkmnfilter [list]="prof.getParent().user.pokemon" (filter)="print($event)"></app-pkmnfilter>
-  <div *ngFor="let pkmn of (pkmnList || prof.getParent().user.pokemon)">
+<div *ngIf="user && user.pokemon && user.pokemon.length > 0">
+  <app-pkmnfilter [list]="user.pokemon" (filter)="print($event)"></app-pkmnfilter>
+  <div *ngFor="let pkmn of (pkmnList || user.pokemon)">
     <app-pkmn [pkmn]="pkmn"></app-pkmn>
   </div>
 </div>
-<div *ngIf="prof.getParent().user && (!prof.getParent().user.pokemon || prof.getParent().user.pokemon.length == 0)">
+<div *ngIf="user && (!user.pokemon || user.pokemon.length == 0)">
   <div class="alert alert-info">
-    <p class="text-center">No Pokémon here!{{ prof.getParent().canedit ? ' To add a Pokémon, connect online with your PokéGear+.' : '' }}</p>
+    <p class="text-center">No Pokémon here!</p>
   </div>
 </div>

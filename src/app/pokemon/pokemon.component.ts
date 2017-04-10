@@ -1,5 +1,4 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { ProfileService } from '../services/profile.service';
 
 @Component({
   selector: 'app-pokemon',
@@ -7,11 +6,9 @@ import { ProfileService } from '../services/profile.service';
   styleUrls: ['./pokemon.component.css']
 })
 export class PokemonComponent implements OnInit {
-
+  @Input() user: any;
   pkmnList: Array<any>;
-  constructor(private prof: ProfileService) {
-    //this.pkmnList = prof.getParent().user.pokemon;
-  }
+  constructor() {}
 
   ngOnInit() {
     
