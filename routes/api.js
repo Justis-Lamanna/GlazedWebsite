@@ -186,7 +186,7 @@ router.post('/users/id/:id/pkmn', verify, getUser, function(req, res, next){
 });
 
 /**
- * 
+ * Modifies a Pokemon.
  */
 router.post('/users/id/:id/pkmn/:pid', verify, getUser, function(req, res, next){
     let pkmn = req.body;
