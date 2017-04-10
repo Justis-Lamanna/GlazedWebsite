@@ -46,30 +46,6 @@ function verifyAdmin(req, res, next){
     })
 }
 
-//Verify the user in the token equals the user in the passed in parameter.
-//An user with admin priviledges also suffices.
-function verifyUser(req, res, next){
-    if(req.decoded.uid != req.params.id){
-        db.users.findOne({_id: mongojs.ObjectId(req.params.id)}, function(err, users){
-            if(err){
-                return res.json({success: false, message: 'Error reading database.'});
-            }
-            else if(!users){
-                return res.json({success: false, message: 'Invalid user.'});
-            }
-            else if(users.admin){
-                next();
-            }
-            else{
-                return res.json({success: false, message: 'Cannot modify anothers profile.'});
-            }
-        });
-    }
-    else{
-        next();
-    }
-}
-
 //Get a user by their user id. Stored in req.user.
 function getUser(req, res, next){
     db.users.findOne({_id: mongojs.ObjectId(req.params.id)}, function(err, user){
@@ -99,22 +75,8 @@ router.get('/users', verify, verifyAdmin, function(req, res, next){
 });
 
 //Get a user by their id. Password hash, admin status, and email are suppressed.
-router.get('/users/id/:id', function(req, res, next){
-    try{
-        db.users.findOne({
-            _id: mongojs.ObjectId(req.params.id)
-        }, {pass: 0, admin: 0, email:0}, function(err, users){
-            if(err){
-                res.json({success: false, message: 'Error reading database.'});
-            }
-            else{
-                res.json(users);
-            }
-        });
-    }
-    catch(err){
-        res.json({success: false, message: 'Invalid ID.'});
-    }
+router.get('/users/id/:id', getUser, function(req, res, next){
+    res.json(users);
 });
 
 //Get a user by their name. Password hash, admin status, and email are suppressed.
@@ -131,6 +93,7 @@ router.get('/users/username/:id', function(req, res, next){
     });
 });
 
+//Edit a user.
 router.post('/users/id/:id', verify, function(req, res, next){
     let uid = req.params.id;
     db.users.update({_id: mongojs.ObjectId(uid)}, {$set: req.body}, function(err, count, status){
@@ -206,7 +169,7 @@ router.get('/users/id/:id/pkmn/:pid', getUser, function(req, res, next){
 /**
  * Add a Pokemon.
  */
-router.post('/users/id/:id/pkmn', verify, verifyUser, getUser, function(req, res, next){
+router.post('/users/id/:id/pkmn', verify, getUser, function(req, res, next){
     let pkmn = req.body;
     let uid = req.params.id;
     let user = req.user;
@@ -222,7 +185,10 @@ router.post('/users/id/:id/pkmn', verify, verifyUser, getUser, function(req, res
     })
 });
 
-router.post('/users/id/:id/pkmn/:pid', verify, verifyUser, getUser, function(req, res, next){
+/**
+ * 
+ */
+router.post('/users/id/:id/pkmn/:pid', verify, getUser, function(req, res, next){
     let pkmn = req.body;
     let uid = req.params.id;
     let pid = req.params.pid;
@@ -318,7 +284,7 @@ router.post('/users/refresh', verify, function(req, res, next){
             res.json({success: false, message: 'Error signing: ' + err});
         }
         else{
-            db.users.update({_id: user._id}, {$set: {status: 1}});
+            db.users.update({_id: req.decoded.uid}, {$set: {status: 1}});
             res.json({success: true, token: token});
         }
     });
