@@ -1,0 +1,6 @@
+<div>
+  Well.
+</div>
+<div class="modal fade" bsModal #loginModal="bs-modal" [config]="{backdrop: 'static', show: true}">
+  <app-login (close)="onModalCancel()" (submit)="onModalSubmit(userchange)"></app-login>
+</div>

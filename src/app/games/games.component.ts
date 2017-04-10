@@ -13,7 +13,7 @@ export class GamesComponent implements OnInit {
 
   ngOnInit() {
   }
-
+  /*
   delete(index: number){
     let user = this.prof.getParent().user;
     var games: Array<any> = user.games;
@@ -22,8 +22,8 @@ export class GamesComponent implements OnInit {
       uid: user.uid,
       games: games
     };
-    this.prof.getParent().userchange = newuser;
-    this.prof.getParent().submitValues(newuser);
+    //this.prof.getParent().userchange = newuser;
+    //this.prof.getParent().submitValues(newuser);
   }
-
+  */
 }

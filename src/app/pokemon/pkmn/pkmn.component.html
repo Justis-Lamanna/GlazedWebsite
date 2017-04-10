@@ -1,4 +1,4 @@
-<a routerLink="{{ '/user/' + prof.getParent().user.username + '/pokemon/' + pkmn._id }}">
+<a routerLink="{{ pkmn._id }}">
   <div class="media" style="padding: 10px" (mouseenter)="mouse = true" (mouseleave)="mouse = false" [ngClass]="mouse ? 'bg-success' : ''">
     <div class="media-left">
       <img class="media-object" src="{{ pkmn.species.toLowerCase() + (pkmn.shiny ? '-shiny' : '') + (pkmn.form ? ('-' + pkmn.form) : '') + '.png'}}" alt="{{ pkmn.species }}" width="64" height="64">

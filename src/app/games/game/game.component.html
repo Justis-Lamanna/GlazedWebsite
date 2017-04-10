@@ -8,7 +8,6 @@
       <small>
         {{ game.location || "Unknown" }} ({{ game.date ? (game.date | amTimeAgo) : "Some time ago"}})
       </small>
-      <button *ngIf="prof.getParent().canedit" type="button" class="close" (click)="delete()"><span class="glyphicon glyphicon-trash"></span></button>
     </h4>
     <div class="container-fluid">
       <div class="row">

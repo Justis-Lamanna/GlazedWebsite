@@ -29,6 +29,8 @@ import { PokemonComponent } from './pokemon/pokemon.component';
 import { GameComponent } from './games/game/game.component';
 import { PkmnComponent } from './pokemon/pkmn/pkmn.component';
 import { PkmnfilterComponent } from './pokemon/pkmnfilter/pkmnfilter.component';
+import { PkmnprofileComponent } from './pkmnprofile/pkmnprofile.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 const profRoutes: Routes = [
   {path: '', component: GamesComponent},
@@ -41,8 +43,9 @@ const appRoutes: Routes = [
   {path: 'home', component: HomeComponent},
   {path: 'about', component: AboutComponent},
   {path: 'welcome', component: WelcomeComponent},
-  {path: 'profile', component: ProfileComponent, children: profRoutes},
+  {path: 'profile', component: DashboardComponent},
   {path: 'user/:id', component: ProfileComponent, children: profRoutes},
+  {path: 'user/:uid/pkmn/:pid', component: PkmnprofileComponent},
   {path: 'login', component: LoginpageComponent},
   {path: '**', component: ErrorComponent}
 ];
@@ -64,6 +67,8 @@ const appRoutes: Routes = [
     GameComponent,
     PkmnComponent,
     PkmnfilterComponent,
+    PkmnprofileComponent,
+    DashboardComponent,
   ],
   imports: [
     BrowserModule,

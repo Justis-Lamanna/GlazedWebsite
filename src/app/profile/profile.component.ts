@@ -12,36 +12,18 @@ import { ProfileService } from '../services/profile.service';
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit {
-  @ViewChild('loginModal') loginModal: ModalDirective;
   id: string;
   user: any;
-  userchange: any;
-
-  canedit: boolean;
-  edit: boolean;
-  form: FormGroup;
-  aboutme = "";
   status: number;
 
   constructor(private info: InfoService, private login: LoginService, private router: Router, private fb: FormBuilder, private route: ActivatedRoute, private prof: ProfileService) {
-    this.form = this.fb.group({
-      bio: [''],
-      location: [''],
-      pkmn: [''],
-      move: [''],
-      ability: [''],
-      nature: [''],
-      game: ['']
-    });
     route.params.subscribe(params => {
-      this.canedit = params['id'] == null;
-      if(this.canedit && !login.getUserID()){
+      if(!login.getUserID()){
         router.navigateByUrl('login');
       }
       this.info.getInfoOnUsername(params['id'] || login.getUsername()).then((user) => {
         if(user){
           this.user = user;
-          this.aboutme = user.bio || '';
         }
         else{
           router.navigateByUrl('error');
@@ -63,13 +45,12 @@ export class ProfileComponent implements OnInit {
     this.info.getInfoOnUsername(this.user.username).then((user: any) => {
       if(user){
         this.user = user;
-        this.aboutme = user.bio || '';
       }
     }).catch((reason: any) => {
       console.log(reason);
     });
   }
-
+  /*
   setEdit(form: FormGroup){
     this.edit = true;
     this.form = this.fb.group({
@@ -81,23 +62,23 @@ export class ProfileComponent implements OnInit {
       nature: [this.user.fav.nature],
       game: [this.user.fav.game]
     });
-  }
+  }*/
 
   /**
    * Called when the user saves an edit.
    * @param form The forms with the new info.
-   */
+   *//*
   onSubmit(form: FormGroup){
     this.userchange = this.formToBio(form);
     this.submitValues(this.userchange);
-  }
+  }*/
 
   /**
    * Converts the form to a user object.
    * The values will be the values of the form, or if they're empty,
    * the original values, or if THEYRE empty, an empty string.
    * @param form The form to convert.
-   */
+   *//*
   formToBio(form: FormGroup): any{
     let newbio = {
       bio: form['bio'] || this.user.bio || '',
@@ -112,16 +93,16 @@ export class ProfileComponent implements OnInit {
     };
     return newbio;
   }
-
+  */
   /**
    * Called upon successful login.
    * @param bio The bio to set the values to.
-   */
+   *//*
   onModalSubmit(bio: any){
     this.loginModal.hide();
     this.submitValues(bio);
   }
-
+  */
   /**
    * Handles the actual submission process.
    * Make sure to set "userchange" to the user to change. If the token has expired,
@@ -132,7 +113,7 @@ export class ProfileComponent implements OnInit {
    * the new fields, rather than all fields. The only requirement is an ID field is provided,
    * called uid. 
    * @param newbio The bio to set to.
-   */
+   *//*
   submitValues(newbio: any){
     this.info.needLogin().then((res: number) => {
       if(res == 1){
@@ -159,26 +140,26 @@ export class ProfileComponent implements OnInit {
         alert("Error interacting with the database. Please try again later.");
       }
     });
-  }
+  }*/
 
   /**
    * Called then edits are cancelled.
-   */
+   *//*
   onCancel(){
     this.edit = false;
   }
-
+  */
   /**
    * Called when the login modal is cancelled or X'd out.
    * The program takes this as a sign of defeat, so fully
    * logs the user out and returns to the homepage.
-   */
+   *//*
   onModalCancel(){
     this.onCancel();
     this.loginModal.hide();
     this.login.logout();
     this.router.navigateByUrl('home');
-  }
+  }*/
 
   getStatusClass(){
     if(!this.user || !this.user.status || this.user.status == 0){
