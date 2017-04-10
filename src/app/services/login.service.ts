@@ -11,7 +11,7 @@ export class LoginService {
    * @returns True if logged in, false if not.
    */
   isLoggedIn(): boolean{
-    return localStorage.getItem("token") != null;
+    return localStorage.getItem("token") != null && localStorage.getItem("user") != null;
   }
 
   /**
@@ -28,8 +28,7 @@ export class LoginService {
       }
     });
     localStorage.removeItem("token");
-    localStorage.removeItem("username");
-    localStorage.removeItem("uid");
+    localStorage.removeItem("user");
   }
 
   /**
@@ -37,7 +36,7 @@ export class LoginService {
    * @returns The string username, or null.
    */
   getUsername(): string{
-    return localStorage.getItem("username");
+    return this.getUser().username;
   }
 
   /**
@@ -45,7 +44,15 @@ export class LoginService {
    * @returns The user's ID.
    */
   getUserID(): string{
-    return localStorage.getItem("uid");
+    return this.getUser()._id;
+  }
+
+  /**
+   * Get the user.
+   * @returns The user.
+   */
+  getUser(): any{
+    return JSON.parse(localStorage.getItem("user"));
   }
 
   /**
@@ -71,10 +78,9 @@ export class LoginService {
    * @param uid The id of the user.
    * @param username The username of the user.
    */
-  setCredentials(token: string, username: string, uid: string){
+  setCredentials(token: string, user: any){
     localStorage.setItem("token", token);
-    localStorage.setItem("username", username);
-    localStorage.setItem("uid", uid);
+    localStorage.setItem("user", JSON.stringify(user));
   }
 
   /**

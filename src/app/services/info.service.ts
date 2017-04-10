@@ -100,7 +100,7 @@ export class InfoService {
           resolve(0);
         }
         else if(obj.success){
-          this.login.setCredentials(obj.token, this.login.getUsername(), this.login.getUserID());
+          this.login.setCredentials(obj.token, this.login.getUser());
           resolve(1);
         }
         else{

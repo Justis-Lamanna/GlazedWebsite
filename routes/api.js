@@ -278,7 +278,7 @@ router.post('/users/id/:id/game/:gid', verify, function(req, res, next){
 
 //Authenticates a user. If successful, a token and username is sent back.
 router.post('/users/verify', function(req, res, next){
-    db.users.findOne({username: req.body.username}, function(err, user){
+    db.users.findOne({username: req.body.username}, {admin: 0, email:0}, function(err, user){
         if(err){
             res.json({success: false, message: 'Error reading database.'});
         }
@@ -301,7 +301,8 @@ router.post('/users/verify', function(req, res, next){
                         }
                         else{
                             db.users.update({_id: user._id}, {$set: {status: 1, logindate: (new Date()).toJSON()}});
-                            res.json({success: false, username: user.username, token: token, uid: user._id});
+                            user.pass = undefined;
+                            res.json({success: false, token: token, user: user});
                         }
                     });
                 }
