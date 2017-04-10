@@ -49,7 +49,7 @@ export class PkmnfilterComponent implements OnInit {
       if(!this.validInitial(pkmn, this.letter)){
         continue;
       }
-      if(!this.valid(pkmn, 'move', this.move)){
+      if(!this.validMove(pkmn, this.move)){
         continue;
       }
       if(!this.valid(pkmn, 'nature', this.nature)){
@@ -81,6 +81,24 @@ export class PkmnfilterComponent implements OnInit {
     for(var index = 0; index < values.length; index++){
       if(name.slice(0, 1) == values[index].slice(0, 1)){
         return true;
+      }
+    }
+    return false;
+  }
+
+  validMove(pkmn: any, values: Array<string>): boolean{
+    let moves = pkmn.moves;
+    if((!values) || values.length == 0){
+      return true;
+    }
+    if((!moves) || moves.length == 0){
+      return false;
+    }
+    for(var move = 0; move < moves.length; move++){
+      for(var index = 0; index < values.length; index++){
+        if(String(moves[move].name).toLowerCase() == values[index].toLowerCase()){
+          return true;
+        }
       }
     }
     return false;
