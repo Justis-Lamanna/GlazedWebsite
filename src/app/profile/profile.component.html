@@ -11,7 +11,7 @@
       <p [ngClass]="user?.regdate ? '' : 'text-muted'">{{ (user?.regdate | date) || 'Unknown' }}</p>
       <label class="list-group-item-text">Last Activity</label>
       <p [ngClass]="user?.logindate ? '' : 'text-muted'">
-        {{ (user?.lastactivity?.date | date) || 'Unknown' }} <small class="text-muted">{{ user?.lastactivity?.activity || '' }}</small>
+        {{ (user?.lastactivity?.date | date:'MMM dd, y (HH:mm)') || 'Unknown' }} <small class="text-muted">{{ user?.lastactivity?.activity || '' }}</small>
       </p>
     </div>
     <div class="list-group-item">
