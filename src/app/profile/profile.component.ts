@@ -17,10 +17,7 @@ export class ProfileComponent implements OnInit {
 
   constructor(private info: InfoService, private login: LoginService, private router: Router, private fb: FormBuilder, private route: ActivatedRoute) {
     route.params.subscribe(params => {
-      if(!login.getUserID()){
-        router.navigateByUrl('login');
-      }
-      this.info.getInfoOnUsername(params['id'] || login.getUsername()).then((user) => {
+      this.info.getInfoOnUsername(params['id']).then((user) => {
         if(user){
           this.user = user;
         }

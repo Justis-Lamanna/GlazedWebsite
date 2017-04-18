@@ -39,10 +39,7 @@ export class InfoService {
    */
     getInfoOnUsername(user: String): Promise<any>{
       return new Promise((resolve, reject) => {
-        let headers = new Headers();
-        headers.append('Content-Type', 'application/json');
-        headers.append('x-access-token', this.login.getToken());
-        this.http.get('/api/v1/users/username/' + user, {headers: headers}).subscribe((res: Response) => {
+        this.http.get('/api/v1/users/username/' + user).subscribe((res: Response) => {
           if(res.json()){
             let obj = res.json();
             if(obj._id){
