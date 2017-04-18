@@ -1,6 +1,7 @@
 import { Component, OnInit, EventEmitter, ChangeDetectorRef } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { LoginService } from '../services/login.service';
+import { InfoService } from '../services/info.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -16,7 +17,7 @@ export class LoginComponent implements OnInit {
   submit: EventEmitter<string>;
   errors: string[];
 
-  constructor(fb: FormBuilder, private cd: ChangeDetectorRef, private login: LoginService, private router: Router) {
+  constructor(fb: FormBuilder, private cd: ChangeDetectorRef, private login: LoginService, private router: Router, private info: InfoService) {
     this.loginForm = fb.group({
       'user': [''],
       'pass': [''],
@@ -49,6 +50,7 @@ export class LoginComponent implements OnInit {
     this.login.login(user.value, pass.value, rem.value).then((res) => {
       if(!res.error){
         this.login.setCredentials(res.token, res.user);
+        this.info.setInfoOn(this.login.getUserID(), {lastactivity: {date: new Date(), activity: 'Logging in'}});
         this.router.navigateByUrl('profile');
         this.submitModal();
       }
@@ -56,6 +58,7 @@ export class LoginComponent implements OnInit {
         this.errors.push("Error: " + res.reason);
         pass.reset();
       }
+      
     });
   }
 

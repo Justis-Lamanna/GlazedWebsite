@@ -57,25 +57,29 @@ export class DashboardComponent implements OnInit {
   submitForm(form: FormGroup){
     //set up newbio;
     this.newuser.bio = form.controls['bio'].value || '';
-    this.newuser.location = form.controls['location'] || '';
-    this.newuser.fav.pkmn = form.controls['pkmn'] || '';
-    this.newuser.fav.move = form.controls['move'] || '';
-    this.newuser.fav.ability = form.controls['ability'] || '';
-    this.newuser.fav.nature = form.controls['nature'] || '';
-    this.newuser.fav.game = form.controls['game'] || '';
+    this.newuser.location = form.controls['location'].value || '';
+    if(!this.newuser.fav){
+      this.newuser.fav = {};
+    }
+    this.newuser.fav.pkmn = form.controls['pkmn'].value || '';
+    this.newuser.fav.move = form.controls['move'].value || '';
+    this.newuser.fav.ability = form.controls['ability'].value || '';
+    this.newuser.fav.nature = form.controls['nature'].value || '';
+    this.newuser.fav.game = form.controls['game'].value || '';
     this.submitValues();
   }
 
   submitValues(){
     this.info.needLogin().then((res: number) => {
       if(res == 1){
-        this.newuser.logindate = new Date();
+        this.newuser.lastactivity = {date: new Date(), activity: 'Updating Profile'};
         this.info.setInfoOn(this.login.getUserID(), this.newuser).then((user: any) => {
           this.login.setUser(user);
           this.error = false;
           this.message = "Profile successfully updated!";
         }).catch((err: any) => {
           this.error = true;
+          console.log(err);
           this.message = "There was an error updating your profile page.";
         });
       }
@@ -84,7 +88,7 @@ export class DashboardComponent implements OnInit {
       }
       else{
         this.error = true;
-        this.message = "There was an error updating your profile page."
+        this.message = "There was an error updating your profile page..."
       }
     });
   }
