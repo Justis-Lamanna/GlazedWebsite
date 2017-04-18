@@ -76,7 +76,7 @@ router.get('/users', verify, verifyAdmin, function(req, res, next){
 
 //Get a user by their id. Password hash, admin status, and email are suppressed.
 router.get('/users/id/:id', getUser, function(req, res, next){
-    res.json(users);
+    res.json(req.user);
 });
 
 //Get a user by their name. Password hash, admin status, and email are suppressed.
@@ -85,7 +85,7 @@ router.get('/users/username/:id', function(req, res, next){
         username: req.params.id
     }, {pass: 0, admin: 0, email:0}, function(err, users){
         if(err){
-            res.json({success: false, message: 'Error reading database.'});
+            res.json({success: false, message: err});
         }
         else{
             res.json(users);
@@ -94,14 +94,14 @@ router.get('/users/username/:id', function(req, res, next){
 });
 
 //Edit a user.
-router.post('/users/id/:id', verify, function(req, res, next){
+router.post('/users/id/:id', verify, getUser, function(req, res, next){
     let uid = req.params.id;
     db.users.update({_id: mongojs.ObjectId(uid)}, {$set: req.body}, function(err, count, status){
         if(err){
-            res.json({success: false, message: 'Error reading database.'});
+            res.json({success: false, message: err});
         }
         else{
-            res.json({success: true, message: status});
+            res.json({success: true, message: status, user: req.user});
         }
     });
 });

@@ -9,6 +9,7 @@ import { LocationStrategy, PathLocationStrategy } from '@angular/common';
 import { MomentModule } from 'angular2-moment';
 import { TooltipModule } from 'ng2-bootstrap';
 import { TabsModule } from 'ng2-bootstrap';
+import { AlertModule } from 'ng2-bootstrap';
 
 import { RegisterService } from './services/register.service';
 import { LoginService } from './services/login.service';
@@ -79,7 +80,8 @@ const appRoutes: Routes = [
     RouterModule.forRoot(appRoutes),
     MomentModule,
     TooltipModule.forRoot(),
-    TabsModule.forRoot()
+    TabsModule.forRoot(),
+    AlertModule.forRoot()
   ],
   providers: [
     { provide: LocationStrategy, useClass: PathLocationStrategy },

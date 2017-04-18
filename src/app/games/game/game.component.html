@@ -6,7 +6,8 @@
     <h4 class="media-heading">
       {{ game.name || "Player" }} 
       <small>
-        {{ game.location || "Unknown" }} ({{ game.date ? (game.date | amTimeAgo) : "Some time ago"}})
+        {{ game.location || "Unknown" }} 
+        <span [tooltip]="game.date | date">({{ game.date ? (game.date | amTimeAgo) : "Some time ago"}})</span>
       </small>
     </h4>
     <div class="container-fluid">

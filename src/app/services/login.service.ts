@@ -56,6 +56,14 @@ export class LoginService {
   }
 
   /**
+   * Update the user.
+   * @param user The user to update it to.
+   */
+  setUser(user: any){
+    localStorage.setItem("user", JSON.stringify(user));
+  }
+
+  /**
    * Logs the user in.
    * The promise returned will either return {error: true, reason: [reason]}, or {error: false}.
    * @param user The username.

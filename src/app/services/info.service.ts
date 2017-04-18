@@ -64,7 +64,7 @@ export class InfoService {
    * @param uid The user's ID.
    * @param update The update string.
    */
-  setInfoOn(uid: String, update: any): Promise<number>{
+  setInfoOn(uid: String, update: any): Promise<any>{
     return new Promise((resolve, reject) => {
       let headers = new Headers();
       headers.append('Content-Type', 'application/json');
@@ -72,13 +72,10 @@ export class InfoService {
       this.http.post('/api/v1/users/id/' + uid, update, {headers: headers}).subscribe((res: Response) => {
         let obj = res.json();
         if(obj.success){
-          resolve(1);
-        }
-        else if(obj.nonequal){
-          resolve(-1);
+          resolve(obj.user);
         }
         else{
-          resolve(0);
+          reject(obj.message);
         }
       });
     });
