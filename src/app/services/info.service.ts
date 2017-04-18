@@ -71,6 +71,7 @@ export class InfoService {
       headers.append('x-access-token', this.login.getToken());
       this.http.post('/api/v1/users/id/' + uid, update, {headers: headers}).subscribe((res: Response) => {
         let obj = res.json();
+        console.log(obj);
         if(obj.success){
           resolve(obj.user);
         }

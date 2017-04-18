@@ -81,4 +81,17 @@ export class DashboardComponent implements OnInit {
       }
     });
   }
+
+  getBioLengthClass(): string{
+    let length = this.form.controls['bio'].value.length;
+    if(length > 290){
+      return 'text-danger';
+    }
+    else if(length > 200){
+      return 'text-warning';
+    }
+    else{
+      return 'text-muted';
+    }
+  }
 }

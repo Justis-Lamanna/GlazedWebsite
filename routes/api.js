@@ -48,7 +48,7 @@ function verifyAdmin(req, res, next){
 
 //Get a user by their user id. Stored in req.user.
 function getUser(req, res, next){
-    db.users.findOne({_id: mongojs.ObjectId(req.params.id)}, function(err, user){
+    db.users.findOne({_id: mongojs.ObjectId(req.params.id)}, {pass: 0, admin: 0, email:0}, function(err, user){
         if(err){
             return res.json({success: false, message: err});
         }
@@ -94,14 +94,21 @@ router.get('/users/username/:id', function(req, res, next){
 });
 
 //Edit a user.
-router.post('/users/id/:id', verify, getUser, function(req, res, next){
+router.post('/users/id/:id', verify, function(req, res, next){
     let uid = req.params.id;
     db.users.update({_id: mongojs.ObjectId(uid)}, {$set: req.body}, function(err, count, status){
         if(err){
             res.json({success: false, message: err});
         }
         else{
-            res.json({success: true, message: status, user: req.user});
+            db.users.findOne({_id: mongojs.ObjectId(uid)}, {pass: 0, admin: 0, email:0}, function(err, user){
+                if(err){
+                    res.json({success: false, message: err});
+                }
+                else{
+                    res.json({success: true, message: status, user: user});
+                }
+            });
         }
     });
 });

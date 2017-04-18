@@ -9,7 +9,8 @@
     <form [formGroup]="form">
       <div class="form-group">
         <label for="bio">About Me:</label>
-        <textarea class="form-control" rows="3" [formControl]="form.controls['bio']">{{ login.getUser().bio || '' }}</textarea>
+        <textarea class="form-control" rows="3" [formControl]="form.controls['bio']" maxlength="300"></textarea>
+        <p [class]="getBioLengthClass()">{{ form.controls['bio'].value.length }}/300</p>
       </div>
       <button type="submit" class="btn btn-success" (click)="submitForm(form)">Submit</button>
     </form>
