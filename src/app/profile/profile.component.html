@@ -9,7 +9,7 @@
     <div class="list-group-item">
       <label class="list-group-item-text">Joined</label>
       <p [ngClass]="user?.regdate ? '' : 'text-muted'">{{ (user?.regdate | date) || 'Unknown' }}</p>
-      <label class="list-group-item-text">Last Login</label>
+      <label class="list-group-item-text">Last Activity</label>
       <p [ngClass]="user?.logindate ? '' : 'text-muted'">{{ (user?.logindate | date) || 'Unknown' }}</p>
     </div>
     <div class="list-group-item">

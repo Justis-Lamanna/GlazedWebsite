@@ -57,12 +57,19 @@ export class DashboardComponent implements OnInit {
   submitForm(form: FormGroup){
     //set up newbio;
     this.newuser.bio = form.controls['bio'].value || '';
+    this.newuser.location = form.controls['location'] || '';
+    this.newuser.fav.pkmn = form.controls['pkmn'] || '';
+    this.newuser.fav.move = form.controls['move'] || '';
+    this.newuser.fav.ability = form.controls['ability'] || '';
+    this.newuser.fav.nature = form.controls['nature'] || '';
+    this.newuser.fav.game = form.controls['game'] || '';
     this.submitValues();
   }
 
   submitValues(){
     this.info.needLogin().then((res: number) => {
       if(res == 1){
+        this.newuser.logindate = new Date();
         this.info.setInfoOn(this.login.getUserID(), this.newuser).then((user: any) => {
           this.login.setUser(user);
           this.error = false;
