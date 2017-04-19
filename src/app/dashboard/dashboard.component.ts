@@ -107,4 +107,14 @@ export class DashboardComponent implements OnInit {
       return 'text-muted';
     }
   }
+
+  visitProfile(){
+    let ok = true;
+    if(this.form.dirty){
+      ok = confirm('Your profile changes have not been saved. Are you sure you want to navigate away from this page?');
+    }
+    if(ok){
+      this.route.navigateByUrl('user/' + this.user.username);
+    }
+  }
 }
