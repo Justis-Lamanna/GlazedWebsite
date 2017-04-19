@@ -24,6 +24,6 @@ export class LoginpageComponent implements OnInit {
   }
 
   onSubmit(){
-    this.router.navigateByUrl('profile');
+    this.router.navigateByUrl('dashboard');
   }
 }

@@ -3,6 +3,7 @@ import { LoginService } from '../services/login.service';
 import { InfoService } from '../services/info.service';
 import { ModalDirective } from 'ng2-bootstrap';
 import { FormGroup, FormBuilder } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
@@ -18,7 +19,7 @@ export class DashboardComponent implements OnInit {
   private message: String;
   private error: boolean;
   
-  constructor(private login: LoginService, private info: InfoService, private fb: FormBuilder) {
+  constructor(private login: LoginService, private info: InfoService, private fb: FormBuilder, private route: Router) {
     this.form = this.fb.group({
         bio: [''],
         location: [''],
@@ -45,6 +46,7 @@ export class DashboardComponent implements OnInit {
 
   onModalCancel(){
     //Cancel
+    this.route.navigateByUrl('home');
     this.loginmodal.hide();
   }
 
