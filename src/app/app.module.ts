@@ -32,13 +32,7 @@ import { PkmnComponent } from './pokemon/pkmn/pkmn.component';
 import { PkmnfilterComponent } from './pokemon/pkmnfilter/pkmnfilter.component';
 import { PkmnprofileComponent } from './pkmnprofile/pkmnprofile.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
-/*
-const profRoutes: Routes = [
-  {path: '', component: GamesComponent},
-  {path: 'games', component: GamesComponent},
-  {path: 'pkmn', component: PokemonComponent}
-]
-*/
+
 const appRoutes: Routes = [
   {path: '', redirectTo: 'home', pathMatch: 'full'},
   {path: 'home', component: HomeComponent},

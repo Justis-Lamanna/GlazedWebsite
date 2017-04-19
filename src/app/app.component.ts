@@ -16,7 +16,7 @@ export class AppComponent{
   }
 
   logout(){
-    this.info.setInfoOn(this.login.getUserID(), {lastactivity: {date: new Date(), activity: 'Logging out'}});
+    this.info.setInfoOn(this.login.getUserID(), {lastactivity: {date: new Date(), activity: 'Logging out'}, status: 0});
     this.login.logout();
     this.router.navigateByUrl('home');
   }

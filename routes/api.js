@@ -96,6 +96,8 @@ router.get('/users/username/:id', function(req, res, next){
 //Edit a user.
 router.post('/users/id/:id', verify, function(req, res, next){
     let uid = req.params.id;
+    req.body.lastactivity.date = new Date();
+    console.log(req.body);
     db.users.update({_id: mongojs.ObjectId(uid)}, {$set: req.body}, function(err, count, status){
         if(err){
             res.json({success: false, message: err});
@@ -107,32 +109,6 @@ router.post('/users/id/:id', verify, function(req, res, next){
                 }
                 else{
                     res.json({success: true, message: status, user: user});
-                }
-            });
-        }
-    });
-});
-
-
-/**
- * Add a game to the list.
- */
-router.post('/users/id/:id/game', verify, function(req, res, next){
-    let uid = req.params.id;
-    let game = req.body;
-    db.users.findOne({_id: mongojs.ObjectId(uid)}, function(err, user){
-        if(err){
-            res.json({success: false, message: err});
-        }
-        else{
-            game._id = mongojs.ObjectId();
-            user.games.push(game);
-            db.users.update({_id: mongojs.ObjectId(uid)}, user, function(err, count, result){
-                if(err){
-                    return res.json({success: false, message: err});
-                }
-                else{
-                    return res.json({success: true, message: game});
                 }
             });
         }
@@ -172,82 +148,6 @@ router.get('/users/id/:id/pkmn/:pid', getUser, function(req, res, next){
     }
     res.json({success: false, message: 'Invalid Pokemon'});
 });
-
-/**
- * Add a Pokemon.
- */
-router.post('/users/id/:id/pkmn', verify, getUser, function(req, res, next){
-    let pkmn = req.body;
-    let uid = req.params.id;
-    let user = req.user;
-    pkmn._id = mongojs.ObjectId();
-    user.pokemon.push(pkmn);
-    db.users.update({_id: mongojs.ObjectId(uid)}, {$set: {pokemon: user.pokemon}}, function(err, count, result){
-        if(err){
-            return res.json({success: false, message: err});
-        }
-        else{
-            return res.json({success: true, message: result});
-        }
-    })
-});
-
-/**
- * Modifies a Pokemon.
- */
-router.post('/users/id/:id/pkmn/:pid', verify, getUser, function(req, res, next){
-    let pkmn = req.body;
-    let uid = req.params.id;
-    let pid = req.params.pid;
-    let user = req.user;
-    for(var index = 0; index < user.pokemon.length; index++){
-        if(user.pokemon[index]._id == pid){
-            user.pokemon[index] = pkmn;
-            db.users.update({_id: mongojs.ObjectId(uid)}, {$set: {pokemon: user.pokemon}}, function(err, count, result){
-                if(err){
-                    return res.json({success: false, message: err});
-                }
-                else{
-                    return res.json({success: true, message: result});
-                }
-            });
-            return;
-        }
-    }
-    return res.json({success: false, message: 'No Pokemon found.'});
-});
-
-/**
- * Update an existing game.
- */
-router.post('/users/id/:id/game/:gid', verify, function(req, res, next){
-    let uid = req.params.id;
-    let gid = req.params.gid;
-    let game = req.body;
-    db.users.findOne({_id: mongojs.ObjectId(uid)}, function(err, user){
-        if(err){
-            res.json({success: false, message: err});
-        }
-        else{
-            for(var index = 0; index < user.games.length; index++){
-                if(user.games[index]._id == gid){
-                    user.games[index] = game;
-                    db.users.update({_id: mongojs.ObjectId(uid)}, {$set: {games: user.games}}, function(err, count, result){
-                        if(err){
-                            return res.json({success: false, message: err});
-                        }
-                        else{
-                            return res.json({success: true, message: result});
-                        }
-                    });
-                    return;
-                }
-            }
-            return res.json({success: false, message: "No match found"});
-        }
-    });
-});
-
 
 //Authenticates a user. If successful, a token and username is sent back.
 router.post('/users/verify', function(req, res, next){
@@ -308,12 +208,6 @@ router.get('/users/status', verify, verifyAdmin, function(req, res, next){
         }
     })
 });
-
-//Log a user off.
-router.post('/users/:id/logoff', verify, function(req, res, next){
-    let uid = req.params.id;
-    db.users.update({_id: mongojs.ObjectId(uid)}, {$set: {status: 0}});
-})
 
 //Adds a user.
 router.post('/users', function(req, res, next){

@@ -18,15 +18,6 @@ export class LoginService {
    * Logs a user out.
    */
   logout(){
-    let headers = new Headers();
-    headers.append('Content-Type', 'application/json');
-    headers.append('x-access-token', this.getToken());
-    this.http.post('/api/v1/users/' + this.getUserID() + '/logoff', {}, {headers: headers}).subscribe((res: Response) => {
-      let obj = res.json();
-      if(!obj.success){
-        console.log("Failure logging off on server.");
-      }
-    });
     localStorage.removeItem("token");
     localStorage.removeItem("user");
   }
