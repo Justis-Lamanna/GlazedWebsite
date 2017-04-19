@@ -44,7 +44,7 @@ const appRoutes: Routes = [
   {path: 'home', component: HomeComponent},
   {path: 'about', component: AboutComponent},
   {path: 'welcome', component: WelcomeComponent},
-  {path: 'profile', component: DashboardComponent},
+  {path: 'dashboard', component: DashboardComponent},
   {path: 'user/:id', component: ProfileComponent},
   {path: 'user/:uid/pkmn/:pid', component: PkmnprofileComponent},
   {path: 'login', component: LoginpageComponent},

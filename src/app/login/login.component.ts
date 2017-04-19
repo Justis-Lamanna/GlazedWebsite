@@ -51,7 +51,7 @@ export class LoginComponent implements OnInit {
       if(!res.error){
         this.login.setCredentials(res.token, res.user);
         this.info.setInfoOn(this.login.getUserID(), {lastactivity: {date: new Date(), activity: 'Logging in'}});
-        this.router.navigateByUrl('profile');
+        this.router.navigateByUrl('dashboard');
         this.submitModal();
       }
       else{
