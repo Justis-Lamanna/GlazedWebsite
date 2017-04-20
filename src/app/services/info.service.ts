@@ -105,4 +105,22 @@ export class InfoService {
       });
     });
   }
+
+  /**
+   * Get many users all at once.
+   * @param users The IDs to get.
+   */
+  getUsers(users: Array<string>): Promise<Array<any>>{
+    return new Promise((resolve, reject) => {
+      let headers = new Headers();
+      headers.append('Content-Type', 'application/json');
+      headers.append('x-access-token', this.login.getToken());
+      this.http.post('/api/v1/users/bulk', {users: users}, {headers: headers}).subscribe((res: Response) => {
+        let obj = res.json();
+        resolve(obj);
+      }, (err: Response) => {
+        reject(new Array());
+      });
+    });
+  }
 }

@@ -79,6 +79,29 @@ router.get('/users/id/:id', getUser, function(req, res, next){
     res.json(req.user);
 });
 
+/**
+ * Get several users at once.
+ */
+router.post('/users/bulk', function(req, res, next){
+    var users = req.body.users;
+    var array = [];
+    for(var index = 0; index < users.length; index++){
+        var uid = mongojs.ObjectId(users[index]);
+        array.push({_id: uid});
+    }
+    var search = {$or: array};
+    console.log(search);
+    db.users.find(search, {pass: 0, admin: 0, email:0}, function(err, users){
+        if(err){
+            res.json({success: false, message: err});
+        }
+        else{
+            res.json(users);
+            console.log(users);
+        }
+    });
+});
+
 //Get a user by their name. Password hash, admin status, and email are suppressed.
 router.get('/users/username/:id', function(req, res, next){
     db.users.findOne({
