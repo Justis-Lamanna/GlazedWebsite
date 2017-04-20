@@ -4,7 +4,7 @@
       <h3 class="text-capitalize">
         <span class="align-middle" *ngIf="!canedit" class="glyphicon glyphicon-certificate" [ngClass]="getStatusClass()" [tooltip]="getStatus()"></span>
         <span class="align-middle">{{ user?.username }}</span>
-        <div *ngIf="this.login.getToken()">
+        <div *ngIf="this.login.getToken() && showButton">
           <button class="btn glyphicon glyphicon-user" [ngClass]="friend ? 'btn-success' : ''" [tooltip]="friend ? 'Remove from Friends' : 'Add to Friends'" (click)="setFriends2(!friend)"></button>
         </div>
       </h3>

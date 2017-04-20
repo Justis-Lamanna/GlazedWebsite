@@ -15,6 +15,7 @@ export class ProfileComponent implements OnInit {
   id: string;
   user: any;
   friend: boolean;
+  showButton: boolean = false;
   status: number;
 
   constructor(private info: InfoService, private login: LoginService, private router: Router, private fb: FormBuilder, private route: ActivatedRoute) {
@@ -22,6 +23,9 @@ export class ProfileComponent implements OnInit {
       this.info.getInfoOnUsername(params['id']).then((user) => {
         if(user){
           this.user = user;
+          if(this.login.getUserID() != user._id){
+            this.showButton = true;
+          }
           this.isFriends().then((result: boolean) => {
             this.friend = result;
           }).catch((result: any) => {
