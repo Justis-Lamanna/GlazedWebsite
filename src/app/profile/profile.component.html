@@ -4,6 +4,7 @@
       <h3 class="text-capitalize">
         <span class="align-middle" *ngIf="!canedit" class="glyphicon glyphicon-certificate" [ngClass]="getStatusClass()" [tooltip]="getStatus()"></span>
         <span class="align-middle">{{ user?.username }}</span>
+        <div><button class="btn glyphicon glyphicon-user" [ngClass]="friend ? 'btn-success' : ''" [tooltip]="friend ? 'Remove from Friends' : 'Add to Friends'" (click)="setFriends2(!friend)"></button></div>
       </h3>
     </div>
     <div class="list-group-item">
@@ -42,4 +43,7 @@
     <tab heading="Games"><app-games [user]="user"></app-games></tab>
     <tab heading="Pokémon"><app-pokemon [user]="user"></app-pokemon></tab>
   </tabset>
+</div>
+<div class="modal fade" bsModal #loginModal="bs-modal" [config]="{backdrop: 'static', show: true}">
+  <app-login (close)="onModalCancel()" (submit)="onModalSubmit(!friend)"></app-login>
 </div>

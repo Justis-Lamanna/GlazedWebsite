@@ -96,7 +96,9 @@ router.get('/users/username/:id', function(req, res, next){
 //Edit a user.
 router.post('/users/id/:id', verify, function(req, res, next){
     let uid = req.params.id;
-    req.body.lastactivity.date = new Date();
+    if(req.body.lastactivity){
+        req.body.lastactivity.date = new Date();
+    }
     console.log(req.body);
     db.users.update({_id: mongojs.ObjectId(uid)}, {$set: req.body}, function(err, count, status){
         if(err){
