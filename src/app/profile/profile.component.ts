@@ -22,12 +22,19 @@ export class ProfileComponent implements OnInit {
       this.info.getInfoOnUsername(params['id']).then((user) => {
         if(user){
           this.user = user;
-          this.friend = this.isFriends();
+          this.isFriends().then((result: boolean) => {
+            this.friend = result;
+          }).catch((result: any) => {
+            console.log(result);
+            this.friend = false;
+          })
         }
         else{
+          console.log(user);
           router.navigateByUrl('error');
         }
       }).catch((reason) => {
+        console.log(reason);
         router.navigateByUrl('error');
       });
     });
@@ -79,18 +86,26 @@ export class ProfileComponent implements OnInit {
     }
   }
 
-  isFriends(): boolean{
-    let me = this.login.getUser();
-    if(!me || !me.friends || !this.user){
-      return false;
-    }
-    let them = String(this.user._id);
-    for(let index = 0; index < me.friends.length; me++){
-      if(them == me.friends[index]){
-        return true;
+  isFriends(): Promise<boolean>{
+    return new Promise((resolve, reject) => {
+      if(!this.login.getUserID()){
+        resolve(false);
       }
-    }
-    return false;
+      else{
+        this.info.getInfoOn(this.login.getUserID()).then((user: any) => {
+          this.login.setUser(user);
+          if(user.friends){
+            let them = String(this.user._id);
+            if(user.friends.indexOf(them) != -1){
+              resolve(true);
+            }
+          }
+          resolve(false);
+        }).catch((reason: any) => {
+          reject(reason);
+        });
+      }
+    });
   }
 
   setFriends(friend: boolean){
