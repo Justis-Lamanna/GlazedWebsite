@@ -1,6 +1,11 @@
 <div *ngIf="message">
   <alert [type]="error ? 'danger' : 'success'" dismissible="true">{{ message }}</alert>
 </div>
+<div class="container">
+  <div class="col-sm-6">
+    <app-friends-list [user]="user"></app-friends-list>
+  </div>
+</div>
 <div class="panel panel-default">
   <div class="panel-heading">
     <h3 class="panel-title">Edit Profile</h3>

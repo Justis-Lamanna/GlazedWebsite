@@ -32,6 +32,7 @@ import { PkmnComponent } from './pokemon/pkmn/pkmn.component';
 import { PkmnfilterComponent } from './pokemon/pkmnfilter/pkmnfilter.component';
 import { PkmnprofileComponent } from './pkmnprofile/pkmnprofile.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { FriendsListComponent } from './friends-list/friends-list.component';
 
 const appRoutes: Routes = [
   {path: '', redirectTo: 'home', pathMatch: 'full'},
@@ -64,6 +65,7 @@ const appRoutes: Routes = [
     PkmnfilterComponent,
     PkmnprofileComponent,
     DashboardComponent,
+    FriendsListComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,15 @@
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">Friends List</h3>
+  </div>
+  <div class="panel-body">
+    <div *ngIf="!user || !user.friends || user.friends.length == 0">
+      <alert type="info">You don't have any friends.</alert>
+    </div>
+    <div *ngIf="user && user.friends && user.friends.length > 0">
+      <ul class="list-group">
+        <li class="list-group-item" *ngFor="let friend of user.friends">{{ friend }}</li>
+      </ul>
+    </div>
+  </div>
+</div>
