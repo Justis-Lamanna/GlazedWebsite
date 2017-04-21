@@ -117,7 +117,13 @@ export class InfoService {
       headers.append('x-access-token', this.login.getToken());
       this.http.post('/api/v1/users/bulk', {users: users}, {headers: headers}).subscribe((res: Response) => {
         let obj = res.json();
-        resolve(obj);
+        if(obj.success){
+          resolve(obj.message);
+        }
+        else{
+          console.log(obj.message);
+          reject(new Array());
+        }
       }, (err: Response) => {
         reject(new Array());
       });

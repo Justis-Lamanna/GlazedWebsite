@@ -96,8 +96,7 @@ router.post('/users/bulk', function(req, res, next){
             res.json({success: false, message: err});
         }
         else{
-            res.json(users);
-            console.log(users);
+            res.json({success: true, message: users});
         }
     });
 });

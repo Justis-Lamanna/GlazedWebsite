@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { InfoService } from '../services/info.service';
 import { LoginService } from '../services/login.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-friends-list',
@@ -10,7 +11,7 @@ import { LoginService } from '../services/login.service';
 export class FriendsListComponent implements OnInit {
   @Input() user: any;
   friends: Array<any>;
-  constructor(private info: InfoService, private login: LoginService) {
+  constructor(private info: InfoService, private login: LoginService, private route: Router) {
     
   }
 
@@ -18,4 +19,7 @@ export class FriendsListComponent implements OnInit {
     this.info.getUsers(this.user.friends).then((users: any[]) => this.friends = users);
   }
 
+  goToUser(username: string){
+    this.route.navigateByUrl('user/' + username);
+  }
 }

@@ -1,0 +1,17 @@
+.no-top{
+    border-top: none;
+}
+
+.full-sides{
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+.row-sides{
+    padding-left: 22px;
+    padding-right: 22px;
+}
+
+.cursor{
+    cursor: pointer;
+}

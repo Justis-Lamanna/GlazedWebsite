@@ -2,14 +2,17 @@
   <div class="panel-heading">
     <h3 class="panel-title">Friends List</h3>
   </div>
-  <div class="panel-body">
+  <div class="panel-body full-sides">
     <div *ngIf="!friends || friends.length == 0">
       <alert type="info">You don't have any friends.</alert>
     </div>
     <div *ngIf="friends && friends.length > 0">
-      <ul class="list-group">
-        <li class="list-group-item" *ngFor="let friend of friends">{{ friend.username }}</li>
-      </ul>
+      <table class="table table-striped table-hover">
+        <tr class="cursor" *ngFor="let friend of friends" (click)="goToUser(friend.username)">
+          <td class="no-top row-sides">{{ friend.username }}</td>
+          <td class="text-right no-top row-sides">{{ friend.status ? 'Online' : 'Offline' }}</td>
+        </tr>
+      </table>
     </div>
   </div>
 </div>
