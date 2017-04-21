@@ -9,8 +9,8 @@
     <div *ngIf="friends && friends.length > 0">
       <table class="table table-striped table-hover">
         <tr class="cursor" *ngFor="let friend of friends" (click)="goToUser(friend.username)">
-          <td class="no-top row-sides">{{ friend.username }}</td>
-          <td class="text-right no-top row-sides">{{ friend.status ? 'Online' : 'Offline' }}</td>
+          <td class="no-top row-sides text-capitalize">{{ friend.username }}</td>
+          <td class="text-right no-top row-sides" [ngClass]="getStatusColor(friend)">{{ getStatus(friend) }}</td>
         </tr>
       </table>
     </div>

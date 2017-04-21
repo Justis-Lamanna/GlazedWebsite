@@ -27,7 +27,9 @@ export class LoginService {
    * @returns The string username, or null.
    */
   getUsername(): string{
-    return this.getUser().username;
+    if(this.getUser()){
+      return this.getUser().username;
+    }
   }
 
   /**
@@ -35,7 +37,9 @@ export class LoginService {
    * @returns The user's ID.
    */
   getUserID(): string{
-    return this.getUser()._id;
+    if(this.getUser()){
+      return this.getUser()._id;
+    }
   }
 
   /**

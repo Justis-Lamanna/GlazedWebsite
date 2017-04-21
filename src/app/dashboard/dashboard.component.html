@@ -1,7 +1,7 @@
 <div *ngIf="message">
   <alert [type]="error ? 'danger' : 'success'" dismissible="true">{{ message }}</alert>
 </div>
-<div class="container">
+<div class="row">
   <div class="col-sm-6" *ngIf="user">
     <app-friends-list [user]="user"></app-friends-list>
   </div>
@@ -50,6 +50,7 @@
       <button type="button" class="btn btn-outline-success" (click)="visitProfile()">View Profile</button>
     </form>
   </div>
+</div>
 <div class="modal fade" bsModal #loginModal="bs-modal" [config]="{backdrop: 'static', show: true}">
   <app-login (close)="onModalCancel()" (submit)="onModalSubmit(userchange)"></app-login>
 </div>

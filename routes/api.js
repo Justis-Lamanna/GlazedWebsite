@@ -76,6 +76,21 @@ router.get('/users', verify, verifyAdmin, function(req, res, next){
 
 //Get a user by their id. Password hash, admin status, and email are suppressed.
 router.get('/users/id/:id', getUser, function(req, res, next){
+    let status = users.status;
+    let last = users.lastactivity;
+    if(status && last){
+        if(users.status != 0){
+            let now = new Date().getTime();
+            let then = last.date.getTime();
+            let hours = (now - then) / (1000 * 60 * 60);
+            if(hours > 1){
+                users.status = 2;
+            }
+        }
+    }
+    else if(!status){
+        users.status = 0;
+    }
     res.json(req.user);
 });
 
@@ -110,6 +125,21 @@ router.get('/users/username/:id', function(req, res, next){
             res.json({success: false, message: err});
         }
         else{
+            let status = users.status;
+            let last = users.lastactivity;
+            if(status && last){
+                if(users.status != 0){
+                    let now = new Date().getTime();
+                    let then = last.date.getTime();
+                    let hours = (now - then) / (1000 * 60 * 60);
+                    if(hours > 1){
+                        users.status = 2;
+                    }
+                }
+            }
+            else if(!status){
+                users.status = 0;
+            }
             res.json(users);
         }
     });
