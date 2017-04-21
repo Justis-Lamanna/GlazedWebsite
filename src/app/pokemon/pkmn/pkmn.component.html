@@ -1,7 +1,7 @@
 <a routerLink="{{ pkmn._id }}">
   <div class="media" style="padding: 10px" (mouseenter)="mouse = true" (mouseleave)="mouse = false" [ngClass]="mouse ? 'bg-success' : ''">
     <div class="media-left">
-      <img class="media-object" src="{{ pkmn.species.toLowerCase() + (pkmn.shiny ? '-shiny' : '') + (pkmn.form ? ('-' + pkmn.form) : '') + '.png'}}" alt="{{ pkmn.species }}" width="64" height="64">
+      <img class="media-object" [src]="'/assets/species/' + pkmn.species.toLowerCase() + (pkmn.shiny ? '-shiny' : '') + (pkmn.form ? ('-' + pkmn.form) : '') + '.png'" alt="{{ pkmn.species }}" width="64" height="64">
     </div>
     <div class="media-body">
       <h4 class="media-heading">
@@ -20,7 +20,7 @@
         </div>
         <div class="row">
           <div class="col-md-3 col-sm-6" *ngFor="let move of pkmn.moves">
-            <img src="{{ move.type.toLowerCase() + '.png'" alt="{{ move.type }}" width="24" height="24" [tooltip]="titlecase(move.type) + ' type'">
+            <img [src]="'/assets/types/' + move.type.toLowerCase() + '.png'" alt="{{ move.type }}" width="24" height="24" [tooltip]="titlecase(move.type) + ' type'">
             {{ titlecase(move.name) }}
           </div>
           <div *ngIf="!pkmn.moves || pkmn.moves.length == 0">
