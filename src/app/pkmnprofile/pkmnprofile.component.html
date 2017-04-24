@@ -1,3 +1,19 @@
-<p>
-  pkmnprofile works!
-</p>
+<div class="col-md-4">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="text-capitalize">
+        {{ pkmn?.nickname }}
+        <small class="text-capitalize">{{ pkmn?.nickname.toLowerCase() == pkmn?.species.toLowerCase() ? '' : pkmn?.species}}</small>
+      </h3>
+    </div>
+    <div class="list-group-item">
+      <img *ngIf="pkmn" [src]="'/assets/species/big/' + pkmn?.species.toLowerCase() + (pkmn.shiny ? '-shiny' : '') + (pkmn.form ? ('-' + pkmn.form) : '') + '.png'" width="100%" height="100%">
+    </div>
+    <div class="list-group-item">
+      <p class="text-center">
+        Level {{ pkmn?.level || 'Unknown' }}<br>
+        <small *ngIf="pkmn?.exp" class="text-muted">{{ comma(pkmn.exp) }} EXP</small>
+      </p>
+    </div>
+  </div>
+</div>
