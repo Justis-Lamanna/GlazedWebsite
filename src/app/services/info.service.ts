@@ -129,4 +129,26 @@ export class InfoService {
       });
     });
   }
+
+  /**
+   * Get a Pokemon by its species name.
+   * @param name The species name.
+   */
+  getPokemon(name: string): Promise<any>{
+    return new Promise((resolve, reject) => {
+      this.http.get('/api/v1/species/' + name).subscribe((res: Response) => {
+        let obj = res.json();
+        if(obj.success){
+          resolve(obj.message);
+        }
+        else{
+          console.log(obj.message);
+          reject(obj.message);
+        }
+      }, (err: Response) => {
+        console.log(err);
+        reject(err);
+      });
+    });
+  }
 }

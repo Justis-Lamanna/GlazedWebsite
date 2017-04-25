@@ -41,16 +41,23 @@
 <div class="col-sm-8">
   <tabset type="pills">
     <tab heading="Stats">
+      <br>
       <div class="container-fluid">
-        <label class="col-sm-2 col-md-1">Level:</label>
-        <progressbar class="col-sm-10 col-md-11" [value]="pkmn?.level" max="100">Level {{ pkmn?.level }}</progressbar>
-      </div>
-      <div class="container-fluid">
-        <label class="col-sm-2 col-md-1">HP:</label>
-        <progressbar class="col-sm-10 col-md-11" [value]="pkmn?.stats?.curhp || pkmn?.stats?.hp" [max]="pkmn?.stats?.hp">{{ pkmn?.stats?.curhp || pkmn?.stats?.hp }} / {{ pkmn?.stats?.hp }}</progressbar>
+        <div class="row">
+          <label class="col-sm-2 col-md-1">Level:</label>
+          <progressbar class="col-sm-10 col-md-11" [value]="pkmn?.level" max="100">Level {{ pkmn?.level }}</progressbar>
+        </div>
+        <div class="row">
+          <label class="col-sm-2 col-md-1">EXP:</label>
+          <progressbar class="col-sm-10 col-md-11" [value]="pkmn?.exp" [max]="getMaxExperience()">{{ pkmn?.exp }} / {{ getMaxExperience() }}</progressbar>
+        </div>
+        <div class="row">
+          <label class="col-sm-2 col-md-1">HP:</label>
+          <progressbar class="col-sm-10 col-md-11" [value]="pkmn?.stats?.curhp || pkmn?.stats?.hp" [max]="pkmn?.stats?.hp">{{ pkmn?.stats?.curhp || pkmn?.stats?.hp }} / {{ pkmn?.stats?.hp }}</progressbar>
+        </div>
       </div>
     </tab>
-    <tab heading="EVs">Hello</tab>
+    <tab heading="EVs">Muf</tab>
     <tab heading="IVs">Gooby</tab>
   </tabset>
 </div>

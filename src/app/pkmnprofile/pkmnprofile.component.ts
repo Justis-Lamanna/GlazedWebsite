@@ -10,6 +10,7 @@ import { ActivatedRoute } from '@angular/router';
 export class PkmnprofileComponent implements OnInit {
   public user: any;
   public pkmn: any;
+  public species: any;
   public index: number;
 
   public static stats: Array<any> = [
@@ -20,6 +21,15 @@ export class PkmnprofileComponent implements OnInit {
     {name: 'Special Defense', abbr: 'SpD',  json: 'specialdefense'},
     {name: 'Speed',           abbr: 'Spe',  json: 'speed'}
   ];
+
+  public static expGroups: any = {
+    erratic: 600000,
+    fast: 800000,
+    medium_fast: 1000000,
+    medium_slow: 1059860,
+    slow: 1250000,
+    fluctuating: 1640000
+  };
 
   constructor(private info: InfoService, private route: ActivatedRoute) {
     route.params.subscribe(params => {
@@ -32,6 +42,9 @@ export class PkmnprofileComponent implements OnInit {
             if(user.pokemon[index]._id == pid){
               this.pkmn = user.pokemon[index];
               this.index = index;
+              this.info.getPokemon(this.pkmn.species.toLowerCase()).then((species: any) => {
+                this.species = species;
+              });
               break;
             }
           }
@@ -61,4 +74,9 @@ export class PkmnprofileComponent implements OnInit {
     return val + retString;
   }
 
+  getMaxExperience(): number{
+    if(this.species){
+      return PkmnprofileComponent.expGroups[this.species.levelrate];
+    }
+  }
 }
