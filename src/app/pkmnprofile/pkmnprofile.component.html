@@ -1,4 +1,25 @@
-<div class="col-md-4">
+ <div class="panel panel-default">
+  <div class="panel-body">
+    <div class="row">
+      <div class="col-xs-2 text-left">
+        <a *ngIf="index - 1 >= 0" [href]="'/user/' + user?.username + '/pkmn/' + user?.pokemon[index - 1]._id">
+          {{ user?.pokemon[index-1].nickname || user?.pokemon[index-1].species }}
+        </a>
+      </div>
+      <div class="col-xs-8 text-center">
+        <a *ngIf="user" [href]="'/user/' + user?.username">
+          Return to <span class="text-capitalize">{{ user?.username }}'s</span> profile
+        </a>
+      </div>
+      <div class="col-xs-2 text-right">
+        <a *ngIf="index + 1 < (user?.pokemon.length || 0)" [href]="'/user/' + user?.username + '/pkmn/' + user?.pokemon[index + 1]._id">
+          {{ user?.pokemon[index+1].nickname || user?.pokemon[index+1].species }}
+        </a>
+      </div>
+    </div>
+  </div>
+ </div>
+<div class="col-sm-4">
   <div class="panel panel-default">
     <div class="panel-heading">
       <h3 class="text-capitalize">
@@ -16,4 +37,20 @@
       </p>
     </div>
   </div>
+</div>
+<div class="col-sm-8">
+  <tabset type="pills">
+    <tab heading="Stats">
+      <div class="container-fluid">
+        <label class="col-sm-2 col-md-1">Level:</label>
+        <progressbar class="col-sm-10 col-md-11" [value]="pkmn?.level" max="100">Level {{ pkmn?.level }}</progressbar>
+      </div>
+      <div class="container-fluid">
+        <label class="col-sm-2 col-md-1">HP:</label>
+        <progressbar class="col-sm-10 col-md-11" [value]="pkmn?.stats?.curhp || pkmn?.stats?.hp" [max]="pkmn?.stats?.hp">{{ pkmn?.stats?.curhp || pkmn?.stats?.hp }} / {{ pkmn?.stats?.hp }}</progressbar>
+      </div>
+    </tab>
+    <tab heading="EVs">Hello</tab>
+    <tab heading="IVs">Gooby</tab>
+  </tabset>
 </div>

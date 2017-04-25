@@ -10,6 +10,16 @@ import { ActivatedRoute } from '@angular/router';
 export class PkmnprofileComponent implements OnInit {
   public user: any;
   public pkmn: any;
+  public index: number;
+
+  public static stats: Array<any> = [
+    {name: 'HP',              abbr: 'HP',   json: 'hp'},
+    {name: 'Attack',          abbr: 'Atk',  json: 'attack'},
+    {name: 'Defense',         abbr: 'Def',  json: 'defense'},
+    {name: 'Special Attack',  abbr: 'SpA',  json: 'specialattack'},
+    {name: 'Special Defense', abbr: 'SpD',  json: 'specialdefense'},
+    {name: 'Speed',           abbr: 'Spe',  json: 'speed'}
+  ];
 
   constructor(private info: InfoService, private route: ActivatedRoute) {
     route.params.subscribe(params => {
@@ -21,6 +31,7 @@ export class PkmnprofileComponent implements OnInit {
           for(let index = 0; index < user.pokemon.length; index++){
             if(user.pokemon[index]._id == pid){
               this.pkmn = user.pokemon[index];
+              this.index = index;
               break;
             }
           }

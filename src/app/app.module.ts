@@ -10,6 +10,7 @@ import { MomentModule } from 'angular2-moment';
 import { TooltipModule } from 'ng2-bootstrap';
 import { TabsModule } from 'ng2-bootstrap';
 import { AlertModule } from 'ng2-bootstrap';
+import { ProgressbarModule } from 'ng2-bootstrap';
 
 import { RegisterService } from './services/register.service';
 import { LoginService } from './services/login.service';
@@ -77,7 +78,8 @@ const appRoutes: Routes = [
     MomentModule,
     TooltipModule.forRoot(),
     TabsModule.forRoot(),
-    AlertModule.forRoot()
+    AlertModule.forRoot(),
+    ProgressbarModule.forRoot()
   ],
   providers: [
     { provide: LocationStrategy, useClass: PathLocationStrategy },

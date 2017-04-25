@@ -321,6 +321,46 @@ router.post('/users', function(req, res, next){
     }
 });
 
+/**
+ * Get a species by its name.
+ */
+router.get('/species/:id', function(req, res, next){
+    let spec = req.params.id.toLowerCase();
+    db.species.findOne({name: spec}, function(err, result){
+        if(err){
+            res.json({success: false, message: err});
+        }
+        else{
+            res.json({success: true, message: result});
+        }
+    });
+});
+
+router.post('/species', verify, verifyAdmin, function(req, res, next){
+    let species = req.body;
+    db.species.insert(species, function(err, result){
+        if(err){
+            res.json({success: false, message: err});
+        }
+        else{
+            res.json({success: true, message: result});
+        }
+    });
+});
+
+router.post('/species/:id', verify, verifyAdmin, function(req, res, next){
+    let spec = req.params.id;
+    let change = req.body;
+    db.species.update({_id: mongojs.ObjectId(spec)}, change, function(err, result){
+        if(err){
+            res.json({success: false, message: err});
+        }
+        else{
+            res.json({success: true, message: result});
+        }
+    });
+})
+
 //Anything that does not match gets a 403 Forbidden page.
 router.get('*', function(req, res, next){
     res.status(403).send('Forbidden');
