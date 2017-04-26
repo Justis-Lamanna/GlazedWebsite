@@ -44,16 +44,18 @@
       <br>
       <div class="container-fluid">
         <div class="row">
-          <label class="col-sm-2 col-md-1">Level:</label>
-          <progressbar class="col-sm-10 col-md-11" [value]="pkmn?.level" max="100">Level {{ pkmn?.level }}</progressbar>
-        </div>
-        <div class="row">
-          <label class="col-sm-2 col-md-1">EXP:</label>
-          <progressbar class="col-sm-10 col-md-11" [value]="pkmn?.exp" [max]="getMaxExperience()">{{ pkmn?.exp }} / {{ getMaxExperience() }}</progressbar>
-        </div>
-        <div class="row">
           <label class="col-sm-2 col-md-1">HP:</label>
-          <progressbar class="col-sm-10 col-md-11" [value]="pkmn?.stats?.curhp || pkmn?.stats?.hp" [max]="pkmn?.stats?.hp">{{ pkmn?.stats?.curhp || pkmn?.stats?.hp }} / {{ pkmn?.stats?.hp }}</progressbar>
+          <progressbar class="col-sm-10 col-md-11" [value]="pkmn?.stats.hp - calculateLowestHP()" [max]="calculateHighestHP() - calculateLowestHP()"
+          [type]="getThreshold(pkmn?.stats.hp - calculateLowestHP(), calculateHighestHP() - calculateLowestHP(), [0.33, 0.66, 1.0], ['danger', 'warning', 'success'], 'success')">
+            {{ pkmn?.stats.hp }}
+          </progressbar>
+        </div>
+        <div class="row" *ngFor="let s of stats">
+          <label *ngIf="s.abbr != 'HP'" class="col-sm-2 col-md-1" [tooltip]="s.name">{{ s.abbr }}:</label>
+          <progressbar *ngIf="s.abbr != 'HP'" class="col-sm-10 col-md-11" [value]="pkmn?.stats[s.json] - calculateLowest(s.json)" [max]="calculateHighest(s.json) - calculateLowest(s.json)"
+          [type]="getThreshold(pkmn?.stats[s.json] - calculateLowest(s.json), calculateHighest(s.json) - calculateLowest(s.json), [0.33, 0.66, 1.0], ['danger', 'warning', 'success'], 'success')">
+            {{ pkmn?.stats[s.json] }}
+          </progressbar>
         </div>
       </div>
     </tab>

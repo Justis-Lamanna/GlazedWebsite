@@ -13,7 +13,7 @@ export class PkmnprofileComponent implements OnInit {
   public species: any;
   public index: number;
 
-  public static stats: Array<any> = [
+  public stats: Array<any> = [
     {name: 'HP',              abbr: 'HP',   json: 'hp'},
     {name: 'Attack',          abbr: 'Atk',  json: 'attack'},
     {name: 'Defense',         abbr: 'Def',  json: 'defense'},
@@ -63,12 +63,23 @@ export class PkmnprofileComponent implements OnInit {
   }
 
   comma(value: number): string{
+    if(!value){
+      return '';
+    }
     let retString = "";
     let val = value;
     while(val >= 1000){
       let upper = Math.trunc(val / 1000);
       let lower = Math.trunc(val % 1000);
-      retString = "," + lower + retString;
+      if(lower < 10){
+        retString = ",00" + lower + retString;
+      }
+      else if(lower < 100){
+        retString = ",0" + lower + retString;
+      }
+      else{
+        retString = "," + lower + retString;
+      }
       val = upper;
     }
     return val + retString;
@@ -77,6 +88,72 @@ export class PkmnprofileComponent implements OnInit {
   getMaxExperience(): number{
     if(this.species){
       return PkmnprofileComponent.expGroups[this.species.levelrate];
+    }
+  }
+
+  /**
+   * A function to map thresholds to strings.
+   * This is used to have the various bars change colors depending on their value.
+   * The n-th string is chosen if (num / max) is between thresholds[n-1] (excl) and thresholds[n] (incl).
+   * For n = 0, thresholds[0] is chosen.
+   * @param num The numberator of the fraction to check.
+   * @param max The denominator of the fraction to check.
+   * @param thresholds A list of threshold fractions.
+   * @param choices A list of choices corresponding to fractions.
+   * @param def The value of nothing matches.
+   */
+  getThreshold(num: number, max: number, thresholds: number[], choices: string[], def: string): string{
+    let frac = num / max;
+    var choice;
+    thresholds.forEach((num, index, array) => {
+      if(!choice && frac <= num){
+        choice = choices[index];
+      }
+    });
+    return (choice || def);
+  }
+
+  calculate(level: number, base: number, ev: number, iv: number, nature: number){
+    return Math.floor((Math.floor(((2 * base + iv + Math.floor(ev / 4)) * level) / 100) + 5) * nature);
+  }
+
+  /**
+   * Calculate the highest a stat can be.
+   * @param stat The stat
+   */
+  calculateHighest(stat: string): number{
+    if(this.species && this.species.basestats && this.species.basestats[stat]){
+      let base = this.species.basestats[stat];
+      return this.calculate(this.pkmn.level, base, 255, 31, 1.1);
+    }
+  }
+
+  /**
+   * Calculate the lowest a stat can be.
+   * @param stat The stat
+   */
+  calculateLowest(stat: string): number{
+    if(this.species && this.species.basestats && this.species.basestats[stat]){
+      let base = this.species.basestats[stat];
+      return this.calculate(this.pkmn.level, base, 0, 0, 0.9);
+    }
+  }
+
+  calculateHP(level: number, base: number, ev: number, iv: number){
+    return Math.floor(((2 * base + iv + Math.floor(ev / 4)) * level) / 100) + this.pkmn.level + 10;
+  }
+
+  calculateHighestHP(){
+    if(this.species && this.species.basestats && this.species.basestats.hp){
+      let base = this.species.basestats.hp;
+      return this.calculateHP(this.pkmn.level, base, 255, 31);
+    }
+  }
+
+  calculateLowestHP(){
+    if(this.species && this.species.basestats && this.species.basestats.hp){
+      let base = this.species.basestats.hp;
+      return this.calculateHP(this.pkmn.level, base, 0, 0);
     }
   }
 }
