@@ -5,6 +5,8 @@ import { Http, Response, RequestOptions, Headers } from '@angular/http';
 @Injectable()
 export class RegisterService {
 
+  private root: string = 'localhost:3000';
+
   constructor(private http: Http) { }
 
   /**

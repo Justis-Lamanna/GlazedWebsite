@@ -5,6 +5,8 @@ import { LoginService } from './login.service';
 @Injectable()
 export class InfoService {
 
+  root: string = '';
+
   constructor(private http: Http, private login: LoginService) { }
 
   /**
@@ -16,7 +18,7 @@ export class InfoService {
       let headers = new Headers();
       headers.append('Content-Type', 'application/json');
       headers.append('x-access-token', this.login.getToken());
-      this.http.get('/api/v1/users/id/' + uid, {headers: headers}).subscribe((res: Response) => {
+      this.http.get(this.root + '/api/v1/users/id/' + uid, {headers: headers}).subscribe((res: Response) => {
         if(res.json()){
           let obj = res.json();
           if(obj._id){
@@ -39,7 +41,7 @@ export class InfoService {
    */
     getInfoOnUsername(user: String): Promise<any>{
       return new Promise((resolve, reject) => {
-        this.http.get('/api/v1/users/username/' + user).subscribe((res: Response) => {
+        this.http.get(this.root + '/api/v1/users/username/' + user).subscribe((res: Response) => {
           if(res.json()){
             let obj = res.json();
             if(obj._id){
@@ -66,7 +68,7 @@ export class InfoService {
       let headers = new Headers();
       headers.append('Content-Type', 'application/json');
       headers.append('x-access-token', this.login.getToken());
-      this.http.post('/api/v1/users/id/' + uid, update, {headers: headers}).subscribe((res: Response) => {
+      this.http.post(this.root + '/api/v1/users/id/' + uid, update, {headers: headers}).subscribe((res: Response) => {
         let obj = res.json();
         if(obj.success){
           resolve(obj.user);
@@ -88,7 +90,7 @@ export class InfoService {
       let headers = new Headers();
       headers.append('Content-Type', 'application/json');
       headers.append('x-access-token', this.login.getToken());
-      this.http.post('/api/v1/users/refresh', {}, {headers: headers}).subscribe((res: Response) => {
+      this.http.post(this.root + '/api/v1/users/refresh', {}, {headers: headers}).subscribe((res: Response) => {
         let obj = res.json();
         if(obj.tokenfail){
           resolve(0);
@@ -115,7 +117,7 @@ export class InfoService {
       let headers = new Headers();
       headers.append('Content-Type', 'application/json');
       headers.append('x-access-token', this.login.getToken());
-      this.http.post('/api/v1/users/bulk', {users: users}, {headers: headers}).subscribe((res: Response) => {
+      this.http.post(this.root + '/api/v1/users/bulk', {users: users}, {headers: headers}).subscribe((res: Response) => {
         let obj = res.json();
         if(obj.success){
           resolve(obj.message);
@@ -136,7 +138,7 @@ export class InfoService {
    */
   getPokemon(name: string): Promise<any>{
     return new Promise((resolve, reject) => {
-      this.http.get('/api/v1/species/' + name).subscribe((res: Response) => {
+      this.http.get(this.root + '/api/v1/species/' + name).subscribe((res: Response) => {
         let obj = res.json();
         if(obj.success){
           resolve(obj.message);

@@ -1,4 +1,4 @@
-import { Component, OnInit, Pipe, PipeTransform } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { InfoService } from '../services/info.service';
 import { ActivatedRoute } from '@angular/router';
 
@@ -155,5 +155,16 @@ export class PkmnprofileComponent implements OnInit {
       let base = this.species.basestats.hp;
       return this.calculateHP(this.pkmn.level, base, 0, 0);
     }
+  }
+
+  sumEVs(): number{
+    let count = 0;
+    for(let index = 0; index < this.stats.length; index++){
+      let name = this.stats[index].json;
+      if(this.pkmn && this.pkmn.evs){
+        count += this.pkmn.evs[name];
+      }
+    }
+    return count;
   }
 }
