@@ -75,7 +75,7 @@
         </div>
         <div class="row">
           <label class="col-sm-2 col-md-1">Total:</label>
-          <progressbar class="col-sm-10 col-md-11" [value]="sumStat('evs')" [max]="510" [type]="sumStat('evs') > 510 ? 'warning' : ''">
+          <progressbar class="col-sm-10 col-md-11" [value]="sumStat('evs')" [max]="510" [type]="sumStat('evs') > 510 ? 'danger' : ''">
             <span>{{ sumStat('evs') }}</span>
           </progressbar>
         </div>
