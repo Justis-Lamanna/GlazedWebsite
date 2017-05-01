@@ -46,19 +46,19 @@
         <div class="row">
           <label class="col-sm-2 col-md-1">HP:</label>
           <template #hptemp><span [innerHtml]="'Lowest Possible: ' + calculateLowestHP() + '<br>Highest Possible: ' + calculateHighestHP()"></span></template>
-          <progressbar class="col-sm-10 col-md-11" [value]="pkmn?.stats.hp - calculateLowestHP()" [max]="calculateHighestHP() - calculateLowestHP()"
-          [type]="getThreshold(pkmn?.stats.hp - calculateLowestHP(), calculateHighestHP() - calculateLowestHP(), [0.33, 0.66, 1.0], ['danger', 'warning', 'success'], 'success')"
+          <progressbar class="col-sm-10 col-md-11" [value]="getStat('hp') - calculateLowestHP()" [max]="calculateHighestHP() - calculateLowestHP()"
+          [type]="getThreshold(getStat('hp') - calculateLowestHP(), calculateHighestHP() - calculateLowestHP(), [0.33, 0.66, 1.0], ['danger', 'warning', 'success'], 'success')"
           [tooltip]="hptemp">
-            {{ pkmn?.stats.hp }}
+            <span>{{ getStat('hp') }}</span>
           </progressbar>
         </div>
         <div class="row" *ngFor="let s of stats">
           <label *ngIf="s.abbr != 'HP'" class="col-sm-2 col-md-1" [tooltip]="s.name">{{ s.abbr }}:</label>
           <template #bartemp><span [innerHtml]="'Lowest Possible: ' + calculateLowest(s.json) + '<br>Highest Possible: ' + calculateHighest(s.json)"></span></template>
-          <progressbar *ngIf="s.abbr != 'HP'" class="col-sm-10 col-md-11" [value]="pkmn?.stats[s.json] - calculateLowest(s.json)" [max]="calculateHighest(s.json) - calculateLowest(s.json)"
-          [type]="getThreshold(pkmn?.stats[s.json] - calculateLowest(s.json), calculateHighest(s.json) - calculateLowest(s.json), [0.33, 0.66, 1.0], ['danger', 'warning', 'success'], 'success')"
+          <progressbar *ngIf="s.abbr != 'HP'" class="col-sm-10 col-md-11" [value]="getStat(s.json) - calculateLowest(s.json)" [max]="calculateHighest(s.json) - calculateLowest(s.json)"
+          [type]="getThreshold(getStat(s.json) - calculateLowest(s.json), calculateHighest(s.json) - calculateLowest(s.json), [0.33, 0.66, 1.0], ['danger', 'warning', 'success'], 'success')"
           [tooltip]="bartemp">
-            {{ pkmn?.stats[s.json] }}
+            <span>{{ getStat(s.json) }}</span>
           </progressbar>
         </div>
       </div>
@@ -70,12 +70,14 @@
           <label class="col-sm-2 col-md-1" [tooltip]="s.json == 'hp' ? '' : s.name">{{ s.abbr }}:</label>
           <progressbar class="col-sm-10 col-md-11" [value]="pkmn?.evs ? pkmn.evs[s.json] : '0'" [max]="255"
           [type]="getThreshold(pkmn?.evs ? pkmn.evs[s.json] : 0, 255, [0.33, 0.66, 1.0], ['danger', 'warning', 'success'], 'success')">
-            {{ pkmn?.evs ? pkmn.evs[s.json] : '0' }}
+            <span>{{ pkmn?.evs ? pkmn.evs[s.json] : '0' }}</span>
           </progressbar>
         </div>
         <div class="row">
           <label class="col-sm-2 col-md-1">Total:</label>
-          <progressbar class="col-sm-10 col-md-11" [value]="sumEVs()" [max]="510">{{ sumEVs() }}</progressbar>
+          <progressbar class="col-sm-10 col-md-11" [value]="sumStat('evs')" [max]="510" [type]="sumStat('evs') > 510 ? 'warning' : ''">
+            <span>{{ sumStat('evs') }}</span>
+          </progressbar>
         </div>
       </div>
     </tab>
@@ -86,7 +88,13 @@
           <label class="col-sm-2 col-md-1" [tooltip]="s.json == 'hp' ? '' : s.name">{{ s.abbr }}:</label>
           <progressbar class="col-sm-10 col-md-11" [value]="pkmn?.ivs ? pkmn.ivs[s.json] : '0'" [max]="31"
           [type]="getThreshold(pkmn?.ivs ? pkmn.ivs[s.json] : 0, 31, [0.33, 0.66, 1.0], ['danger', 'warning', 'success'], 'success')">
-            {{ pkmn?.ivs ? pkmn.ivs[s.json] : '0' }}
+            <span>{{ pkmn?.ivs ? pkmn.ivs[s.json] : '0' }}</span>
+          </progressbar>
+        </div>
+        <div class="row">
+          <label class="col-sm-2 col-md-1" tooltip="Average">Avg:</label>
+          <progressbar class="col-sm-10 col-md-11" [value]="sumStat('ivs') / stats.length" [max]="31">
+            <span>{{ floor(sumStat('ivs') / stats.length) }}</span>
           </progressbar>
         </div>
       </div>

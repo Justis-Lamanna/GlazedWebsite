@@ -157,14 +157,29 @@ export class PkmnprofileComponent implements OnInit {
     }
   }
 
-  sumEVs(): number{
+  getStat(stat: string): number{
+    if(this.pkmn && this.pkmn.stats && this.species && this.species.basestats){
+      if(stat == 'hp'){
+        return this.calculateHP(this.pkmn.level, this.species.basestats.hp, this.pkmn.evs.hp, this.pkmn.ivs.hp);
+      }
+      else{
+        return this.calculate(this.pkmn.level, this.species.basestats[stat], this.pkmn.evs[stat], this.pkmn.ivs[stat], 1.0);
+      }
+    }
+  }
+
+  sumStat(stat: string): number{
     let count = 0;
     for(let index = 0; index < this.stats.length; index++){
       let name = this.stats[index].json;
-      if(this.pkmn && this.pkmn.evs){
-        count += this.pkmn.evs[name];
+      if(this.pkmn && this.pkmn[stat]){
+        count += this.pkmn[stat][name];
       }
     }
     return count;
+  }
+
+  floor(num: number): number{
+    return Math.floor(num);
   }
 }
