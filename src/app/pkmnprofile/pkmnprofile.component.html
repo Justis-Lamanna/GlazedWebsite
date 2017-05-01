@@ -47,7 +47,7 @@
           <label class="col-sm-2 col-md-1">HP:</label>
           <template #hptemp><span [innerHtml]="'Lowest Possible: ' + calculateLowestHP() + '<br>Highest Possible: ' + calculateHighestHP()"></span></template>
           <progressbar class="col-sm-10 col-md-11" [value]="getStat('hp') - calculateLowestHP()" [max]="calculateHighestHP() - calculateLowestHP()"
-          [type]="getThreshold(getStat('hp') - calculateLowestHP(), calculateHighestHP() - calculateLowestHP(), [0.33, 0.66, 1.0], ['danger', 'warning', 'success'], 'success')"
+          [type]="getThreshold(getStat('hp') - calculateLowestHP(), calculateHighestHP() - calculateLowestHP(), [0.33, 0.66, 1.0], ['warning', 'info', 'success'], 'danger')"
           [tooltip]="hptemp">
             <span>{{ getStat('hp') }}</span>
           </progressbar>
@@ -56,7 +56,7 @@
           <label *ngIf="s.abbr != 'HP'" class="col-sm-2 col-md-1" [tooltip]="s.name">{{ s.abbr }}:</label>
           <template #bartemp><span [innerHtml]="'Lowest Possible: ' + calculateLowest(s.json) + '<br>Highest Possible: ' + calculateHighest(s.json)"></span></template>
           <progressbar *ngIf="s.abbr != 'HP'" class="col-sm-10 col-md-11" [value]="getStat(s.json) - calculateLowest(s.json)" [max]="calculateHighest(s.json) - calculateLowest(s.json)"
-          [type]="getThreshold(getStat(s.json) - calculateLowest(s.json), calculateHighest(s.json) - calculateLowest(s.json), [0.33, 0.66, 1.0], ['danger', 'warning', 'success'], 'success')"
+          [type]="getThreshold(getStat(s.json) - calculateLowest(s.json), calculateHighest(s.json) - calculateLowest(s.json), [0.33, 0.66, 1.0], ['warning', 'info', 'success'], 'danger')"
           [tooltip]="bartemp">
             <span>{{ getStat(s.json) }}</span>
           </progressbar>
@@ -69,7 +69,7 @@
         <div class="row" *ngFor="let s of stats">
           <label class="col-sm-2 col-md-1" [tooltip]="s.json == 'hp' ? '' : s.name">{{ s.abbr }}:</label>
           <progressbar class="col-sm-10 col-md-11" [value]="pkmn?.evs ? pkmn.evs[s.json] : '0'" [max]="255"
-          [type]="getThreshold(pkmn?.evs ? pkmn.evs[s.json] : 0, 255, [0.33, 0.66, 1.0], ['danger', 'warning', 'success'], 'success')">
+          [type]="getThreshold(pkmn?.evs ? pkmn.evs[s.json] : 0, 255, [0.33, 0.66, 1.0], ['warning', 'info', 'success'], 'danger')">
             <span>{{ pkmn?.evs ? pkmn.evs[s.json] : '0' }}</span>
           </progressbar>
         </div>
@@ -87,7 +87,7 @@
         <div class="row" *ngFor="let s of stats">
           <label class="col-sm-2 col-md-1" [tooltip]="s.json == 'hp' ? '' : s.name">{{ s.abbr }}:</label>
           <progressbar class="col-sm-10 col-md-11" [value]="pkmn?.ivs ? pkmn.ivs[s.json] : '0'" [max]="31"
-          [type]="getThreshold(pkmn?.ivs ? pkmn.ivs[s.json] : 0, 31, [0.33, 0.66, 1.0], ['danger', 'warning', 'success'], 'success')">
+          [type]="getThreshold(pkmn?.ivs ? pkmn.ivs[s.json] : 0, 31, [0.33, 0.66, 1.0], ['warning', 'info', 'success'], 'danger')">
             <span>{{ pkmn?.ivs ? pkmn.ivs[s.json] : '0' }}</span>
           </progressbar>
         </div>
