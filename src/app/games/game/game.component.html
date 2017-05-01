@@ -16,7 +16,7 @@
           <label>Badges:</label>
           <span *ngIf="game.badges && game.badges.length > 0">
             <span *ngFor="let badge of game.badges">
-              <img src="/assets/badges/{{ badge }}.png" alt="{{ badge }}" width="24" height="24" [tooltip]="badge.slice(0, 1).toUpperCase() + badge.slice(1) + ' Badge'"/>
+              <img src="/assets/badges/{{ badge }}.png" alt="{{ badge }}" width="24" height="24" [tooltip]="badge.slice(0, 1).toUpperCase() + badge.slice(1) + ' Badge'" container="body"/>
             </span>
           </span>
           <span *ngIf="!game.badges || game.badges.length == 0">
