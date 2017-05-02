@@ -36,6 +36,16 @@
         <small *ngIf="pkmn?.exp" class="text-muted">{{ comma(pkmn.exp) }} EXP</small>
       </p>
     </div>
+    <div class="list-group-item">
+      <p class="text-center">
+        Nature<br>
+        <small *ngIf="pkmn?.exp" class="text-muted text-capitalize">{{ pkmn.nature || 'Unknown' }}</small>
+      </p>
+      <p class="text-center">
+        Ability<br>
+        <small *ngIf="pkmn?.exp" class="text-muted text-capitalize">{{ pkmn.ability || 'Unknown' }}</small>
+      </p>
+    </div>
   </div>
 </div>
 <div class="col-sm-8">
