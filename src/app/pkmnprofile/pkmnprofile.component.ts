@@ -22,6 +22,34 @@ export class PkmnprofileComponent implements OnInit {
     {name: 'Speed',           abbr: 'Spe',  json: 'speed'}
   ];
 
+  public natures: Object = {
+    hardy: {up: 'attack', down: 'attack'},
+    lonely: {up: 'attack', down: 'defense'},
+    brave: {up: 'attack', down: 'speed'},
+    adamant: {up: 'attack', down: 'specialattack'},
+    naughty: {up: 'attack', down: 'specialdefense'},
+    bold: {up: 'defense', down: 'attack'},
+    docile: {up: 'defense', down: 'defense'},
+    relaxed: {up: 'defense', down: 'speed'},
+    impish: {up: 'defense', down: 'specialattack'},
+    lax: {up: 'defense', down: 'specialdefense'},
+    timid: {up: 'speed', down: 'attack'},
+    hasty: {up: 'speed', down: 'defense'},
+    serious: {up: 'speed', down: 'speed'},
+    jolly: {up: 'speed', down: 'specialattack'},
+    naive: {up: 'speed', down: 'specialdefense'},
+    modest: {up: 'specialattack', down: 'attack'},
+    mild: {up: 'specialattack', down: 'defense'},
+    quiet: {up: 'specialattack', down: 'speed'},
+    bashful: {up: 'specialattack', down: 'specialattack'},
+    rash: {up: 'specialattack', down: 'specialdefense'},
+    calm: {up: 'specialdefense', down: 'attack'},
+    gentle: {up: 'specialdefense', down: 'defense'},
+    sassy: {up: 'specialdefense', down: 'speed'},
+    careful: {up: 'specialdefense', down: 'specialattack'},
+    quirky: {up: 'specialdefense', down: 'specialdefense'}
+  }
+
   public static expGroups: any = {
     erratic: 600000,
     fast: 800000,
@@ -158,12 +186,32 @@ export class PkmnprofileComponent implements OnInit {
   }
 
   getStat(stat: string): number{
-    if(this.pkmn && this.pkmn.stats && this.species && this.species.basestats){
+    if(this.pkmn && this.species && this.species.basestats){
       if(stat == 'hp'){
         return this.calculateHP(this.pkmn.level, this.species.basestats.hp, this.pkmn.evs.hp, this.pkmn.ivs.hp);
       }
       else{
-        return this.calculate(this.pkmn.level, this.species.basestats[stat], this.pkmn.evs[stat], this.pkmn.ivs[stat], 1.0);
+        return this.calculate(this.pkmn.level, this.species.basestats[stat], this.pkmn.evs[stat], this.pkmn.ivs[stat], this.getNatureMultiplier(stat));
+      }
+    }
+  }
+
+  getNatureMultiplier(stat: string): number{
+    if(this.pkmn && this.pkmn.nature){
+      if(this.pkmn.nature){
+        let nature = this.natures[this.pkmn.nature];
+        if(nature.up == stat && nature.down != stat){
+          return 1.1;
+        }
+        else if(nature.down == stat && nature.up != stat){
+          return 0.9;
+        }
+        else{
+          return 1.0;
+        }
+      }
+      else{
+        return 1.0;
       }
     }
   }
